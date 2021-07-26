@@ -1,49 +1,50 @@
-import PropTypes from 'prop-types';
-import { Link as RouterLink } from 'react-router-dom';
+import PropTypes from "prop-types";
+import NextLink from "next/link";
+
 // material
-import { experimentalStyled as styled } from '@material-ui/core/styles';
-import { Typography } from '@material-ui/core';
+import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
 // components
-import Logo from '../components/Logo';
+import Logo from "../components/Logo";
 //
-import { MHidden } from '../components/@material-extend';
+import { MHidden } from "../components/@material-extend";
 
 // ----------------------------------------------------------------------
 
-const HeaderStyle = styled('header')(({ theme }) => ({
+const HeaderStyle = styled("header")(({ theme }) => ({
   top: 0,
   zIndex: 9,
   lineHeight: 0,
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  position: 'absolute',
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  position: "absolute",
   padding: theme.spacing(3),
-  justifyContent: 'space-between',
-  [theme.breakpoints.up('md')]: {
-    alignItems: 'flex-start',
-    padding: theme.spacing(7, 5, 0, 7)
-  }
+  justifyContent: "space-between",
+  [theme.breakpoints.up("md")]: {
+    alignItems: "flex-start",
+    padding: theme.spacing(7, 5, 0, 7),
+  },
 }));
 
 // ----------------------------------------------------------------------
 
 AuthLayout.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default function AuthLayout({ children }) {
   return (
     <HeaderStyle>
-      <RouterLink to="/">
+      <NextLink href="/">
         <Logo />
-      </RouterLink>
+      </NextLink>
 
       <MHidden width="smDown">
         <Typography
           variant="body2"
           sx={{
-            mt: { md: -2 }
+            mt: { md: -2 },
           }}
         >
           {children}

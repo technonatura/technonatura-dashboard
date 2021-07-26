@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 // material
 import { styled } from "@material-ui/core/styles";
 //
@@ -34,7 +35,16 @@ const MainStyle = styled("div")(({ theme }) => ({
 // @ts-ignore
 export default function DashboardLayout({ children }) {
   const [open, setOpen] = useState(false);
-
+  const { pathname } = useRouter();
+  console.log(pathname);
+  if (
+    pathname === "/login" ||
+    pathname === "/register" ||
+    pathname === "/_error" ||
+    pathname === "/404"
+  ) {
+    return children;
+  }
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
