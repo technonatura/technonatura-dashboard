@@ -23,15 +23,16 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Email must be a valid email address")
-      .required("Email is required"),
+    username: Yup.string()
+      .min(1, "Too Short!")
+      .max(20, "Too Long!")
+      .required("username required"),
     password: Yup.string().required("Password is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
       remember: true,
     },
@@ -55,11 +56,10 @@ export default function LoginForm() {
           <TextField
             fullWidth
             autoComplete="username"
-            type="email"
-            label="Email address"
-            {...getFieldProps("email")}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            label="Username"
+            {...getFieldProps("username")}
+            error={Boolean(touched.username && errors.username)}
+            helperText={touched.username && errors.username}
           />
 
           <TextField
@@ -98,7 +98,11 @@ export default function LoginForm() {
             label="Remember me"
           />
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link component={NextLink} variant="subtitle2" href="#">
+          <Link
+            component={NextLink}
+            variant="subtitle2"
+            href="/forgot-password"
+          >
             Forgot password?
           </Link>
         </Stack>
