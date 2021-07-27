@@ -2,7 +2,7 @@ import NextLink from "next/link";
 
 // material
 import { styled } from "@material-ui/core/styles";
-import { Card, Stack, Link, Container, Typography } from "@material-ui/core";
+import { Stack, Link, Container, Typography } from "@material-ui/core";
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components
