@@ -41,7 +41,8 @@ export default function DashboardLayout({ children }) {
     pathname === "/login" ||
     pathname === "/register" ||
     pathname === "/_error" ||
-    pathname === "/404"
+    pathname === "/404" ||
+    pathname === "/forgot-password"
   ) {
     return children;
   }

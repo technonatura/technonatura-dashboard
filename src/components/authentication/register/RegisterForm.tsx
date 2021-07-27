@@ -13,14 +13,25 @@ import {
   Box,
   Typography,
 } from "@material-ui/core";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
+import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
+import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
+import DatePicker from "@material-ui/lab/DatePicker";
 
 // eslint-disable-next-line import/no-cycle
 import SubmitButton from "./SubmitButton";
+import ChooseRoleInTechnoNatura from "./ChooseRoleInTechnoNatura";
 
 // ----------------------------------------------------------------------
 
 export const FormSteps: Array<{
   label: string;
+  // eslint-disable-next-line camelcase
+  label_desc: string;
   step: number;
   // eslint-disable-next-line camelcase
   inputs: Array<{
@@ -34,6 +45,7 @@ export const FormSteps: Array<{
 }> = [
   {
     label: "Could you give us your basic personal information?",
+    label_desc: "We need this to indentify who you are",
     step: 0,
     inputs: [
       { label: "Full Name", input_name: "fullName", show: true },
@@ -41,8 +53,28 @@ export const FormSteps: Array<{
     ],
   },
   {
-    label: "Privacy Info",
+    label: "Gender",
+    label_desc: "We keep this data secure.",
+
     step: 1,
+    inputs: [{ label: "Gender", input_name: "gender", show: false }],
+  },
+  {
+    label: "Role in TechnoNatura",
+    label_desc: "What is your current role in TechnoNatura?",
+
+    step: 2,
+    inputs: [
+      { label: "Role", input_name: "roleInTechnoNatura", show: false },
+      { label: "level", input_name: "level", show: false },
+      { label: "startPeriod", input_name: "startPeriod", show: false },
+    ],
+  },
+  {
+    label: "Privacy Info",
+    label_desc: "We keep this data secure.",
+
+    step: 3,
     inputs: [
       {
         label: "Email",
@@ -61,9 +93,24 @@ const RegisterSchema = Yup.object().shape({
     .max(50, "Too Long!")
     .required("First name required"),
   username: Yup.string()
+    .matches(
+      /^[A-Za-z0-9_-]*$/,
+      "Only letters, numbers, underscores, and dashes are allowed."
+    )
     .min(1, "Too Short!")
     .max(20, "Too Long!")
     .required("username required"),
+
+  gender: Yup.string().min(1, "Too Short!").required("username required"),
+  roleInTechnoNatura: Yup.string()
+    .min(5, "Too Short!")
+    .required("username required"),
+
+  startPeriod: Yup.number()
+    .min(2000, "Should be greater than 2000")
+    .required("Start period required"),
+  level: Yup.string().required("Grade is required"),
+
   email: Yup.string()
     .email("Email must be a valid email address")
     .required("Email is required"),
@@ -91,6 +138,12 @@ export default function RegisterForm() {
       username: "",
       email: "",
       password: "",
+      gender: "",
+      roleInTechnoNatura: "",
+      startPeriod: 2020,
+      level: "",
+      dream: "",
+      hobbies: [],
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
@@ -105,7 +158,8 @@ export default function RegisterForm() {
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           {/* eslint-disable-next-line arrow-body-style */}
-          {FormSteps.map(({ step, inputs, label }) => {
+          {/* eslint-disable-next-line camelcase */}
+          {FormSteps.map(({ step, inputs, label, label_desc }) => {
             if (step !== currentStep) {
               return "";
             }
@@ -113,9 +167,19 @@ export default function RegisterForm() {
             // eslint-disable-next-line consistent-return
             return (
               <>
-                <Box sx={{ mb: 0 }}>
+                {/* <Box sx={{ mb: 0 }}>
                   <Typography sx={{ color: "text.secondary" }}>
                     {label} - {currentStep + 1} / {FormSteps.length}
+                  </Typography>
+                </Box> */}
+
+                <Box sx={{ mb: 1 }} key={step}>
+                  <Typography variant="h4" gutterBottom>
+                    {label}
+                  </Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    {/* eslint-disable-next-line camelcase */}
+                    {label_desc}
                   </Typography>
                 </Box>
 
@@ -165,7 +229,50 @@ export default function RegisterForm() {
               </>
             );
           })}
+
+          {currentStep === 0 && (
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              {/* @ts-ignore */}
+              <DatePicker
+                label="Birth Day"
+                // value={value}
+                onChange={(newValue) => {
+                  console.log(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+          )}
+
           {currentStep === 1 && (
+            // @ts-ignore
+            <FormControl
+              component="fieldset"
+              error={Boolean(errors.gender)}
+              helperText={errors.gender}
+              {...getFieldProps("gender")}
+            >
+              <FormLabel component="legend">Gender *</FormLabel>
+              <RadioGroup row aria-label="gender" name="gender">
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                  checked={getFieldProps("gender").value === "female"}
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                  checked={getFieldProps("gender").value === "male"}
+                />
+              </RadioGroup>
+            </FormControl>
+          )}
+
+          {currentStep === 2 && <ChooseRoleInTechnoNatura formik={formik} />}
+
+          {currentStep === 3 && (
             <>
               <TextField
                 fullWidth

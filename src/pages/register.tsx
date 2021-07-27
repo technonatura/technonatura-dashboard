@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 // material
 import { styled } from "@material-ui/core/styles";
-import { Box, Card, Link, Container, Typography } from "@material-ui/core";
+import { Card, Link, Container, Typography } from "@material-ui/core";
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components
@@ -59,7 +59,7 @@ export default function Register() {
       <MHidden width="mdDown">
         <SectionStyle>
           <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-            Manage the job more effectively with Minimal
+            Register For TechnoNatura Social Account
           </Typography>
           <img
             alt="register"
@@ -70,15 +70,6 @@ export default function Register() {
 
       <Container>
         <ContentStyle>
-          <Box sx={{ mb: 5 }}>
-            <Typography variant="h4" gutterBottom>
-              Register For TechnoNatura Social Account
-            </Typography>
-            <Typography sx={{ color: "text.secondary" }}>
-              Free forever. No credit card needed.
-            </Typography>
-          </Box>
-
           <RegisterForm />
 
           <Typography
