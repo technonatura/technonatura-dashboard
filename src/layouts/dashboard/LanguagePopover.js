@@ -1,28 +1,28 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
 // material
-import { alpha } from '@material-ui/core/styles';
+import { alpha } from "@material-ui/core/styles";
 import {
   Box,
   MenuItem,
   ListItemIcon,
   ListItemText,
   IconButton,
-} from '@material-ui/core';
+} from "@material-ui/core";
 // components
-import MenuPopover from '../../components/MenuPopover';
+import MenuPopover from "../../components/MenuPopover";
 
 // ----------------------------------------------------------------------
 
 const LANGS = [
   {
-    value: 'en',
-    label: 'English',
-    icon: '/static/icons/ic_flag_en.svg',
+    value: "en",
+    label: "English",
+    icon: "/static/icons/ic_flag_en.svg",
   },
   {
-    value: 'id',
-    label: 'Bahasa',
-    icon: '/static/icons/ic_flag_en.svg',
+    value: "id",
+    label: "Bahasa",
+    icon: "/static/icons/ic_flag_id.svg",
   },
 ];
 
@@ -53,7 +53,7 @@ export default function LanguagePopover() {
             bgcolor: (theme) =>
               alpha(
                 theme.palette.primary.main,
-                theme.palette.action.focusOpacity,
+                theme.palette.action.focusOpacity
               ),
           }),
         }}
@@ -75,9 +75,9 @@ export default function LanguagePopover() {
               sx={{ py: 1, px: 2.5 }}
             >
               <ListItemIcon>
-                <Box component='img' alt={option.label} src={option.icon} />
+                <Box component="img" alt={option.label} src={option.icon} />
               </ListItemIcon>
-              <ListItemText primaryTypographyProps={{ variant: 'body2' }}>
+              <ListItemText primaryTypographyProps={{ variant: "body2" }}>
                 {option.label}
               </ListItemText>
             </MenuItem>

@@ -14,6 +14,7 @@ interface SubmitButtonComponentI {
   nextStep: () => void;
   previousStep: () => void;
   goBack: boolean;
+  steps: number;
 }
 export default function SubmitButton({
   isSubmitting,
@@ -22,18 +23,21 @@ export default function SubmitButton({
   nextStep,
   previousStep,
   goBack,
+  steps,
 }: SubmitButtonComponentI) {
   //   console.log("currentStep", currentStep);
   return (
     <LoadingButton
       fullWidth
       size="large"
-      type="submit"
+      // eslint-disable-next-line no-nested-ternary
+      type={!goBack ? (currentStep !== steps ? "button" : "submit") : "button"}
       variant="contained"
       loading={goBack ? false : isSubmitting}
       onClick={async () => {
         if (goBack) {
           previousStep();
+
           return;
         }
 
@@ -53,7 +57,7 @@ export default function SubmitButton({
               isCurrentStepValid = false;
             }
           });
-          console.log("currentStep", currentStep);
+
           if (isCurrentStepValid) {
             nextStep();
           }

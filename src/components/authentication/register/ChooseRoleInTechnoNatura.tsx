@@ -5,9 +5,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
+
 import Typography from "@material-ui/core/Typography";
 
 // ----------------------------------------------------------------------
@@ -45,41 +43,32 @@ export default function ChooseRoleInTechnoNatura({
 
       {(getFieldProps("roleInTechnoNatura").value === "student" ||
         getFieldProps("roleInTechnoNatura").value === "mentor") && (
-        <Stack mt={2} direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <>
           {getFieldProps("roleInTechnoNatura").value === "student" && (
+            <Stack mt={2} direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <TextField
+                fullWidth
+                label="Start Period"
+                {...getFieldProps("startPeriod")}
+                error={Boolean(errors.startPeriod)}
+                helperText={errors.startPeriod}
+                name="startPeriod"
+                type="number"
+              />
+            </Stack>
+          )}
+          <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth
-              label="Start Period"
-              {...getFieldProps("startPeriod")}
-              error={Boolean(errors.startPeriod)}
-              helperText={errors.startPeriod}
-              name="startPeriod"
+              label="What is the Grade now?"
+              {...getFieldProps("gradeInNumber")}
+              error={Boolean(errors.gradeInNumber)}
+              helperText={errors.gradeInNumber}
+              name="gradeInNumber"
               type="number"
             />
-          )}
-
-          <FormControl
-            fullWidth
-            {...getFieldProps("level")}
-            error={Boolean(errors.level)}
-            helperText={errors.level}
-            name="level"
-          >
-            <InputLabel id="level">Level*</InputLabel>
-            <Select
-              labelId="level"
-              id="levelSelect"
-              value={getFieldProps("level").value}
-              label="Level"
-              name="level"
-              onChange={getFieldProps("level").onChange}
-            >
-              <MenuItem value="mi">Madrasah Ibtidiyah</MenuItem>
-              <MenuItem value="mts">Madrasah Tsnawiyah</MenuItem>
-              <MenuItem value="ma">Madrasah Aliyah</MenuItem>
-            </Select>
-          </FormControl>
-        </Stack>
+          </Stack>
+        </>
       )}
 
       {getFieldProps("roleInTechnoNatura").value === "mentor" && (

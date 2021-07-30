@@ -50,6 +50,7 @@ export const FormSteps: Array<{
     inputs: [
       { label: "Full Name", input_name: "fullName", show: true },
       { label: "Username", input_name: "username", show: true },
+      { label: "Birth Day", input_name: "birthDay", show: false },
     ],
   },
   {
@@ -107,14 +108,19 @@ const RegisterSchema = Yup.object().shape({
     .required("username required"),
 
   startPeriod: Yup.number()
-    .min(2000, "Should be greater than 2000")
+    .min(1990, "Should be greater than 2000")
     .required("Start period required"),
-  level: Yup.string().required("Grade is required"),
 
   email: Yup.string()
     .email("Email must be a valid email address")
     .required("Email is required"),
   password: Yup.string().required("Password is required"),
+  birthDay: Yup.string().required("Please Fill Your Birth Day"),
+
+  gradeInNumber: Yup.number()
+    .min(1, "There is no grade below 1!")
+    .max(12, "This is not university!")
+    .required("What is the grade?"),
 });
 
 export default function RegisterForm() {
@@ -124,12 +130,14 @@ export default function RegisterForm() {
   function previousStep() {
     if (currentStep !== 0) {
       setStep(currentStep - 1);
+      console.log("currentStep", currentStep);
     }
   }
 
   function nextStep() {
     if (currentStep !== FormSteps.length) {
       setStep(currentStep + 1);
+      console.log("currentStep", currentStep);
     }
   }
   const formik = useFormik({
@@ -141,9 +149,11 @@ export default function RegisterForm() {
       gender: "",
       roleInTechnoNatura: "",
       startPeriod: 2020,
-      level: "",
       dream: "",
       hobbies: [],
+      birthDay: "",
+
+      gradeInNumber: "",
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
@@ -235,12 +245,16 @@ export default function RegisterForm() {
               {/* @ts-ignore */}
               <DatePicker
                 label="Birth Day"
-                // value={value}
-                onChange={(newValue) => {
-                  console.log(newValue);
+                value={getFieldProps("birthDay").value}
+                onChange={(date) => {
+                  formik.setFieldValue("birthDay", date);
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
+
+              {errors.birthDay && (
+                <Typography color="red">{errors.birthDay}</Typography>
+              )}
             </LocalizationProvider>
           )}
 
@@ -312,6 +326,7 @@ export default function RegisterForm() {
                   isSubmitting={isSubmitting}
                   nextStep={nextStep}
                   previousStep={previousStep}
+                  steps={FormSteps.length}
                 />
 
                 <SubmitButton
@@ -321,6 +336,7 @@ export default function RegisterForm() {
                   isSubmitting={isSubmitting}
                   nextStep={nextStep}
                   previousStep={previousStep}
+                  steps={FormSteps.length}
                 />
               </Stack>
             ) : (
@@ -338,6 +354,7 @@ export default function RegisterForm() {
                     isSubmitting={isSubmitting}
                     nextStep={nextStep}
                     previousStep={previousStep}
+                    steps={FormSteps.length}
                   />
 
                   <SubmitButton
@@ -347,6 +364,7 @@ export default function RegisterForm() {
                     isSubmitting={isSubmitting}
                     nextStep={nextStep}
                     previousStep={previousStep}
+                    steps={FormSteps.length}
                   />
                 </Stack>
               </>
@@ -359,6 +377,7 @@ export default function RegisterForm() {
               isSubmitting={isSubmitting}
               nextStep={nextStep}
               previousStep={previousStep}
+              steps={FormSteps.length}
             />
           )}
         </Stack>
