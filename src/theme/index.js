@@ -11,12 +11,23 @@ import shape from "./shape";
 import palette from "./palette";
 import typography from "./typography";
 import breakpoints from "./breakpoints";
+// eslint-disable-next-line import/no-cycle
 import GlobalStyles from "./globalStyles";
 import componentsOverride from "./overrides";
 import shadows, { customShadows } from "./shadows";
 
 // ----------------------------------------------------------------------
 
+const theme = createTheme({
+  palette,
+  shape,
+  typography,
+  breakpoints,
+  shadows,
+  customShadows,
+});
+
+export { theme };
 export default function ThemeConfig({ children }) {
   // const themeOptions = useMemo(
   //   () => ({
@@ -30,14 +41,6 @@ export default function ThemeConfig({ children }) {
   //   [],
   // );
 
-  const theme = createTheme({
-    palette,
-    shape,
-    typography,
-    breakpoints,
-    shadows,
-    customShadows,
-  });
   theme.components = componentsOverride(theme);
   return (
     <StylesProvider injectFirst>
