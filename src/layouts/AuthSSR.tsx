@@ -2,6 +2,8 @@
 // import { GetServerSideProps } from "next";
 // import { applyServerSideCookie } from "next-universal-cookie";
 import Document, { DocumentContext, DocumentInitialProps } from "next/document";
+import { ServerStyleSheets } from "@material-ui/styles";
+
 import React from "react";
 // // @ts-ignore
 // const AuthSSR: NextPage<{ stars: number }> =
@@ -35,14 +37,13 @@ const AuthSSR = <T extends Object>(
       // Run the parent `getInitialProps`, it now includes the custom `renderPage`
       // return {};
 
+      const sheets = new ServerStyleSheets();
       const originalRenderPage = ctx.renderPage;
-      // console.log(originalRenderPage)
 
       // @ts-ignore
       ctx.renderPage = () => ({
-        // useful for wrapping the whole react tree
-        enhanceApp: (App: any) => App,
-        // useful for wrapping in a per-page basis
+        // @ts-ignore
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
         enhanceComponent: (Component: any) => Component,
       });
 
