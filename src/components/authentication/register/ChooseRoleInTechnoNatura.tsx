@@ -5,7 +5,6 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-
 import Typography from "@material-ui/core/Typography";
 
 // ----------------------------------------------------------------------
@@ -45,17 +44,19 @@ export default function ChooseRoleInTechnoNatura({
         getFieldProps("roleInTechnoNatura").value === "mentor") && (
         <>
           {getFieldProps("roleInTechnoNatura").value === "student" && (
-            <Stack mt={2} direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <TextField
-                fullWidth
-                label="Start Period"
-                {...getFieldProps("startPeriod")}
-                error={Boolean(errors.startPeriod)}
-                helperText={errors.startPeriod}
-                name="startPeriod"
-                type="number"
-              />
-            </Stack>
+            <>
+              <Stack mt={2} direction={{ xs: "column", sm: "row" }} spacing={2}>
+                <TextField
+                  fullWidth
+                  label="Start Period"
+                  {...getFieldProps("startPeriod")}
+                  error={Boolean(errors.startPeriod)}
+                  helperText={errors.startPeriod}
+                  name="startPeriod"
+                  type="number"
+                />
+              </Stack>
+            </>
           )}
           <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField

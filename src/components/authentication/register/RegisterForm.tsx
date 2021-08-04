@@ -158,7 +158,9 @@ export default function RegisterForm() {
     validationSchema: RegisterSchema,
     onSubmit: () => {
       // navigate('/dashboard', { replace: true });
-      nextStep();
+      console.log(formik, process.env.NODE_ENV);
+
+      // nextStep();
     },
   });
 

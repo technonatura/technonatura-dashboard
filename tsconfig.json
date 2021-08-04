@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./src", // This must be specified if "paths" is.
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -12,7 +13,18 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/ts/*": ["ts/*"],
+      "@/pages/*": ["pages/*"],
+      "@/redux/*": ["redux_file/*"],
+      "@utils/*": ["utils/*"],
+      "@/models/*": ["models/*"],
+      "@/layouts/*": ["layouts/*"],
+      "@/hooks/*": ["hooks/*"]
+    },
+    "typeRoots": ["@types", "./node_modules/@types"]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

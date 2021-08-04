@@ -29,4 +29,5 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ThemeConfig>
   );
 }
+
 export default MyApp;
