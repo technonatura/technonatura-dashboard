@@ -23,7 +23,7 @@ export default function Page404() {
   return (
     <RootStyle
       // @ts-ignore
-      title="404 Page Not Found | Minimal-UI"
+      title="404 Page Not Found "
     >
       <Container>
         <MotionContainer initial="initial" open>

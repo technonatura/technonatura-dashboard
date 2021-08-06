@@ -2,6 +2,16 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 // material
 import { styled } from "@material-ui/core/styles";
+
+import useUser from "hooks/useUser";
+import NextLink from "next/link";
+// material
+import { Box, Button, Typography, Container } from "@material-ui/core";
+// components
+import { MotionContainer } from "components/animate";
+import Page from "components/Page";
+import AuthLayout from "layouts/AuthLayout";
+
 //
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
@@ -32,11 +42,88 @@ const MainStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const LoadingRootStyle = styled(Page)(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "flex",
+  },
+}));
+const LoadingStyle = styled(Page)(() => ({
+  display: "flex",
+  minHeight: "100%",
+  alignItems: "center",
+}));
+const ContentStyle = styled("div")(({ theme }) => ({
+  maxWidth: 480,
+  margin: "auto",
+  display: "flex",
+  minHeight: "100vh",
+  flexDirection: "column",
+  justifyContent: "center",
+  padding: theme.spacing(12, 0),
+}));
+
 // @ts-ignore
 export default function DashboardLayout({ children }) {
+  const { user } = useUser({ redirectTo: "/login", redirectIfFound: false });
+  console.log(user);
   const [open, setOpen] = useState(false);
   const { pathname } = useRouter();
-  console.log(pathname);
+
+  if (pathname === "/404") {
+    return children;
+  }
+
+  if (!user) {
+    return (
+      <LoadingRootStyle>
+        <AuthLayout>TechnoNatura Dashboard</AuthLayout>
+
+        <Container maxWidth="sm">
+          <ContentStyle>
+            <LoadingStyle
+              // @ts-ignore
+              title="TechnoNatura Dashboard"
+            >
+              <Container>
+                <MotionContainer initial="initial" open>
+                  <Box
+                    sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}
+                  >
+                    <div>
+                      <Typography variant="h3" paragraph>
+                        TechnoNatura Dashboard
+                      </Typography>
+                    </div>
+                    <Typography
+                      sx={{ color: "text.secondary", marginBottom: 4 }}
+                    >
+                      Please wait, we are preparing amazing experience for you!
+                    </Typography>
+                    <NextLink href="https://technonatura.vercel.app">
+                      <Button size="large" variant="contained">
+                        TechnoNatura Website
+                      </Button>
+                    </NextLink>
+
+                    <NextLink href="https://status.technonatura.vercel.app">
+                      <Button
+                        sx={{ marginLeft: 2 }}
+                        size="large"
+                        variant="contained"
+                      >
+                        Server Status
+                      </Button>
+                    </NextLink>
+                  </Box>
+                </MotionContainer>
+              </Container>
+            </LoadingStyle>
+          </ContentStyle>
+        </Container>
+      </LoadingRootStyle>
+    );
+  }
+
   if (
     pathname === "/login" ||
     pathname === "/register" ||
@@ -46,6 +133,7 @@ export default function DashboardLayout({ children }) {
   ) {
     return children;
   }
+
   return (
     <RootStyle>
       <DashboardNavbar onOpenSidebar={() => setOpen(true)} />

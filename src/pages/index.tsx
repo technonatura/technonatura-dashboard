@@ -1,13 +1,11 @@
 import React from "react";
-import AuthSSR from "layouts/AuthSSR";
-
 import Head from "next/head";
+
 import styles from "../styles/Home.module.scss";
 
 // eslint-disable-next-line arrow-body-style
 
 function Home({ stars }: { stars: number }) {
-  // console.log(props);
   return (
     <div className={styles.container}>
       <Head>
@@ -60,4 +58,4 @@ function Home({ stars }: { stars: number }) {
   );
 }
 
-export default AuthSSR(Home);
+export default Home;

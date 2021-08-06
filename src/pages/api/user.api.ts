@@ -6,7 +6,9 @@ export default withSession(
   async (req: NextIronRequest, res: NextApiResponse) => {
     console.log(req.query);
     if (req.query.pass !== process.env.SECRET_COOKIE_PASSWORD) {
-      res.send("forbidden");
+      res.json({
+        isLoggedIn: true,
+      });
       return;
     }
     const authToken = req.session.get<string | undefined>("authToken");
