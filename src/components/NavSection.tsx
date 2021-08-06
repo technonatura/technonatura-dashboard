@@ -1,8 +1,7 @@
 import NextLink from "next/link";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
 import arrowIosDownwardFill from "@iconify/icons-eva/arrow-ios-downward-fill";
@@ -16,6 +15,10 @@ import {
   ListItemText,
   ListItemIcon,
 } from "@material-ui/core";
+
+import sidebarConfig, {
+  sidebarConfigItem,
+} from "layouts/dashboard/SidebarConfig";
 
 // ----------------------------------------------------------------------
 
@@ -53,14 +56,18 @@ const ListItemIconStyle = styled(ListItemIcon)({
 
 // ----------------------------------------------------------------------
 
-NavItem.propTypes = {
-  item: PropTypes.object,
-  active: PropTypes.func,
-};
-
-function NavItem({ item, active }) {
+function NavItem({
+  item,
+  isActiveRoot,
+  match,
+}: {
+  item: sidebarConfigItem;
+  isActiveRoot: boolean;
+  // eslint-disable-next-line no-unused-vars
+  match: (path: string) => boolean;
+}) {
   const theme = useTheme();
-  const isActiveRoot = true;
+
   const { title, path, icon, info, children } = item;
   const [open, setOpen] = useState(isActiveRoot);
 
@@ -87,6 +94,7 @@ function NavItem({ item, active }) {
     return (
       <>
         <ListItemStyle
+          // @ts-ignore
           onClick={handleOpen}
           sx={{
             ...(isActiveRoot && activeRootStyle),
@@ -108,7 +116,7 @@ function NavItem({ item, active }) {
             {children.map((item, index) => {
               // eslint-disable-next-line no-shadow
               const { title, path } = item;
-              const isActiveSub = active(path);
+              const isActiveSub = match(path);
 
               return (
                 // eslint-disable-next-line react/no-array-index-key
@@ -166,20 +174,21 @@ function NavItem({ item, active }) {
   );
 }
 
-NavSection.propTypes = {
-  navConfig: PropTypes.array,
-};
+export default function NavSection() {
+  const { pathname } = useRouter();
 
-export default function NavSection({ navConfig, ...other }) {
-  // const { pathname } = useRouter();
-  // const match = (path) =>
-  //   path ? !!matchPath({ path, end: false }, pathname) : false;
+  const match = (path: string) => path === pathname;
 
   return (
-    <Box {...other}>
+    <Box>
       <List disablePadding>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active />
+        {sidebarConfig.map((item) => (
+          <NavItem
+            key={item.title}
+            item={item}
+            isActiveRoot={match(item.path)}
+            match={match}
+          />
         ))}
       </List>
     </Box>

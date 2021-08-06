@@ -21,7 +21,6 @@ import Scrollbar from "../../components/Scrollbar";
 import NavSection from "../../components/NavSection";
 import { MHidden } from "../../components/@material-extend";
 //
-import sidebarConfig from "./SidebarConfig";
 import account from "../../_mocks_/account";
 
 // ----------------------------------------------------------------------
@@ -78,8 +77,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Box>
       </Box>
 
-      <Box sx={{ mb: 5, mx: 2.5 }}>
-        <Link underline="none" component={NextLink} href="#">
+      <Box sx={{ mb: 5, mx: 2.5, cursor: "pointer", "&:hover": {} }}>
+        <Link underline="none" component={NextLink} href="/settings">
           <AccountStyle>
             <Avatar src={account.photoURL} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
@@ -94,7 +93,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={sidebarConfig} />
+      <NavSection />
 
       <Box sx={{ flexGrow: 1 }} />
 
@@ -110,18 +109,18 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             bgcolor: "grey.200",
           }}
         >
-          <Box
+          {/* <Box
             component="img"
             src="/static/illustrations/illustration_avatar.png"
             sx={{ width: 100, position: "absolute", top: -50 }}
-          />
+          /> */}
 
           <Box sx={{ textAlign: "center" }}>
             <Typography gutterBottom variant="h6">
-              Get more?
+              Interested to Contribute?
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              From only $69
+              We open the code base on GitHub!
             </Typography>
           </Box>
 
@@ -131,7 +130,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             target="_blank"
             variant="contained"
           >
-            Upgrade to Pro
+            Give a Star!
           </Button>
         </Stack>
       </Box>

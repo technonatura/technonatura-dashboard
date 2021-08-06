@@ -35,11 +35,13 @@ export default function SubmitButton({
       variant="contained"
       loading={goBack ? false : isSubmitting}
       onClick={async () => {
+        // console.log("hey");
         if (goBack) {
           previousStep();
 
           return;
         }
+        console.log("i passed goBack!");
 
         if (currentStep !== FormSteps.length) {
           let isCurrentStepValid = true;

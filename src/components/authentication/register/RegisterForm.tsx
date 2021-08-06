@@ -48,8 +48,8 @@ export const FormSteps: Array<{
     label_desc: "We need this to indentify who you are",
     step: 0,
     inputs: [
-      { label: "Full Name", input_name: "fullName", show: true },
-      { label: "Username", input_name: "username", show: true },
+      { label: "Full Name*", input_name: "fullName", show: true },
+      { label: "Username*", input_name: "username", show: true },
       { label: "Birth Day", input_name: "birthDay", show: false },
     ],
   },
@@ -78,7 +78,7 @@ export const FormSteps: Array<{
     step: 3,
     inputs: [
       {
-        label: "Email",
+        label: "Email*",
         input_name: "email",
         show: true,
         helperText: "We need your email to serve reset password service",
@@ -294,7 +294,7 @@ export default function RegisterForm() {
                 fullWidth
                 autoComplete="current-password"
                 type={showPassword ? "text" : "password"}
-                label="Password"
+                label="Password*"
                 {...getFieldProps("password")}
                 InputProps={{
                   endAdornment: (

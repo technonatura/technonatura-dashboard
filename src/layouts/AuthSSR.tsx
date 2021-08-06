@@ -44,7 +44,6 @@ const AuthSSR = <T extends Object>(
       ctx.renderPage = () => ({
         // @ts-ignore
         enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-        enhanceComponent: (Component: any) => Component,
       });
 
       // Run the parent `getInitialProps`, it now includes the custom `renderPage`
