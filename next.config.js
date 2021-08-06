@@ -1,4 +1,4 @@
-const withPWA = require("next-pwa");
+// const withPWA = require("next-pwa");
 const withPlugins = require("next-compose-plugins");
 const {
   monthConversion,
@@ -118,16 +118,6 @@ const nextConfig = {
   env,
 };
 
-const plugins = [
-  [
-    withPWA,
-    {
-      pwa: {
-        disable: process.env.NODE_ENV === "development",
-        dest: "public",
-      },
-    },
-  ],
-];
+const plugins = [];
 
 module.exports = withPlugins([...plugins], nextConfig);
