@@ -2,24 +2,18 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
-import NextLink from "next/link";
+// import NextLink from "next/link";
 
 // material
 import { styled } from "@material-ui/core/styles";
 // material
-import {
-  Container,
-  Box,
-  Typography,
-  Link,
-  Breadcrumbs,
-} from "@material-ui/core";
+import { Container, Box, Typography } from "@material-ui/core";
 
 // components
 import Page from "components/Page";
 
-import { Icon } from "@iconify/react";
-import Cloud from "@iconify/icons-ant-design/cloud-server";
+// import { Icon } from "@iconify/react";
+// import Cloud from "@iconify/icons-ant-design/cloud-server";
 
 // eslint-disable-next-line import/no-named-as-default
 import checkRoles from "utils/checkRoles";
@@ -73,49 +67,19 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - GraphQL API Cloud Service"
+        title="TechnoNatura App - IOT API Cloud Service"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
       <Container maxWidth="xl">
-        <div role="presentation">
-          <Breadcrumbs aria-label="breadcrumb">
-            <NextLink href="/cloud">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link
-                underline="hover"
-                sx={{ display: "flex", alignItems: "center" }}
-                color="inherit"
-                href="#"
-              >
-                <Icon icon={Cloud} style={{ marginRight: 5 }} /> Cloud Service
-              </Link>
-            </NextLink>
-
-            <Typography
-              sx={{ display: "flex", alignItems: "center" }}
-              color="text.primary"
-            >
-              {/* <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" /> */}
-              GraphQL API
-            </Typography>
-          </Breadcrumbs>
-        </div>
         <Box sx={{ pb: 5, marginTop: 3 }}>
           <Typography variant="h3">
-            Hi {authState.me?.fullName}, welcome to GraphQL Cloud API
+            We are sorry that Authentication API is not available yet for now :(
           </Typography>
           <Typography variant="h5" color="grayText">
-            In this cloud service you can interact to our GraphQL API through UI
-            (User Interface)
+            Don&apos;t worry, we will anounce this cloud service sooner!
           </Typography>
         </Box>
-        {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-        For security reason the server blocks from iframing, thus please visit{" "}
-        <Link href="https://technonatura.herokuapp.com/graphql">
-          https://technonatura.herokuapp.com/graphql
-        </Link>{" "}
-        to interact with our GraphQL Playground API
       </Container>
     </>
   );

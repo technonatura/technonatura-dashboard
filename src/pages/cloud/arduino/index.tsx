@@ -73,7 +73,7 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - GraphQL API Cloud Service"
+        title="TechnoNatura App - IOT API Cloud Service"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
@@ -97,17 +97,19 @@ export default function RolesPage() {
               color="text.primary"
             >
               {/* <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" /> */}
-              GraphQL API
+              Arduino Apps
             </Typography>
           </Breadcrumbs>
         </div>
         <Box sx={{ pb: 5, marginTop: 3 }}>
           <Typography variant="h3">
-            Hi {authState.me?.fullName}, welcome to GraphQL Cloud API
+            Hi {authState.me?.fullName}, welcome to Arduino & IOT Cloud Service
+            API
           </Typography>
           <Typography variant="h5" color="grayText">
-            In this cloud service you can interact to our GraphQL API through UI
-            (User Interface)
+            In this cloud service you can interact to our Arduino API, and you
+            can manage your arduino app. And don&apos;t forget this cloud
+            service is TOTALLY FREE!
           </Typography>
         </Box>
         {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
