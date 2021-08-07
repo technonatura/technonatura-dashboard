@@ -1,5 +1,10 @@
 import { useState } from "react";
+
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 import { useRouter } from "next/router";
+
 // material
 import { styled } from "@material-ui/core/styles";
 
@@ -64,7 +69,9 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 // @ts-ignore
 export default function DashboardLayout({ children }) {
-  const { user } = useUser({ redirectTo: "/login", redirectIfFound: false });
+  const authState = useSelector((state: RootStore) => state.user);
+
+  const { user } = useUser();
   console.log(user);
   const [open, setOpen] = useState(false);
   const { pathname } = useRouter();
@@ -73,7 +80,7 @@ export default function DashboardLayout({ children }) {
     return children;
   }
 
-  if (!user) {
+  if (authState.loading) {
     return (
       <LoadingRootStyle>
         <AuthLayout>TechnoNatura Dashboard</AuthLayout>

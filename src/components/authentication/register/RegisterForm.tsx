@@ -1,11 +1,20 @@
-import * as Yup from "yup";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 import { Icon } from "@iconify/react";
 import { useFormik, Form, FormikProvider } from "formik";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
+
+// material
+import { styled } from "@material-ui/core/styles";
 // material
 import {
+  Container,
   Stack,
   TextField,
   IconButton,
@@ -20,112 +29,106 @@ import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-import DatePicker from "@material-ui/lab/DatePicker";
+import DateTimePicker from "@material-ui/lab/DateTimePicker";
+
+import { RegisterUserForm } from "@/types/models/RegisterUserForm.model";
+
+import RegisterUser from "utils/registerUser";
+import { UserSignUpLoginSuccess } from "global/actions/auth";
+
+import ms from "ms";
+
+// components
+import Page from "components/Page";
 
 // eslint-disable-next-line import/no-cycle
 import SubmitButton from "./SubmitButton";
 import ChooseRoleInTechnoNatura from "./ChooseRoleInTechnoNatura";
+import FormSteps from "./FormSteps";
+import RegisterSchema from "./RegisterSchema";
 
 // ----------------------------------------------------------------------
 
-export const FormSteps: Array<{
-  label: string;
-  // eslint-disable-next-line camelcase
-  label_desc: string;
-  step: number;
-  // eslint-disable-next-line camelcase
-  inputs: Array<{
-    label: string;
-    // eslint-disable-next-line camelcase
-    input_name: string;
-    InputProps?: Object;
-    show: boolean;
-    helperText?: string;
-  }>;
-}> = [
-  {
-    label: "Could you give us your basic personal information?",
-    label_desc: "We need this to indentify who you are",
-    step: 0,
-    inputs: [
-      { label: "Full Name*", input_name: "fullName", show: true },
-      { label: "Username*", input_name: "username", show: true },
-      { label: "Birth Day", input_name: "birthDay", show: false },
-    ],
-  },
-  {
-    label: "Gender",
-    label_desc: "We keep this data secure.",
-
-    step: 1,
-    inputs: [{ label: "Gender", input_name: "gender", show: false }],
-  },
-  {
-    label: "Role in TechnoNatura",
-    label_desc: "What is your current role in TechnoNatura?",
-
-    step: 2,
-    inputs: [
-      { label: "Role", input_name: "roleInTechnoNatura", show: false },
-      { label: "level", input_name: "level", show: false },
-      { label: "startPeriod", input_name: "startPeriod", show: false },
-    ],
-  },
-  {
-    label: "Privacy Info",
-    label_desc: "We keep this data secure.",
-
-    step: 3,
-    inputs: [
-      {
-        label: "Email*",
-        input_name: "email",
-        show: true,
-        helperText: "We need your email to serve reset password service",
-      },
-      { label: "Password", input_name: "password", show: false },
-    ],
-  },
-];
-
-const RegisterSchema = Yup.object().shape({
-  fullName: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("First name required"),
-  username: Yup.string()
-    .matches(
-      /^[A-Za-z0-9_-]*$/,
-      "Only letters, numbers, underscores, and dashes are allowed."
-    )
-    .min(1, "Too Short!")
-    .max(20, "Too Long!")
-    .required("username required"),
-
-  gender: Yup.string().min(1, "Too Short!").required("username required"),
-  roleInTechnoNatura: Yup.string()
-    .min(5, "Too Short!")
-    .required("username required"),
-
-  startPeriod: Yup.number()
-    .min(1990, "Should be greater than 2000")
-    .required("Start period required"),
-
-  email: Yup.string()
-    .email("Email must be a valid email address")
-    .required("Email is required"),
-  password: Yup.string().required("Password is required"),
-  birthDay: Yup.string().required("Please Fill Your Birth Day"),
-
-  gradeInNumber: Yup.number()
-    .min(1, "There is no grade below 1!")
-    .max(12, "This is not university!")
-    .required("What is the grade?"),
-});
+const RootStyle = styled(Page)(({ theme }) => ({
+  display: "flex",
+  minHeight: "100%",
+  alignItems: "center",
+  paddingTop: theme.spacing(15),
+  paddingBottom: theme.spacing(10),
+}));
 
 export default function RegisterForm() {
+  const router = useRouter();
+
+  const [, setAuthCookie] = useCookies([
+    process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+  ]);
+
+  const dispatch = useDispatch();
+  const authState = useSelector((state: RootStore) => state.user);
+
   const [showPassword, setShowPassword] = useState(false);
   const [currentStep, setStep] = useState<number>(0);
+  const formik = useFormik<RegisterUserForm>({
+    initialValues: {
+      fullName: "",
+      username: "",
+      email: "",
+      password: "",
+      gender: undefined,
+      roleInTechnoNatura: "student",
+      startPeriod: 2020,
+
+      // @ts-ignore
+      birthDate: Date.now() - 1000 * 60 * 60 * 24 * 365 * 4,
+
+      gradeInNumber: 7,
+    },
+    validationSchema: RegisterSchema,
+    onSubmit: async () => {
+      // navigate('/dashboard', { replace: true });
+      let goToStep = -1;
+      const registerUser = await RegisterUser(formik.values);
+
+      console.log(registerUser);
+      if (registerUser.status === "success") {
+        dispatch(UserSignUpLoginSuccess(registerUser.user, registerUser.token));
+        setAuthCookie(
+          process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+          registerUser.token,
+          { path: "/", maxAge: ms("1y") }
+        );
+        router.push("/");
+      } else {
+        if (registerUser.errors) {
+          formik.setErrors(registerUser.errors);
+        }
+        // console.log(goToStep, formik.validateField('username'));
+        // eslint-disable-next-line no-restricted-syntax
+        for (const error in registerUser.errors) {
+          if (goToStep === -1) {
+            for (let i = 0; i <= FormSteps.length; i += 1) {
+              const found = FormSteps[i].inputs.findIndex(
+                (input) => String(input.input_name) === String(error)
+              );
+
+              if (found > -1) {
+                goToStep = i;
+                break;
+              }
+            }
+            // @ts-ignore
+            // goToStep = where?.step;
+            console.log(goToStep, error);
+            // @ts-ignore
+            console.log(setStep(goToStep));
+          }
+        }
+        // nextStep();
+      }
+    },
+  });
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   function previousStep() {
     if (currentStep !== 0) {
@@ -137,34 +140,32 @@ export default function RegisterForm() {
   function nextStep() {
     if (currentStep !== FormSteps.length) {
       setStep(currentStep + 1);
-      console.log("currentStep", currentStep);
     }
   }
-  const formik = useFormik({
-    initialValues: {
-      fullName: "",
-      username: "",
-      email: "",
-      password: "",
-      gender: "",
-      roleInTechnoNatura: "",
-      startPeriod: 2020,
-      dream: "",
-      hobbies: [],
-      birthDay: "",
 
-      gradeInNumber: "",
-    },
-    validationSchema: RegisterSchema,
-    onSubmit: () => {
-      // navigate('/dashboard', { replace: true });
-      console.log(formik, process.env.NODE_ENV);
-
-      // nextStep();
-    },
-  });
-
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  if (authState.me) {
+    return (
+      <RootStyle
+        // @ts-ignore
+        title="404 Page Not Found "
+      >
+        <Container>
+          <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
+            <div>
+              <Typography variant="h3" paragraph>
+                Successfully created account!
+              </Typography>
+            </div>
+            <Typography sx={{ mt: 3, color: "text.secondary" }}>
+              Congrats you successfully created TechnoNatura! The next step you
+              need is to get account verification to access many features from
+              this dashboard!
+            </Typography>
+          </Box>
+        </Container>
+      </RootStyle>
+    );
+  }
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -179,12 +180,6 @@ export default function RegisterForm() {
             // eslint-disable-next-line consistent-return
             return (
               <>
-                {/* <Box sx={{ mb: 0 }}>
-                  <Typography sx={{ color: "text.secondary" }}>
-                    {label} - {currentStep + 1} / {FormSteps.length}
-                  </Typography>
-                </Box> */}
-
                 <Box sx={{ mb: 1 }} key={step}>
                   <Typography variant="h4" gutterBottom>
                     {label}
@@ -245,17 +240,18 @@ export default function RegisterForm() {
           {currentStep === 0 && (
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               {/* @ts-ignore */}
-              <DatePicker
+              <DateTimePicker
                 label="Birth Day"
-                value={getFieldProps("birthDay").value}
+                value={getFieldProps("birthDate").value}
                 onChange={(date) => {
-                  formik.setFieldValue("birthDay", date);
+                  formik.setFieldValue("birthDate", date);
                 }}
+                maxDateTime={Date.now() - 1000 * 60 * 60 * 24 * 365 * 4}
                 renderInput={(params) => <TextField {...params} />}
               />
 
-              {errors.birthDay && (
-                <Typography color="red">{errors.birthDay}</Typography>
+              {errors.birthDate && (
+                <Typography color="red">{errors.birthDate}</Typography>
               )}
             </LocalizationProvider>
           )}

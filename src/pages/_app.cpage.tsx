@@ -1,5 +1,18 @@
 import React from "react";
 import type { AppProps } from "next/app";
+
+import { Provider } from "react-redux";
+import { CookiesProvider } from "react-cookie";
+// import { NextCookieProvider } from "next-universal-cookie";
+
+import { ChakraProvider } from "@chakra-ui/react";
+
+import { NextSeo } from "next-seo";
+
+import store from "@/global/index";
+
+import ProgressLoad from "components/ProgressLoad";
+
 import "../styles/globals.css";
 
 // theme
@@ -21,12 +34,26 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <ThemeConfig>
-      <ScrollToTop />
-      <DashboardLayout>
-        <Component {...pageProps} />
-      </DashboardLayout>
-    </ThemeConfig>
+    <>
+      <NextSeo
+        title="TechnoNatura App"
+        description="The TechnoNatura Social Media and Dashboard"
+        canonical="https://app.technonatura.now.sh"
+      />
+      <CookiesProvider>
+        <Provider store={store}>
+          <ChakraProvider>
+            <ThemeConfig>
+              <ScrollToTop />
+              <ProgressLoad />
+              <DashboardLayout>
+                <Component {...pageProps} />
+              </DashboardLayout>
+            </ThemeConfig>
+          </ChakraProvider>
+        </Provider>
+      </CookiesProvider>
+    </>
   );
 }
 

@@ -1,10 +1,19 @@
 import * as Yup from "yup";
-import { useState } from "react";
-import NextLink from "next/link";
 import { useFormik, Form, FormikProvider } from "formik";
+
+import { useState } from "react";
+import { useCookies } from "react-cookie";
+
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
+import NextLink from "next/link";
+import { useRouter } from "next/router";
+
 import { Icon } from "@iconify/react";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
+
 // material
 import {
   Link,
@@ -14,30 +23,70 @@ import {
   IconButton,
   InputAdornment,
   FormControlLabel,
+  Container,
+  Box,
+  Typography,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
+import { styled } from "@material-ui/core/styles";
+
+import Page from "components/Page";
+
+import UserLoginFunc from "utils/userLogin";
+import { UserSignUpLoginSuccess } from "global/actions/auth";
+
+import ms from "ms";
 
 // ----------------------------------------------------------------------
 
+const RootStyle = styled(Page)(({ theme }) => ({
+  display: "flex",
+  minHeight: "100%",
+  alignItems: "center",
+  paddingTop: theme.spacing(15),
+  paddingBottom: theme.spacing(10),
+}));
+
 export default function LoginForm() {
+  const router = useRouter();
+
+  const [, setAuthCookie] = useCookies([
+    process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+  ]);
+
+  const dispatch = useDispatch();
+  const authState = useSelector((state: RootStore) => state.user);
+
   const [showPassword, setShowPassword] = useState(false);
 
   const LoginSchema = Yup.object().shape({
-    username: Yup.string()
-      .min(1, "Too Short!")
-      .max(20, "Too Long!")
-      .required("username required"),
+    email: Yup.string()
+      .email("Email must be a valid email address")
+      .required("Email is required"),
     password: Yup.string().required("Password is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
       remember: true,
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
+    onSubmit: async () => {
+      const userLogin = await UserLoginFunc(formik.values);
+      console.log(userLogin);
+      if (userLogin.status === "success") {
+        dispatch(UserSignUpLoginSuccess(userLogin.user, userLogin.token));
+        if (formik.values.remember) {
+          setAuthCookie(
+            process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+            userLogin.token,
+            { path: "/", maxAge: ms("1y") }
+          );
+        }
+        router.push("/");
+      }
       // navigate('/dashboard', { replace: true });
     },
   });
@@ -49,17 +98,45 @@ export default function LoginForm() {
     setShowPassword((show) => !show);
   };
 
+  if (authState.me) {
+    return (
+      <RootStyle
+        // @ts-ignore
+        title="404 Page Not Found "
+      >
+        <Container>
+          <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
+            <div>
+              <Typography variant="h3" paragraph>
+                Successfully created account!
+              </Typography>
+            </div>
+            <Typography sx={{ mt: 3, color: "text.secondary" }}>
+              Congrats you successfully created TechnoNatura! The next step you
+              need is to get account verification to access many features from
+              this dashboard!
+            </Typography>
+          </Box>
+        </Container>
+      </RootStyle>
+    );
+  }
+
   return (
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <TextField
+            // eslint-disable-next-line react/no-array-index-key
             fullWidth
-            autoComplete="username"
-            label="Username"
-            {...getFieldProps("username")}
-            error={Boolean(touched.username && errors.username)}
-            helperText={touched.username && errors.username}
+            label="email"
+            {...getFieldProps("email")}
+            error={Boolean(
+              // @ts-ignore
+              touched.email && errors.email
+            )}
+            // @ts-ignore
+            helperText={touched.email && errors.email}
           />
 
           <TextField

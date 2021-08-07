@@ -18,11 +18,11 @@
       "@/components/*": ["components/*"],
       "@/ts/*": ["ts/*"],
       "@/pages/*": ["pages/*"],
-      "@/redux/*": ["redux_file/*"],
+      "@/global/*": ["global/*"],
       "@utils/*": ["utils/*"],
-      "@/models/*": ["models/*"],
       "@/layouts/*": ["layouts/*"],
-      "@/hooks/*": ["hooks/*"]
+      "@/hooks/*": ["hooks/*"],
+      "@/types/*": ["types/*"]
     },
     "typeRoots": ["@types", "./node_modules/@types"]
   },

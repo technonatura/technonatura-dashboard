@@ -13,10 +13,10 @@ module.exports = async function (domain) {
   const date = new Date().toJSON();
 
   const pages = [
-    "pages/**/*{.page.tsx,.mdx}",
-    "!pages/blog/[post].page.tsx",
-    "!pages/_*.js",
-    "!pages/api",
+    "src/pages/*{.page.tsx,.mdx}",
+    "src/pages/blog/[post].page.tsx",
+    "src/!pages/_*.js",
+    "src/!pages/api",
   ];
 
   const sitemap = `
@@ -26,7 +26,7 @@ module.exports = async function (domain) {
             .map((page) => {
               const route = page
                 .replace("pages", "")
-                .replace(".page.tsx", "")
+                .replace(".tsx", "")
                 .replace(".mdx", "")
                 .replace("/index", "");
               return `

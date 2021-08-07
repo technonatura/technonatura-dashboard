@@ -1,11 +1,12 @@
 import React from "react";
+
 import Head from "next/head";
 
 import styles from "../styles/Home.module.scss";
 
 // eslint-disable-next-line arrow-body-style
 
-function Home({ stars }: { stars: number }) {
+function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +17,7 @@ function Home({ stars }: { stars: number }) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js! {stars}</a>
+          Welcome to <a href="https://nextjs.org">Next.js! </a>
         </h1>
 
         <p className={styles.description}>

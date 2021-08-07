@@ -3,7 +3,7 @@
 import { LoadingButton } from "@material-ui/lab";
 
 // eslint-disable-next-line import/no-cycle
-import { FormSteps } from "./RegisterForm";
+import FormSteps from "./FormSteps";
 
 // ----------------------------------------------------------------------
 
@@ -46,12 +46,23 @@ export default function SubmitButton({
         if (currentStep !== FormSteps.length) {
           let isCurrentStepValid = true;
 
+          // eslint-disable-next-line camelcase
+          FormSteps[currentStep].inputs.forEach(({ input_name }) => {
+            formik.setFieldTouched(input_name);
+          });
+
           // @ts-ignore
           const validatedForm = await formik.validateForm();
           // console.log(validatedForm, FormSteps[currentStep].inputs);
 
           // eslint-disable-next-line camelcase
           FormSteps[currentStep].inputs.forEach(({ input_name }) => {
+            // console.log(
+            //   input_name,
+            //   formik.errors[input_name],
+            //   validatedForm[input_name],
+            //   input_name
+            // );
             if (
               // @ts-ignore
               validatedForm[input_name]
