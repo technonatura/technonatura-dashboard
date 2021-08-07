@@ -23,6 +23,9 @@ import sidebarConfig, {
   sidebarConfigItem,
 } from "layouts/dashboard/SidebarConfig";
 
+// eslint-disable-next-line import/no-named-as-default
+import checkRoles from "utils/checkRoles";
+
 // ----------------------------------------------------------------------
 
 const ListItemStyle = styled((props) => (
@@ -188,14 +191,24 @@ export default function NavSection() {
       <List disablePadding>
         {sidebarConfig.map((item) =>
           item.isForVerified ? (
-            authState.me?.isAccountVerified && (
+            authState.me?.isAccountVerified &&
+            (item.forRoles ? (
+              checkRoles(authState.me.roles, item.forRoles) && (
+                <NavItem
+                  key={item.title}
+                  item={item}
+                  isActiveRoot={match(item.path)}
+                  match={match}
+                />
+              )
+            ) : (
               <NavItem
                 key={item.title}
                 item={item}
                 isActiveRoot={match(item.path)}
                 match={match}
               />
-            )
+            ))
           ) : (
             <NavItem
               key={item.title}

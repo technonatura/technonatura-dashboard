@@ -1,9 +1,10 @@
 import { Icon } from "@iconify/react";
-import pieChart2Fill from "@iconify/icons-eva/pie-chart-2-fill";
-import settingsFill from "@iconify/icons-eva/settings-2-fill";
+import Home from "@iconify/icons-eva/home-outline";
+import settingsFill from "@iconify/icons-eva/settings-2-outline";
 import Cloud from "@iconify/icons-ant-design/cloud-server";
-import Admin from "@iconify/icons-ic/sharp-admin-panel-settings";
-import Project from "@iconify/icons-eva/folder-fill";
+import Admin from "@iconify/icons-ic/outline-admin-panel-settings";
+import Project from "@iconify/icons-eva/folder-outline";
+import Story from "@iconify/icons-eva/book-outline";
 
 // import shoppingBagFill from "@iconify/icons-eva/shopping-bag-fill";
 // import fileTextFill from "@iconify/icons-eva/file-text-fill";
@@ -37,15 +38,15 @@ const sidebarConfig: sidebarConfigItem[] = [
   {
     title: "dashboard",
     path: "/",
-    icon: getIcon(pieChart2Fill),
+    icon: getIcon(Home),
     isForVerified: false,
     forRoles: ["user"],
   },
   {
     title: "Story",
     path: "/story",
-    icon: getIcon(Cloud),
-    isForVerified: true,
+    icon: getIcon(Story),
+    isForVerified: false,
     forRoles: ["user"],
 
     children: [
@@ -60,7 +61,7 @@ const sidebarConfig: sidebarConfigItem[] = [
     title: "Project Showcase",
     path: "/project",
     icon: getIcon(Project),
-    isForVerified: true,
+    isForVerified: false,
     forRoles: ["user"],
 
     children: [
@@ -75,7 +76,7 @@ const sidebarConfig: sidebarConfigItem[] = [
     title: "Cloud",
     path: "/cloud",
     icon: getIcon(Cloud),
-    isForVerified: true,
+    isForVerified: false,
     forRoles: ["user"],
 
     children: [

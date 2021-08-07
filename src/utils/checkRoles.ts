@@ -5,7 +5,7 @@ type checkRolesT = (
   permission: string | Array<string>
 ) => boolean;
 
-export const checkRoles: checkRolesT = (roles, permission) => {
+const checkRoles: checkRolesT = (roles, permission) => {
   if (Array.isArray(permission)) {
     for (let i: number = 0; i < roles.length; i += 1) {
       if (permission.includes(roles[i])) {

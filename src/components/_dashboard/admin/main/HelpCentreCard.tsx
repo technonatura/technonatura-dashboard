@@ -1,18 +1,26 @@
+import React from "react";
+
+import { Typography, Card, Link } from "@material-ui/core";
+// import { AppWeeklySales } from "components/_dashboard/app";
+
 import { Icon } from "@iconify/react";
-import androidFilled from "@iconify/icons-ant-design/android-filled";
+import HelpIcon from "@iconify/icons-ic/help";
 // material
 import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
-import { Card, Typography } from "@material-ui/core";
 // utils
-import { fShortenNumber } from "../../../utils/formatNumber";
+// import { fShortenNumber } from "../../../utils/formatNumber";
 
-// ----------------------------------------------------------------------
+// import styles from "../styles/Home.module.scss";
+
+// eslint-disable-next-line arrow-body-style
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: "none",
   textAlign: "center",
-  padding: theme.spacing(5, 0),
+  padding: theme.spacing(5, 2),
+  // @ts-ignore
   color: theme.palette.primary.darker,
+  // @ts-ignore
   backgroundColor: theme.palette.primary.lighter,
 }));
 
@@ -32,20 +40,22 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
   )} 0%, ${alpha(theme.palette.primary.dark, 0.24)} 100%)`,
 }));
 
-// ----------------------------------------------------------------------
-
-const TOTAL = 714000;
-
-export default function AppWeeklySales() {
+function HelpCard() {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Icon icon={androidFilled} width={24} height={24} />
+        <Icon icon={HelpIcon} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h3">Need Help?</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Weekly Sales
+        Visit our{" "}
+        <Link href="https://hc.technonatura.vercel.app" target="_blank">
+          Help Centre
+        </Link>{" "}
+        to learn more about this Dashboard.
       </Typography>
     </RootStyle>
   );
 }
+
+export default HelpCard;

@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <NextSeo
         title="TechnoNatura App"
         description="The TechnoNatura Social Media and Dashboard"
-        canonical="https://app.technonatura.now.sh"
+        canonical="https://dashboard.technonatura.vercel.app"
       />
       <CookiesProvider>
         <Provider store={store}>

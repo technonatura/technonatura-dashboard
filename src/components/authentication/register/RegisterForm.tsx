@@ -90,7 +90,7 @@ export default function RegisterForm() {
       let goToStep = -1;
       const registerUser = await RegisterUser(formik.values);
 
-      console.log(registerUser);
+      // console.log(registerUser);
       if (registerUser.status === "success") {
         dispatch(UserSignUpLoginSuccess(registerUser.user, registerUser.token));
         setAuthCookie(

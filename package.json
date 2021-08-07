@@ -44,6 +44,7 @@
     "next-seo": "^4.26.0",
     "next-universal-cookie": "^3.0.0",
     "nprogress": "^0.2.0",
+    "numeral": "^2.0.6",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-apexcharts": "^1.3.9",
