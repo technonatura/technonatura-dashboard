@@ -12,6 +12,7 @@ import { NextSeo } from "next-seo";
 import store from "@/global/index";
 
 import ProgressLoad from "components/ProgressLoad";
+import VerifiedAccountNotifier from "components/VerifiedAccountNotifier";
 
 import "../styles/globals.css";
 
@@ -47,6 +48,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <ScrollToTop />
               <ProgressLoad />
               <DashboardLayout>
+                {/* @ts-ignore */}
+                <VerifiedAccountNotifier />
+
                 <Component {...pageProps} />
               </DashboardLayout>
             </ThemeConfig>

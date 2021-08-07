@@ -15,10 +15,12 @@ import {
   Avatar,
   IconButton,
 } from "@material-ui/core";
+
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 // components
 import MenuPopover from "../../components/MenuPopover";
-//
-import account from "../../_mocks_/account";
 
 // ----------------------------------------------------------------------
 
@@ -36,13 +38,15 @@ const MENU_OPTIONS = [
   {
     label: "Settings",
     icon: settings2Fill,
-    linkTo: "#",
+    linkTo: "/settings",
   },
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const authState = useSelector((state: RootStore) => state.user);
+
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -75,7 +79,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={authState.me?.avatar} alt={authState.me?.fullName} />
       </IconButton>
 
       <MenuPopover
@@ -86,16 +90,17 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle1" noWrap>
-            {account.displayName}
+            {authState.me?.fullName}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            {account.email}
+            @{authState.me?.username}
           </Typography>
         </Box>
 
         <Divider sx={{ my: 1 }} />
 
         {MENU_OPTIONS.map((option) => (
+          // eslint-disable-next-line react/jsx-key
           <NextLink href={option.linkTo}>
             <MenuItem
               key={option.label}

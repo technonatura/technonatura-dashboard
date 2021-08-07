@@ -77,23 +77,8 @@ const nextConfig = {
       },
 
       {
-        source: "/settings/cookies",
-        destination: "/dashboard/settings/",
-        permanent: true,
-      },
-      {
-        source: "/settings/cookie",
-        destination: "/dashboard/settings/",
-        permanent: true,
-      },
-      {
-        source: "/settings",
-        destination: "/dashboard/settings",
-        permanent: true,
-      },
-      {
         source: "/setting",
-        destination: "/dashboard/settings",
+        destination: "/settings",
         permanent: true,
       },
     ];

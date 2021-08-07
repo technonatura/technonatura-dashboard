@@ -71,8 +71,9 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function DashboardLayout({ children }) {
   const authState = useSelector((state: RootStore) => state.user);
 
+  // eslint-disable-next-line no-unused-vars
   const { user } = useUser();
-  console.log(user);
+  // console.log(user);
   const [open, setOpen] = useState(false);
   const { pathname } = useRouter();
 
@@ -142,13 +143,15 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <RootStyle>
-      <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
-      <DashboardSidebar
-        isOpenSidebar={open}
-        onCloseSidebar={() => setOpen(false)}
-      />
-      <MainStyle>{children}</MainStyle>
-    </RootStyle>
+    <>
+      <RootStyle>
+        <DashboardNavbar onOpenSidebar={() => setOpen(true)} />
+        <DashboardSidebar
+          isOpenSidebar={open}
+          onCloseSidebar={() => setOpen(false)}
+        />
+        <MainStyle>{children}</MainStyle>
+      </RootStyle>
+    </>
   );
 }

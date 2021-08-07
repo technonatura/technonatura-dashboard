@@ -1,6 +1,9 @@
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
@@ -176,20 +179,32 @@ function NavItem({
 
 export default function NavSection() {
   const { pathname } = useRouter();
+  const authState = useSelector((state: RootStore) => state.user);
 
   const match = (path: string) => path === pathname;
 
   return (
     <Box>
       <List disablePadding>
-        {sidebarConfig.map((item) => (
-          <NavItem
-            key={item.title}
-            item={item}
-            isActiveRoot={match(item.path)}
-            match={match}
-          />
-        ))}
+        {sidebarConfig.map((item) =>
+          item.isForVerified ? (
+            authState.me?.isAccountVerified && (
+              <NavItem
+                key={item.title}
+                item={item}
+                isActiveRoot={match(item.path)}
+                match={match}
+              />
+            )
+          ) : (
+            <NavItem
+              key={item.title}
+              item={item}
+              isActiveRoot={match(item.path)}
+              match={match}
+            />
+          )
+        )}
       </List>
     </Box>
   );

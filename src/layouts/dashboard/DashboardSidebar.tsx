@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 // material
@@ -13,6 +16,7 @@ import {
   Typography,
   Avatar,
   Stack,
+  CircularProgress,
 } from "@material-ui/core";
 
 // components
@@ -20,9 +24,6 @@ import Logo from "../../components/Logo";
 import Scrollbar from "../../components/Scrollbar";
 import NavSection from "../../components/NavSection";
 import { MHidden } from "../../components/@material-extend";
-
-//
-import account from "../../_mocks_/account";
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +54,7 @@ DashboardSidebar.propTypes = {
 // @ts-ignore
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useRouter();
+  const authState = useSelector((state: RootStore) => state.user);
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -81,15 +83,29 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5, cursor: "pointer", "&:hover": {} }}>
         <Link underline="none" component={NextLink} href="/settings">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
-            <Box sx={{ ml: 2 }}>
-              <Typography variant="subtitle2" sx={{ color: "text.primary" }}>
-                {account.displayName}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                Admin
-              </Typography>
-            </Box>
+            {authState.loading ? (
+              <CircularProgress />
+            ) : (
+              <>
+                {" "}
+                <Avatar alt="Aldhaneka A" />
+                <Box sx={{ ml: 2 }}>
+                  <Typography
+                    variant="subtitle2"
+                    sx={{ color: "text.primary", wordBreak: "break-word" }}
+                  >
+                    {authState.me?.fullName}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ color: "text.secondary" }}
+                    noWrap
+                  >
+                    @{authState.me?.username}
+                  </Typography>
+                </Box>{" "}
+              </>
+            )}
           </AccountStyle>
         </Link>
       </Box>
@@ -127,7 +143,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
 
           <Button
             fullWidth
-            href="https://material-ui.com/store/items/minimal-dashboard/"
+            href="https://github.com/technonatura/technonatura-dashboard"
             target="_blank"
             variant="contained"
           >
