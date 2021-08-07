@@ -1,7 +1,6 @@
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
 import editFill from "@iconify/icons-eva/edit-fill";
-import NextLink from "next/link";
 import trash2Outline from "@iconify/icons-eva/trash-2-outline";
 import moreVerticalFill from "@iconify/icons-eva/more-vertical-fill";
 // material
@@ -45,7 +44,7 @@ export default function UserMoreMenu() {
           />
         </MenuItem>
 
-        <MenuItem component={NextLink} to="#" sx={{ color: "text.secondary" }}>
+        <MenuItem sx={{ color: "text.secondary" }}>
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>

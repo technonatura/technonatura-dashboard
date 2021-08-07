@@ -21,6 +21,10 @@ export interface AuthFail {
   message: string;
 }
 
+export interface AuthLogout {
+  type: AUTH_ACTIONS.AUTH_LOGOUT;
+}
+
 export interface AuthSetToken {
   type: AUTH_ACTIONS.AUTH_SET_TOKEN;
 }
@@ -44,7 +48,8 @@ export type AuthDispatchTypes =
   | AuthFail
   | AuthSuccess
   | AuthMain
-  | AuthCheckToken;
+  | AuthCheckToken
+  | AuthLogout;
 
 export const UserLogin = (form: { username: string; password: string }) => ({
   type: AUTH_ACTIONS.AUTH_LOGIN,
@@ -60,6 +65,13 @@ export const UserLoginSuccess = (user: UserInterface, token: string) => ({
   token,
   user,
 });
+
+export const UserLogout =
+  () => async (dispatch: Dispatch<AuthDispatchTypes>) => {
+    dispatch<AuthLogout>({
+      type: AUTH_ACTIONS.AUTH_LOGOUT,
+    });
+  };
 
 export const UserSignUpLoginSuccess =
   (user: UserInterface, token: string) =>

@@ -1,6 +1,11 @@
+// import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
+
 import NextLink from "next/link";
+
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
+
 import homeFill from "@iconify/icons-eva/home-fill";
 import personFill from "@iconify/icons-eva/person-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
@@ -45,6 +50,11 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  // const router = useRouter();
+  const [, , removeCookie] = useCookies([
+    process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+  ]);
+
   const authState = useSelector((state: RootStore) => state.user);
 
   const anchorRef = useRef(null);
@@ -123,7 +133,18 @@ export default function AccountPopover() {
         ))}
 
         <Box sx={{ p: 2, pt: 1.5 }}>
-          <Button fullWidth color="inherit" variant="outlined">
+          <Button
+            onClick={() => {
+              console.log("sdf");
+              removeCookie(
+                process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
+                { expires: new Date(1) }
+              );
+            }}
+            fullWidth
+            color="inherit"
+            variant="outlined"
+          >
             Logout
           </Button>
         </Box>

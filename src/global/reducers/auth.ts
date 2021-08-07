@@ -34,6 +34,7 @@ const authReducer = (
         fetched: false,
         message: action.message,
       };
+
     default:
       return state;
   }
