@@ -49,6 +49,7 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function LoginForm() {
   const router = useRouter();
+  const [error, setError] = useState<string>("");
 
   const [, setAuthCookie] = useCookies([
     process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
@@ -75,7 +76,14 @@ export default function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async () => {
       const userLogin = await UserLoginFunc(formik.values);
-      console.log(userLogin);
+
+      // @ts-ignore
+      if (userLogin.errors) {
+        setError("password or email is incorrect");
+      } else {
+        setError("");
+      }
+
       if (userLogin.status === "success") {
         dispatch(UserSignUpLoginSuccess(userLogin.user, userLogin.token));
         if (formik.values.remember) {
@@ -108,13 +116,11 @@ export default function LoginForm() {
           <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
             <div>
               <Typography variant="h3" paragraph>
-                Successfully created account!
+                Successfully Login
               </Typography>
             </div>
             <Typography sx={{ mt: 3, color: "text.secondary" }}>
-              Congrats you successfully created TechnoNatura! The next step you
-              need is to get account verification to access many features from
-              this dashboard!
+              Please wait the web to move to another page.
             </Typography>
           </Box>
         </Container>
@@ -158,6 +164,7 @@ export default function LoginForm() {
             helperText={touched.password && errors.password}
           />
         </Stack>
+        {error && <Typography color="red">{error}</Typography>}
 
         <Stack
           direction="row"
