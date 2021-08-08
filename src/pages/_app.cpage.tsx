@@ -62,8 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Link color="inherit" href="https://github.com/aldhanekaaa">
                     Aldhanekaa
                   </Link>{" "}
-                  {new Date().getFullYear()}
-                  {"-"} Present . MIT LICENSE
+                  {new Date().getFullYear()} - Present . MIT LICENSE
                 </Typography>
               </DashboardLayout>
             </CookiesProvider>
