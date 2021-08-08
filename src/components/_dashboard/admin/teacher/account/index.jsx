@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 // import { sentenceCase } from "change-case";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // material
 import {
@@ -19,13 +19,11 @@ import {
 } from "@material-ui/core";
 // components
 import Page from "components/Page";
-import Label from "components/Label";
 import Scrollbar from "components/Scrollbar";
 import SearchNotFound from "components/SearchNotFound";
 
 //
 import axios from "axios";
-import useSWR from "swr";
 
 import UserListHead from "./UserListHead";
 import UserListToolbar from "./UserListToolbar";
@@ -36,8 +34,8 @@ import UserMoreMenu from "./UserMoreMenu";
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "username", label: "username", alignRight: false },
-  { id: "isAccountVerified", label: "Verified", alignRight: false },
-  { id: "roleInTechnoNatura", label: "Role", alignRight: false },
+  { id: "verifiedTeacher", label: "Verified Teacher", alignRight: false },
+  { id: "gradeInNumber", label: "The Grade", alignRight: false },
   { id: "" },
 ];
 
@@ -78,11 +76,7 @@ function applySortFilter(array, comparator, query) {
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function User() {
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
-    fetcher
-  );
-  // console.log("data", data);
+  const [data, setData] = useState([]);
 
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
@@ -90,6 +84,17 @@ export default function User() {
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
+
+  async function fetchTeachers() {
+    const users = await fetcher(
+      `${process.env.NEXT_PUBLIC_SERVER}/api/teachers`
+    );
+    setData(users);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -99,7 +104,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = data.users.map((n) => n.name);
+      const newSelecteds = data.teachers.map((n) => n.id);
       setSelected(newSelecteds);
       return;
     }
@@ -138,51 +143,42 @@ export default function User() {
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.users.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.teachers.length) : 0;
 
   const filteredUsers = applySortFilter(
-    data && data.users ? data.users : [],
+    data && data.teachers ? data.teachers : [],
     getComparator(order, orderBy),
     filterName
   );
 
   const isUserNotFound = filteredUsers.length === 0;
 
-  if (data && !data.users) {
-    return "loading data..";
+  if (data && !data.teachers) {
+    return "Fetching users..";
   }
+  // console.log(selected);
   return (
     <Page title="User | Minimal-UI">
       <Container>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          mb={5}
-        >
-          <Typography variant="h4" gutterBottom>
-            Users
-          </Typography>
-        </Stack>
-
         <Card>
           <UserListToolbar
             numSelected={selected.length}
             selected={selected}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            fetchUsers={fetchTeachers}
           />
         </Card>
         <Card>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                {data && data.users && (
+                {data && data.teachers && (
                   <UserListHead
                     order={order}
                     orderBy={orderBy}
                     headLabel={TABLE_HEAD}
-                    rowCount={data.users.length}
+                    rowCount={data.teachers.length}
                     numSelected={selected.length}
                     onRequestSort={handleRequestSort}
                     onSelectAllClick={handleSelectAllClick}
@@ -203,10 +199,10 @@ export default function User() {
                           name,
                           username,
                           avatar,
-                          isAccountVerified,
-                          roleInTechnoNatura,
+                          verifiedTeacher,
+                          gradeInNumber,
                         } = row;
-                        const isItemSelected = selected.indexOf(name) !== -1;
+                        const isItemSelected = selected.includes(id);
 
                         return (
                           <TableRow
@@ -220,7 +216,7 @@ export default function User() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, name)}
+                                onChange={(event) => handleClick(event, id)}
                               />
                             </TableCell>
                             <TableCell
@@ -241,18 +237,10 @@ export default function User() {
                             </TableCell>
                             <TableCell align="left">{username}</TableCell>
                             <TableCell align="left">
-                              {isAccountVerified ? "Yes" : "No"}
+                              {verifiedTeacher ? "Yes" : "No"}
                             </TableCell>
-                            <TableCell align="left">
-                              <Label
-                                variant="ghost"
-                                // color={
-                                //   (status === "banned" && "error") || "success"
-                                // }
-                              >
-                                {roleInTechnoNatura}
-                              </Label>
-                            </TableCell>
+
+                            <TableCell align="left">{gradeInNumber}</TableCell>
 
                             <TableCell align="right">
                               <UserMoreMenu />
@@ -279,11 +267,11 @@ export default function User() {
             </TableContainer>
           </Scrollbar>
 
-          {data && data.users && (
+          {data && data.teachers && (
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={data.users.length}
+              count={data.teachers.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

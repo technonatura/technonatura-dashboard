@@ -1,3 +1,5 @@
+import * as React from "react";
+
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
@@ -13,7 +15,11 @@ import {
   Typography,
   Link,
   Breadcrumbs,
+  Tab,
 } from "@material-ui/core";
+import TabContext from "@material-ui/lab/TabContext";
+import TabList from "@material-ui/lab/TabList";
+import TabPanel from "@material-ui/lab/TabPanel";
 
 // components
 import Page from "components/Page";
@@ -23,7 +29,7 @@ import Cloud from "@iconify/icons-ant-design/cloud-server";
 
 // eslint-disable-next-line import/no-named-as-default
 import checkRoles from "utils/checkRoles";
-import Users from "components/_dashboard/admin/user/index";
+import TeachersAccount from "components/_dashboard/admin/teacher/account/index";
 // import
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -36,6 +42,11 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function RolesPage() {
   const authState = useSelector((state: RootStore) => state.user);
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event: any, newValue: any) => {
+    setValue(newValue);
+  };
 
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
@@ -110,8 +121,22 @@ export default function RolesPage() {
           </Typography>
         </Box>
       </Container>
-      {/* @ts-ignore */}
-      <Users />
+      <Box sx={{ width: "100%", typography: "body1", pl: 2 }}>
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Teachers Account" value="1" />
+              <Tab label="Staff" value="2" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            {/* @ts-ignore */}
+            <TeachersAccount />
+          </TabPanel>
+          <TabPanel value="2">Item Two</TabPanel>
+          <TabPanel value="3">Item Three</TabPanel>
+        </TabContext>
+      </Box>
     </>
   );
 }
