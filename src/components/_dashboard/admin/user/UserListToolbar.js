@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import searchFill from "@iconify/icons-eva/search-fill";
 import trash2Fill from "@iconify/icons-eva/trash-2-fill";
+import Verify from "@iconify/icons-ic/baseline-verified";
+
 // material
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import {
@@ -88,7 +90,7 @@ export default function UserListToolbar({
           </Tooltip>
           <Tooltip title="Verify">
             <IconButton>
-              <Icon icon={trash2Fill} />
+              <Icon icon={Verify} />
             </IconButton>
           </Tooltip>
         </div>

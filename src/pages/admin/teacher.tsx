@@ -103,10 +103,10 @@ export default function RolesPage() {
         </div>
         <Box sx={{ pb: 5, marginTop: 3 }}>
           <Typography variant="h3">
-            Hello {authState.me?.fullName}, here are your users.
+            Welcome to Teacher Data Management
           </Typography>
           <Typography variant="h5" color="grayText">
-            You can delete, and edit (if it really need) user(s).
+            In this page you can manage the data of TechnoNatura Teacher
           </Typography>
         </Box>
       </Container>

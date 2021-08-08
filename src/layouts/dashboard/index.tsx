@@ -11,7 +11,7 @@ import { styled } from "@material-ui/core/styles";
 import useUser from "hooks/useUser";
 import NextLink from "next/link";
 // material
-import { Box, Button, Typography, Container } from "@material-ui/core";
+import { Box, Button, Typography, Container, Link } from "@material-ui/core";
 // components
 import { MotionContainer } from "components/animate";
 import Page from "components/Page";
@@ -105,7 +105,9 @@ export default function DashboardLayout({ children }) {
                     <Typography
                       sx={{ color: "text.secondary", marginBottom: 4 }}
                     >
-                      Please wait, we are preparing amazing experience for you!
+                      Please wait the website to load, we are preparing amazing
+                      experience for you! (This might takes a few seconds to
+                      load)
                     </Typography>
                     <NextLink href="https://technonatura.vercel.app">
                       <Button size="large" variant="contained">

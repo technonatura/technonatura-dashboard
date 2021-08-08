@@ -1,15 +1,13 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
-import { RootStore } from "@/global/index";
-
-import { Box, Grid, Container, Typography } from "@material-ui/core";
+import { Grid, Container } from "@material-ui/core";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 import {
   HelpCentreCard,
   CloudCard,
   BlogCard,
+  WelcomeCard,
 } from "components/_dashboard/admin/main/index";
 
 // import styles from "../styles/Home.module.scss";
@@ -17,20 +15,27 @@ import {
 // eslint-disable-next-line arrow-body-style
 
 function Home() {
-  const authState = useSelector((state: RootStore) => state.user);
-
   return (
     <Container maxWidth="xl">
-      <Box sx={{ pb: 5 }}>
-        <Typography variant="h3">
-          Hi, Welcome back {authState.me?.fullName}
-        </Typography>
-        <Typography variant="h5" color="grayText">
-          Discover the great TechnoNatura Dashboard, write a post, and show your
-          cool school project to Internet!
-        </Typography>
-      </Box>
       <Grid container spacing={3}>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          // @ts-ignore
+          md={8}
+        >
+          <WelcomeCard />
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          // @ts-ignore
+          md={4}
+        >
+          <HelpCentreCard />
+        </Grid>
         <Grid
           item
           xs={12}

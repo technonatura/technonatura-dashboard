@@ -9,7 +9,7 @@ import { Alert, AlertTitle, Stack, Link } from "@material-ui/core";
 export default function DashboardLayout(): JSX.Element | string {
   const authState = useSelector((state: RootStore) => state.user);
 
-  if (!authState.me?.isAccountVerified)
+  if (authState.me && !authState.me?.isAccountVerified)
     return (
       <>
         <Stack sx={{ width: "100%" }} spacing={2}>

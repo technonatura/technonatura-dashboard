@@ -6,6 +6,7 @@ import { CookiesProvider } from "react-cookie";
 // import { NextCookieProvider } from "next-universal-cookie";
 
 import { ChakraProvider } from "@chakra-ui/react";
+import { Box, Button, Typography, Container, Link } from "@material-ui/core";
 
 import { NextSeo } from "next-seo";
 
@@ -41,22 +42,34 @@ function MyApp({ Component, pageProps }: AppProps) {
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
-      <CookiesProvider>
-        <Provider store={store}>
-          <ChakraProvider>
-            <ThemeConfig>
-              <ScrollToTop />
-              <ProgressLoad />
+      <Provider store={store}>
+        <ChakraProvider>
+          <ThemeConfig>
+            <ScrollToTop />
+            <ProgressLoad />
+            <CookiesProvider>
               <DashboardLayout>
                 {/* @ts-ignore */}
                 <VerifiedAccountNotifier />
 
                 <Component {...pageProps} />
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ mt: 5, paddingLeft: 2 }}
+                >
+                  {"Copyright © "}
+                  <Link color="inherit" href="https://github.com/aldhanekaaa">
+                    Aldhanekaa
+                  </Link>{" "}
+                  {new Date().getFullYear()}
+                  {"-"} Present . MIT LICENSE
+                </Typography>
               </DashboardLayout>
-            </ThemeConfig>
-          </ChakraProvider>
-        </Provider>
-      </CookiesProvider>
+            </CookiesProvider>
+          </ThemeConfig>
+        </ChakraProvider>
+      </Provider>
     </>
   );
 }

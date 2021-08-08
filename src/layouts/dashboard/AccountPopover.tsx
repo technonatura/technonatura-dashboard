@@ -2,6 +2,7 @@
 import { useCookies } from "react-cookie";
 
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 
 import { Icon } from "@iconify/react";
 import { useRef, useState } from "react";
@@ -50,7 +51,7 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  // const router = useRouter();
+  const router = useRouter();
   const [, , removeCookie] = useCookies([
     process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
   ]);
@@ -135,11 +136,11 @@ export default function AccountPopover() {
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button
             onClick={() => {
-              console.log("sdf");
               removeCookie(
                 process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
-                { expires: new Date(1) }
+                { path: "/" }
               );
+              router.reload();
             }}
             fullWidth
             color="inherit"
