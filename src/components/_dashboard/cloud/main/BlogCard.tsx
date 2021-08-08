@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Typography, Card, Link } from "@material-ui/core";
+import { Typography, Card } from "@material-ui/core";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 import { Icon } from "@iconify/react";
-import HelpIcon from "@iconify/icons-ic/help";
+import fileTextFill from "@iconify/icons-eva/file-text-fill";
 // material
 import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
 // utils
@@ -17,12 +17,11 @@ import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: "none",
   textAlign: "center",
-  padding: theme.spacing(5, 0),
+  padding: theme.spacing(5, 2),
   // @ts-ignore
-  color: theme.palette.primary.darker,
+  color: theme.palette.warning.darker,
   // @ts-ignore
-  backgroundColor: theme.palette.primary.lighter,
-  height: "100%",
+  backgroundColor: theme.palette.warning.lighter,
 }));
 
 const IconWrapperStyle = styled("div")(({ theme }) => ({
@@ -34,26 +33,22 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
   height: theme.spacing(8),
   justifyContent: "center",
   marginBottom: theme.spacing(3),
-  color: theme.palette.primary.dark,
+  color: theme.palette.warning.dark,
   backgroundImage: `linear-gradient(135deg, ${alpha(
-    theme.palette.primary.dark,
+    theme.palette.warning.dark,
     0
-  )} 0%, ${alpha(theme.palette.primary.dark, 0.24)} 100%)`,
+  )} 0%, ${alpha(theme.palette.warning.dark, 0.24)} 100%)`,
 }));
 
 function HelpCard() {
   return (
     <RootStyle>
       <IconWrapperStyle>
-        <Icon icon={HelpIcon} width={24} height={24} />
+        <Icon icon={fileTextFill} width={24} height={24} />
       </IconWrapperStyle>
-      <Typography variant="h3">Need Help?</Typography>
+      <Typography variant="h3">Story</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Visit our{" "}
-        <Link href="https://hc.technonatura.vercel.app" target="_blank">
-          Help Centre
-        </Link>{" "}
-        to learn more about this Dashboard.
+        Visit to Story dashboard page to share your thoughts to Internet!
       </Typography>
     </RootStyle>
   );

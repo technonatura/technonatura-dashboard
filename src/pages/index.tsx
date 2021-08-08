@@ -8,7 +8,9 @@ import {
   CloudCard,
   BlogCard,
   WelcomeCard,
-} from "components/_dashboard/admin/main/index";
+  ProjectCard,
+  BugCard,
+} from "@/components/_dashboard/main/index";
 
 // import styles from "../styles/Home.module.scss";
 
@@ -43,7 +45,7 @@ function Home() {
           // @ts-ignore
           md={3}
         >
-          <HelpCentreCard />
+          <ProjectCard />
         </Grid>
 
         <Grid
@@ -71,7 +73,7 @@ function Home() {
           // @ts-ignore
           md={3}
         >
-          <HelpCentreCard />
+          <BugCard />
         </Grid>
         {/* <Grid item xs={12} sm={6} md={3}>
           <AppNewUsers />

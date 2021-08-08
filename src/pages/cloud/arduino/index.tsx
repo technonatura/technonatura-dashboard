@@ -13,6 +13,7 @@ import {
   Typography,
   Link,
   Breadcrumbs,
+  Divider,
 } from "@material-ui/core";
 
 // components
@@ -105,16 +106,10 @@ export default function RolesPage() {
           </Typography>
           <Typography variant="h5" color="grayText">
             In this cloud service you can interact to our Arduino API, and you
-            can manage your arduino app. And don&apos;t forget this cloud
-            service is TOTALLY FREE!
+            can manage your arduino app.
           </Typography>
         </Box>
-        {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
-        For security reason the server blocks from iframing, thus please visit{" "}
-        <Link href="https://technonatura.herokuapp.com/graphql">
-          https://technonatura.herokuapp.com/graphql
-        </Link>{" "}
-        to interact with our GraphQL Playground API
+        <Divider />
       </Container>
     </>
   );

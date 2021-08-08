@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   sx={{ mt: 5, paddingLeft: 2 }}
                 >
                   {"Copyright © "}
-                  <Link color="inherit" href="https://github.com/aldhanekaaa">
+                  <Link color="inherit" href="https://github.com/aldhanekaa">
                     Aldhanekaa
                   </Link>{" "}
                   {new Date().getFullYear()} - Present . MIT LICENSE
