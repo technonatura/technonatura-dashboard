@@ -6,7 +6,7 @@ import { CookiesProvider } from "react-cookie";
 // import { NextCookieProvider } from "next-universal-cookie";
 
 import { ChakraProvider } from "@chakra-ui/react";
-import { Box, Button, Typography, Container, Link } from "@material-ui/core";
+import { Typography, Link } from "@material-ui/core";
 
 import { NextSeo } from "next-seo";
 
