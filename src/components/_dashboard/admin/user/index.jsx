@@ -1,6 +1,6 @@
 import { filter } from "lodash";
 // import { sentenceCase } from "change-case";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // material
 import {
@@ -25,7 +25,6 @@ import SearchNotFound from "components/SearchNotFound";
 
 //
 import axios from "axios";
-import useSWR from "swr";
 
 import getAngkatan from "utils/getAngkatan";
 
@@ -83,10 +82,11 @@ function applySortFilter(array, comparator, query) {
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function User() {
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
-    fetcher
-  );
+  const [data, setData] = useState([]);
+  // const { data } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
+  //   fetcher
+  // );
   // console.log("data", data);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
@@ -94,6 +94,15 @@ export default function User() {
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  async function fetchUsers() {
+    const users = await fetcher(`${process.env.NEXT_PUBLIC_SERVER}/api/users`);
+    setData(users);
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -153,9 +162,9 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   if (data && !data.users) {
-    return "loading data..";
+    return "Fetching users..";
   }
-  console.log(selected);
+  // console.log(selected);
   return (
     <Page title="User | Minimal-UI">
       <Container>
@@ -176,6 +185,7 @@ export default function User() {
             selected={selected}
             filterName={filterName}
             onFilterName={handleFilterByName}
+            fetchUsers={fetchUsers}
           />
         </Card>
         <Card>

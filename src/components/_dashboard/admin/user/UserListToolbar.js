@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import PropTypes from "prop-types";
 import { Icon } from "@iconify/react";
 import searchFill from "@iconify/icons-eva/search-fill";
@@ -16,9 +18,12 @@ import {
   Typography,
   OutlinedInput,
   InputAdornment,
+  Backdrop,
+  CircularProgress,
 } from "@material-ui/core";
 
 import VerifySomeUsers from "./verifySomeUsers";
+import DeleteSomeUsers from "./deleteUsers";
 
 // ----------------------------------------------------------------------
 
@@ -55,7 +60,10 @@ export default function UserListToolbar({
   filterName,
   onFilterName,
   selected,
+  fetchUsers,
 }) {
+  const [openBackdrop, setBackdrop] = useState(false);
+
   const authState = useSelector((state) => state.user);
 
   return (
@@ -67,6 +75,9 @@ export default function UserListToolbar({
         }),
       }}
     >
+      <Backdrop sx={{ color: "#fff", zIndex: 99999 }} open={openBackdrop}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
       {numSelected > 0 ? (
         <Typography component="div" variant="subtitle1">
           {numSelected} selected
@@ -90,15 +101,37 @@ export default function UserListToolbar({
 
       {numSelected > 0 && (
         <div>
-          <Tooltip title="Delete">
+          <Tooltip
+            onClick={async () => {
+              setBackdrop(true);
+              const res = await DeleteSomeUsers(
+                selected,
+                authState.token,
+                // eslint-disable-next-line no-underscore-dangle
+                authState.me._id
+              );
+              setBackdrop(false);
+
+              if (res.title) {
+                alert(`${res.title}
+${res.message}`);
+              }
+
+              fetchUsers();
+            }}
+            title={`Delete User${numSelected > 1 ? "s" : ""}`}
+          >
             <IconButton>
               <Icon icon={trash2Fill} />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Verify">
+          <Tooltip title={`Verify User${numSelected > 1 ? "s" : ""}`}>
             <IconButton
               onClick={async () => {
+                setBackdrop(true);
                 await VerifySomeUsers(selected, authState.token);
+                setBackdrop(false);
+                fetchUsers();
               }}
             >
               <Icon icon={Verify} />

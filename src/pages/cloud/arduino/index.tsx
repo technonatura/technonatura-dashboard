@@ -21,9 +21,6 @@ import Page from "components/Page";
 import { Icon } from "@iconify/react";
 import Cloud from "@iconify/icons-ant-design/cloud-server";
 
-// eslint-disable-next-line import/no-named-as-default
-import checkRoles from "utils/checkRoles";
-
 // import
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -41,7 +38,7 @@ export default function RolesPage() {
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
   //     checkRoles(authState.me?.roles, ["admin"])
   //   );
-  if (authState.me && !checkRoles(authState.me?.roles, ["user"])) {
+  if (authState.me && !authState.me.isAccountVerified) {
     return (
       <>
         <NextSeo
@@ -57,7 +54,7 @@ export default function RolesPage() {
             <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
               <div>
                 <Typography variant="h3" paragraph>
-                  You do not have access to this page
+                  Only Verified User Have an Access To This Cloud Service.
                 </Typography>
               </div>
               <Typography sx={{ mt: 3, color: "text.secondary" }}>
