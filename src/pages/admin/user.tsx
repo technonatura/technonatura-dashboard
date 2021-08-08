@@ -3,6 +3,7 @@ import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 
 // material
 import { styled } from "@material-ui/core/styles";
@@ -35,13 +36,15 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export default function RolesPage() {
+  const router = useRouter();
   const authState = useSelector((state: RootStore) => state.user);
 
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
   //     checkRoles(authState.me?.roles, ["admin"])
   //   );
-  if (authState.me && !checkRoles(authState.me?.roles, ["user"])) {
+  if (authState.me && !checkRoles(authState.me?.roles, ["admin", "teacher"])) {
+    router.push("/");
     return (
       <>
         <NextSeo

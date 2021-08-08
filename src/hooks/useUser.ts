@@ -83,13 +83,16 @@ export default function useUser() {
     }
 
     if (user.status === "success") {
-      setTimeout(() => {
-        dispatch(UserCheckTokenSuccess(user.user, user.token));
-      }, 200);
+      dispatch(
+        UserCheckTokenSuccess(
+          user.user,
+          authCookie[
+            process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie"
+          ]
+        )
+      );
     } else {
-      setTimeout(() => {
-        dispatch(UserAuthFail(user.message));
-      }, 200);
+      dispatch(UserAuthFail(user.message));
     }
   }, [user]);
 

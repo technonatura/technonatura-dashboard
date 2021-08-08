@@ -77,7 +77,6 @@ export default function RegisterForm() {
       password: "",
       gender: undefined,
       roleInTechnoNatura: "student",
-      startPeriod: 2020,
 
       // @ts-ignore
       birthDate: Date.now() - 1000 * 60 * 60 * 24 * 365 * 4,

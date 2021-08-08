@@ -4,6 +4,8 @@ import searchFill from "@iconify/icons-eva/search-fill";
 import trash2Fill from "@iconify/icons-eva/trash-2-fill";
 import Verify from "@iconify/icons-ic/baseline-verified";
 
+import { useSelector } from "react-redux";
+
 // material
 import { experimentalStyled as styled } from "@material-ui/core/styles";
 import {
@@ -15,6 +17,8 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@material-ui/core";
+
+import VerifySomeUsers from "./verifySomeUsers";
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +54,10 @@ export default function UserListToolbar({
   numSelected,
   filterName,
   onFilterName,
+  selected,
 }) {
+  const authState = useSelector((state) => state.user);
+
   return (
     <RootStyle
       sx={{
@@ -89,7 +96,11 @@ export default function UserListToolbar({
             </IconButton>
           </Tooltip>
           <Tooltip title="Verify">
-            <IconButton>
+            <IconButton
+              onClick={async () => {
+                await VerifySomeUsers(selected, authState.token);
+              }}
+            >
               <Icon icon={Verify} />
             </IconButton>
           </Tooltip>

@@ -20,12 +20,6 @@ const RegisterSchema = Yup.object().shape({
     .min(5, "Too Short!")
     .required("username required"),
 
-  startPeriod: Yup.number()
-    .min(1990, "Should be greater than 2000")
-    .max(new Date().getFullYear(), "Invalid Year")
-
-    .required("Start period required"),
-
   email: Yup.string()
     .email("Email must be a valid email address")
     .required("Email is required"),

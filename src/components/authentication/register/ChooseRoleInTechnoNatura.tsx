@@ -43,21 +43,6 @@ export default function ChooseRoleInTechnoNatura({
       {(getFieldProps("roleInTechnoNatura").value === "student" ||
         getFieldProps("roleInTechnoNatura").value === "mentor") && (
         <>
-          {getFieldProps("roleInTechnoNatura").value === "student" && (
-            <>
-              <Stack mt={2} direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField
-                  fullWidth
-                  label="Start Period"
-                  {...getFieldProps("startPeriod")}
-                  error={Boolean(errors.startPeriod)}
-                  helperText={errors.startPeriod}
-                  name="startPeriod"
-                  type="number"
-                />
-              </Stack>
-            </>
-          )}
           <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth

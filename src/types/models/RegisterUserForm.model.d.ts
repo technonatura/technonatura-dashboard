@@ -5,7 +5,6 @@ export interface RegisterUserForm {
   password: string;
   gender?: "male" | "female";
   roleInTechnoNatura: "student" | "mentor";
-  startPeriod: number;
 
   birthDate: string;
 

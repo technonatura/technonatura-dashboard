@@ -40,20 +40,20 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/",
     icon: getIcon(Home),
     isForVerified: false,
-    forRoles: ["user"],
+    forRoles: [],
   },
   {
     title: "Story",
     path: "/story",
     icon: getIcon(Story),
     isForVerified: false,
-    forRoles: ["user"],
+    forRoles: [],
 
     children: [
       {
         title: "My Stories",
         path: "/story/my",
-        forRoles: ["user"],
+        forRoles: [],
       },
     ],
   },
@@ -62,13 +62,13 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/project",
     icon: getIcon(Project),
     isForVerified: false,
-    forRoles: ["user"],
+    forRoles: [],
 
     children: [
       {
         title: "My Projects",
         path: "/project/my",
-        forRoles: ["user"],
+        forRoles: [],
       },
     ],
   },
@@ -77,23 +77,23 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/cloud",
     icon: getIcon(Cloud),
     isForVerified: false,
-    forRoles: ["user"],
+    forRoles: [],
 
     children: [
       {
         title: "Arduino Apps",
         path: "/cloud/arduino",
-        forRoles: ["user"],
+        forRoles: [],
       },
       {
         title: "Auth Apps",
         path: "/cloud/auth",
-        forRoles: ["user"],
+        forRoles: [],
       },
       {
         title: "GraphQL API",
         path: "/cloud/graphql-api",
-        forRoles: ["user"],
+        forRoles: [],
       },
     ],
   },
@@ -120,11 +120,16 @@ const sidebarConfig: sidebarConfigItem[] = [
         path: "/admin/gallery",
         forRoles: ["admin", "teacher"],
       },
-      // {
-      //   title: "Auth Apps",
-      //   path: "/cloud/auth",
-      //   icon: getIcon(settingsFill),
-      // },
+      {
+        title: "Manage Project",
+        path: "/admin/project",
+        forRoles: ["admin", "teacher"],
+      },
+      {
+        title: "Manage Story",
+        path: "/admin/story",
+        forRoles: ["admin", "teacher"],
+      },
     ],
   },
   {
@@ -132,18 +137,18 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/settings",
     icon: getIcon(settingsFill),
     isForVerified: false,
-    forRoles: ["user"],
+    forRoles: [],
 
     children: [
       {
         title: "User Data",
         path: "/settings/user",
-        forRoles: ["user"],
+        forRoles: [],
       },
       {
         title: "Privacy Data",
         path: "/settings/privacy",
-        forRoles: ["user"],
+        forRoles: [],
       },
     ],
   },

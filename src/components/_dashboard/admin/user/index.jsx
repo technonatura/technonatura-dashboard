@@ -27,6 +27,8 @@ import SearchNotFound from "components/SearchNotFound";
 import axios from "axios";
 import useSWR from "swr";
 
+import getAngkatan from "utils/getAngkatan";
+
 import UserListHead from "./UserListHead";
 import UserListToolbar from "./UserListToolbar";
 import UserMoreMenu from "./UserMoreMenu";
@@ -37,6 +39,9 @@ const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "username", label: "username", alignRight: false },
   { id: "isAccountVerified", label: "Verified", alignRight: false },
+  { id: "startPeriod", label: "Start Period", alignRight: false },
+  { id: "gradeInNumber", label: "The Grade", alignRight: false },
+
   { id: "roleInTechnoNatura", label: "Role", alignRight: false },
   { id: "" },
 ];
@@ -83,7 +88,6 @@ export default function User() {
     fetcher
   );
   // console.log("data", data);
-
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -151,6 +155,7 @@ export default function User() {
   if (data && !data.users) {
     return "loading data..";
   }
+  console.log(selected);
   return (
     <Page title="User | Minimal-UI">
       <Container>
@@ -205,8 +210,9 @@ export default function User() {
                           avatar,
                           isAccountVerified,
                           roleInTechnoNatura,
+                          gradeInNumber,
                         } = row;
-                        const isItemSelected = selected.indexOf(name) !== -1;
+                        const isItemSelected = selected.indexOf(id) !== -1;
 
                         return (
                           <TableRow
@@ -220,7 +226,7 @@ export default function User() {
                             <TableCell padding="checkbox">
                               <Checkbox
                                 checked={isItemSelected}
-                                onChange={(event) => handleClick(event, name)}
+                                onChange={(event) => handleClick(event, id)}
                               />
                             </TableCell>
                             <TableCell
@@ -243,6 +249,11 @@ export default function User() {
                             <TableCell align="left">
                               {isAccountVerified ? "Yes" : "No"}
                             </TableCell>
+                            <TableCell align="left">
+                              {getAngkatan(gradeInNumber, true)}
+                            </TableCell>
+                            <TableCell align="left">{gradeInNumber}</TableCell>
+
                             <TableCell align="left">
                               <Label
                                 variant="ghost"
