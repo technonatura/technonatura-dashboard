@@ -22,10 +22,10 @@ interface sidebarConfigFoundation {
   // eslint-disable-next-line no-undef
   info?: string;
   forRoles: Array<string>;
+  isForVerified: boolean;
 }
 
 interface sidebarConfigFoundationParent extends sidebarConfigFoundation {
-  isForVerified: boolean;
   // eslint-disable-next-line no-undef
   icon: typeof getIcon | JSX.Element;
 }
@@ -54,6 +54,13 @@ const sidebarConfig: sidebarConfigItem[] = [
         title: "My Stories",
         path: "/story/my",
         forRoles: [],
+        isForVerified: false,
+      },
+      {
+        title: "Create Stories",
+        path: "/story/create",
+        forRoles: [],
+        isForVerified: true,
       },
     ],
   },
@@ -69,6 +76,7 @@ const sidebarConfig: sidebarConfigItem[] = [
         title: "My Projects",
         path: "/project/my",
         forRoles: [],
+        isForVerified: false,
       },
     ],
   },
@@ -84,16 +92,19 @@ const sidebarConfig: sidebarConfigItem[] = [
         title: "Arduino Apps",
         path: "/cloud/arduino",
         forRoles: [],
+        isForVerified: false,
       },
       {
         title: "Auth Apps",
         path: "/cloud/auth",
         forRoles: [],
+        isForVerified: false,
       },
       {
         title: "GraphQL API",
         path: "/cloud/graphql-api",
         forRoles: [],
+        isForVerified: false,
       },
     ],
   },
@@ -109,26 +120,31 @@ const sidebarConfig: sidebarConfigItem[] = [
         title: "Manage User",
         path: "/admin/user",
         forRoles: ["admin", "teacher"],
+        isForVerified: true,
       },
       {
         title: "Manage Teacher",
         path: "/admin/teacher",
         forRoles: ["admin", "teacher"],
+        isForVerified: true,
       },
       {
         title: "Manage Gallery",
         path: "/admin/gallery",
         forRoles: ["admin", "teacher"],
+        isForVerified: true,
       },
       {
         title: "Manage Project",
         path: "/admin/project",
         forRoles: ["admin", "teacher"],
+        isForVerified: true,
       },
       {
         title: "Manage Story",
         path: "/admin/story",
         forRoles: ["admin", "teacher"],
+        isForVerified: true,
       },
     ],
   },
@@ -144,11 +160,13 @@ const sidebarConfig: sidebarConfigItem[] = [
         title: "User Data",
         path: "/settings/user",
         forRoles: [],
+        isForVerified: false,
       },
       {
         title: "Privacy Data",
         path: "/settings/privacy",
         forRoles: [],
+        isForVerified: false,
       },
     ],
   },

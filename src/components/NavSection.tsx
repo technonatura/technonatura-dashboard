@@ -66,11 +66,14 @@ function NavItem({
   item,
   isActiveRoot,
   match,
+  isUserVerified,
 }: {
   item: sidebarConfigItem;
   isActiveRoot: boolean;
   // eslint-disable-next-line no-unused-vars
   match: (path: string) => boolean;
+
+  isUserVerified?: boolean;
 }) {
   const theme = useTheme();
 
@@ -121,9 +124,12 @@ function NavItem({
             {/* eslint-disable-next-line no-shadow */}
             {children.map((item, index) => {
               // eslint-disable-next-line no-shadow
-              const { title, path } = item;
+              const { title, path, isForVerified } = item;
               const isActiveSub = match(path);
 
+              if (isForVerified && !isUserVerified) {
+                return "";
+              }
               return (
                 // eslint-disable-next-line react/no-array-index-key
                 <NextLink key={index} href={path}>
@@ -199,6 +205,7 @@ export default function NavSection() {
                   item={item}
                   isActiveRoot={match(item.path)}
                   match={match}
+                  isUserVerified={authState.me?.isAccountVerified}
                 />
               )
             ) : (
@@ -207,6 +214,7 @@ export default function NavSection() {
                 item={item}
                 isActiveRoot={match(item.path)}
                 match={match}
+                isUserVerified={authState.me?.isAccountVerified}
               />
             ))
           ) : (
@@ -215,6 +223,7 @@ export default function NavSection() {
               item={item}
               isActiveRoot={match(item.path)}
               match={match}
+              isUserVerified={authState.me?.isAccountVerified}
             />
           )
         )}

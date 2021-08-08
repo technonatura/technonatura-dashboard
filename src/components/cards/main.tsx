@@ -3,10 +3,9 @@ import React from "react";
 import { Typography, Card } from "@material-ui/core";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
-import { Icon } from "@iconify/react";
-import fileTextFill from "@iconify/icons-eva/file-text-fill";
 // material
 import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
+
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 
@@ -16,12 +15,13 @@ import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
 
 const RootStyle = styled(Card)(({ theme }) => ({
   boxShadow: "none",
-  textAlign: "center",
-  padding: theme.spacing(5, 2),
+  textAlign: "start",
+  padding: theme.spacing(5, 4),
   // @ts-ignore
-  color: theme.palette.warning.darker,
+  color: theme.palette.primary.darker,
   // @ts-ignore
-  backgroundColor: theme.palette.warning.lighter,
+  backgroundColor: theme.palette.primary.lighter,
+  height: "100%",
 }));
 
 const IconWrapperStyle = styled("div")(({ theme }) => ({
@@ -33,25 +33,40 @@ const IconWrapperStyle = styled("div")(({ theme }) => ({
   height: theme.spacing(8),
   justifyContent: "center",
   marginBottom: theme.spacing(3),
-  color: theme.palette.warning.dark,
+  color: theme.palette.info.dark,
   backgroundImage: `linear-gradient(135deg, ${alpha(
-    theme.palette.warning.dark,
+    theme.palette.info.dark,
     0
-  )} 0%, ${alpha(theme.palette.warning.dark, 0.24)} 100%)`,
+  )} 0%, ${alpha(theme.palette.info.dark, 0.24)} 100%)`,
 }));
 
-function HelpCard() {
+// eslint-disable-next-line no-undef
+function MainCard({
+  Icon,
+  title,
+  description,
+}: {
+  // eslint-disable-next-line no-undef
+  Icon?: JSX.Element;
+  title: string;
+  // eslint-disable-next-line no-undef
+  description: string | JSX.Element;
+}) {
   return (
     <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={fileTextFill} width={24} height={24} />
-      </IconWrapperStyle>
-      <Typography variant="h3">Story</Typography>
+      {Icon && (
+        <IconWrapperStyle>
+          {/* @ts-ignore */}
+          <Icon />
+        </IconWrapperStyle>
+      )}
+
+      <Typography variant="h3">{title}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        Visit to Story dashboard page to share your thoughts to Internet!
+        {description}
       </Typography>
     </RootStyle>
   );
 }
 
-export default HelpCard;
+export default MainCard;
