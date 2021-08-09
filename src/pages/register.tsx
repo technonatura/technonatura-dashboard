@@ -82,6 +82,7 @@ export default function Register() {
               href="/page/terms-of-service"
               underline="always"
               sx={{ color: "text.primary" }}
+              target="_blank"
             >
               Terms of Service
             </Link>
@@ -89,6 +90,7 @@ export default function Register() {
             <Link
               href="/page/privacy-policy"
               underline="always"
+              target="_blank"
               sx={{ color: "text.primary" }}
             >
               Privacy Policy

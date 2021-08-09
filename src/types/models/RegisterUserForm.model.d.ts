@@ -4,7 +4,8 @@ export interface RegisterUserForm {
   email: string;
   password: string;
   gender?: "male" | "female";
-  roleInTechnoNatura: "student" | "mentor";
+  roleInTechnoNatura: "student" | "mentor" | "staff";
+  staffRole?: string;
 
   birthDate: string;
 

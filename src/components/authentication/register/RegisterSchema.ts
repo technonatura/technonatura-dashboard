@@ -17,8 +17,15 @@ const RegisterSchema = Yup.object().shape({
 
   gender: Yup.string().min(1, "Too Short!").required("username required"),
   roleInTechnoNatura: Yup.string()
+
     .min(5, "Too Short!")
     .required("username required"),
+  staffRole: Yup.string()
+    .when("roleInTechnoNatura", {
+      is: "staff",
+      then: Yup.string().required("This field is required"),
+    })
+    .min(5, "Too Short!"),
 
   email: Yup.string()
     .email("Email must be a valid email address")

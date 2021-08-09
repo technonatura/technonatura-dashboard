@@ -38,6 +38,12 @@ export default function ChooseRoleInTechnoNatura({
           label="Mentor"
           checked={getFieldProps("roleInTechnoNatura").value === "mentor"}
         />
+        <FormControlLabel
+          value="staff"
+          control={<Radio />}
+          label="Staff"
+          checked={getFieldProps("roleInTechnoNatura").value === "staff"}
+        />
       </RadioGroup>
 
       {(getFieldProps("roleInTechnoNatura").value === "student" ||
@@ -57,7 +63,24 @@ export default function ChooseRoleInTechnoNatura({
         </>
       )}
 
-      {getFieldProps("roleInTechnoNatura").value === "mentor" && (
+      {getFieldProps("roleInTechnoNatura").value === "staff" && (
+        <>
+          <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              fullWidth
+              label="What is the staff role?"
+              {...getFieldProps("staffRole")}
+              error={Boolean(errors.staffRole)}
+              helperText={errors.staffRole}
+              name="staffRole"
+              type="string"
+            />
+          </Stack>
+        </>
+      )}
+
+      {(getFieldProps("roleInTechnoNatura").value === "mentor" ||
+        getFieldProps("roleInTechnoNatura").value === "staff") && (
         <Typography mt={1}>
           You are requesting as {getFieldProps("roleInTechnoNatura").value}
         </Typography>

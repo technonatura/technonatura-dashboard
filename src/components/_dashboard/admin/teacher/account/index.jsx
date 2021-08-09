@@ -34,8 +34,8 @@ import UserMoreMenu from "./UserMoreMenu";
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "username", label: "username", alignRight: false },
-  { id: "verifiedTeacher", label: "Verified Teacher", alignRight: false },
-  { id: "gradeInNumber", label: "The Grade", alignRight: false },
+  { id: "verifiedTeacher", label: "Verified Staff", alignRight: false },
+  { id: "gradeInNumber", label: "Staff Role", alignRight: false },
   { id: "" },
 ];
 
@@ -91,7 +91,7 @@ export default function User() {
 
   async function fetchTeachers() {
     const users = await fetcher(
-      `${process.env.NEXT_PUBLIC_SERVER}/api/teachers`
+      `${process.env.NEXT_PUBLIC_SERVER}/api/staff-accounts`
     );
     setData(users);
   }
@@ -200,7 +200,7 @@ export default function User() {
                           username,
                           avatar,
                           verifiedTeacher,
-                          gradeInNumber,
+                          staffRole,
                         } = row;
                         const isItemSelected = selected.includes(id);
 
@@ -240,7 +240,7 @@ export default function User() {
                               {verifiedTeacher ? "Yes" : "No"}
                             </TableCell>
 
-                            <TableCell align="left">{gradeInNumber}</TableCell>
+                            <TableCell align="left">{staffRole}</TableCell>
 
                             <TableCell align="right">
                               <UserMoreMenu />
