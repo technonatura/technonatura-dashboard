@@ -22,8 +22,8 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 
-import VerifySomeTeachers from "./verifySomeTeachers";
-import DeleteSomeUsers from "./deleteTeachers";
+import VerifySomeUsers from "./verifySomeUsers";
+import DeleteSomeUsers from "./deleteUsers";
 
 // ----------------------------------------------------------------------
 
@@ -75,7 +75,6 @@ export default function UserListToolbar({
         }),
       }}
     >
-      {/* eslint-disable-next-line react/jsx-no-undef */}
       <Backdrop sx={{ color: "#fff", zIndex: 99999 }} open={openBackdrop}>
         <CircularProgress color="inherit" />
       </Backdrop>
@@ -102,7 +101,7 @@ export default function UserListToolbar({
 
       {numSelected > 0 && (
         <div>
-          {/* <Tooltip
+          <Tooltip
             onClick={async () => {
               setBackdrop(true);
               const res = await DeleteSomeUsers(
@@ -120,17 +119,17 @@ ${res.message}`);
 
               fetchUsers();
             }}
-            title={`Delete Teacher & User${numSelected > 1 ? "s" : ""}`}
+            title={`Delete User${numSelected > 1 ? "s" : ""}`}
           >
             <IconButton>
               <Icon icon={trash2Fill} />
             </IconButton>
-          </Tooltip> */}
-          <Tooltip title={`Verify Teacher${numSelected > 1 ? "s" : ""}`}>
+          </Tooltip>
+          <Tooltip title={`Verify User${numSelected > 1 ? "s" : ""}`}>
             <IconButton
               onClick={async () => {
                 setBackdrop(true);
-                await VerifySomeTeachers(selected, authState.token);
+                await VerifySomeUsers(selected, authState.token);
                 setBackdrop(false);
                 fetchUsers();
               }}

@@ -9,22 +9,30 @@ export type Grade = "mi" | "mts" | "ma";
 export interface TeacherRoleInTechnoNatura {
   teacher: boolean;
   grade: GradeInNumber;
-  active: boolean;
+  isVerified: boolean;
+}
+
+export interface StaffRoleInTechnoNatura {
+  staff: boolean;
+  role: string;
+  isVerified: boolean;
+
+  branch: string;
 }
 
 export interface StudentRoleInTechnoNatura {
   student: boolean;
   grade: GradeInNumber;
   startPeriod: number;
+
+  branch: string;
 }
 
-export interface AlumniRoleInTechnoNatura {
-  grades: Array<{
-    grade: Grade;
-    startPeriod: number;
-    finishPeriod: number;
-  }>;
-}
+export type AlumniRoleInTechnoNatura = Array<{
+  grade: Grade;
+  startPeriod: number;
+  branch: string;
+}>;
 
 export interface UserInterface {
   isAccountVerified: boolean;
@@ -45,6 +53,7 @@ export interface UserInterface {
 
   dream: string;
   hobbies: Array<string>;
+  gender: "male" | "female";
 
   follows: Array<string>;
   followers: Array<string>;
@@ -57,7 +66,10 @@ export interface UserInterface {
   accountCreated: Date;
   birthDate: Date;
 
-  roleInTechnoNatura: TeacherRoleInTechnoNatura | StudentRoleInTechnoNatura;
+  roleInTechnoNatura:
+    | TeacherRoleInTechnoNatura
+    | StudentRoleInTechnoNatura
+    | StaffRoleInTechnoNatura;
   alumni: AlumniRoleInTechnoNatura;
 
   badges: Array<string>;

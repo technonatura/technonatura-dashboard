@@ -5,6 +5,7 @@ import Cloud from "@iconify/icons-ant-design/cloud-server";
 import Admin from "@iconify/icons-ic/outline-admin-panel-settings";
 import Project from "@iconify/icons-eva/folder-outline";
 import Story from "@iconify/icons-eva/book-outline";
+// import Teacher from "@iconify/icons-eva/";
 
 // import shoppingBagFill from "@iconify/icons-eva/shopping-bag-fill";
 // import fileTextFill from "@iconify/icons-eva/file-text-fill";
@@ -117,35 +118,41 @@ const sidebarConfig: sidebarConfigItem[] = [
 
     children: [
       {
+        title: "Manage Technonatura",
+        path: "/admin/technonatura",
+        forRoles: ["admin"],
+        isForVerified: true,
+      },
+      {
         title: "Manage User",
         path: "/admin/user",
-        forRoles: ["admin", "teacher"],
+        forRoles: ["admin"],
         isForVerified: true,
       },
       {
-        title: "Manage Teacher",
-        path: "/admin/teacher",
+        title: "Manage Staff",
+        path: "/admin/staff",
         forRoles: ["admin", "teacher"],
         isForVerified: true,
       },
-      {
-        title: "Manage Gallery",
-        path: "/admin/gallery",
-        forRoles: ["admin", "teacher"],
-        isForVerified: true,
-      },
-      {
-        title: "Manage Project",
-        path: "/admin/project",
-        forRoles: ["admin", "teacher"],
-        isForVerified: true,
-      },
-      {
-        title: "Manage Story",
-        path: "/admin/story",
-        forRoles: ["admin", "teacher"],
-        isForVerified: true,
-      },
+      // {
+      //   title: "Manage Gallery",
+      //   path: "/admin/gallery",
+      //   forRoles: ["admin", "teacher"],
+      //   isForVerified: true,
+      // },
+      // {
+      //   title: "Manage Project",
+      //   path: "/admin/project",
+      //   forRoles: ["admin", "teacher"],
+      //   isForVerified: true,
+      // },
+      // {
+      //   title: "Manage Story",
+      //   path: "/admin/story",
+      //   forRoles: ["admin", "teacher"],
+      //   isForVerified: true,
+      // },
     ],
   },
   {

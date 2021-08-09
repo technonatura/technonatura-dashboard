@@ -2,10 +2,15 @@
 import * as Yup from "yup";
 
 const RegisterSchema = Yup.object().shape({
+  branch:
+    Yup.string()
+    .required("Branch required"),
+
   fullName: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("First name required"),
+
   username: Yup.string()
     .matches(
       /^[A-Za-z0-9_-]*$/,
@@ -16,8 +21,8 @@ const RegisterSchema = Yup.object().shape({
     .required("username required"),
 
   gender: Yup.string().min(1, "Too Short!").required("username required"),
-  roleInTechnoNatura: Yup.string()
 
+  roleInTechnoNatura: Yup.string()
     .min(5, "Too Short!")
     .required("username required"),
   staffRole: Yup.string()
@@ -37,6 +42,13 @@ const RegisterSchema = Yup.object().shape({
     .min(1, "There is no grade below 1!")
     .max(12, "This is not university!")
     .required("What is the grade?"),
+  startPeriod: Yup.number().when("roleInTechnoNatura", {
+    is: "student",
+    then: Yup.number()
+      .min(new Date().getFullYear(), `The min is ${new Date().getFullYear()}`)
+      .max(new Date().getFullYear(), "The max is this year.")
+      .required("Sejak Tahun Berapa Kamu Bersekolah di Techno?"),
+  }),
 });
 
 export default RegisterSchema;

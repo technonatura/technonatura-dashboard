@@ -14,8 +14,8 @@ const FormSteps: Array<{
   }>;
 }> = [
   {
-    label: "Could you give us your basic personal information?",
-    label_desc: "We need this to indentify who you are",
+    label: "Bisakah anda memberi informasi mengenai diri anda?",
+    label_desc: "Data ini memudahkan kami untuk mengenali Anda.",
     step: 0,
     inputs: [
       { label: "Full Name*", input_name: "fullName", show: true },
@@ -25,19 +25,21 @@ const FormSteps: Array<{
   },
   {
     label: "Gender",
-    label_desc: "We keep this data secure.",
+    label_desc: "Data ini memudahkan kami untuk mengenali Anda.",
 
     step: 1,
     inputs: [{ label: "Gender", input_name: "gender", show: false }],
   },
   {
-    label: "Role in TechnoNatura",
-    label_desc: "What is your current role in TechnoNatura?",
+    label: "Status di TechnoNatura",
+    label_desc: "Apa status mu di TechnoNatura?",
 
     step: 2,
     inputs: [
       { label: "Role", input_name: "roleInTechnoNatura", show: false },
       { label: "gradeInNumber", input_name: "gradeInNumber", show: false },
+      { label: "startPeriod", input_name: "startPeriod", show: false },
+
       { label: "staffRole", input_name: "staffRole", show: false },
     ],
   },

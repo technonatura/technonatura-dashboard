@@ -1,12 +1,17 @@
+import * as React from "react";
+
+import axios from "axios";
+
 import { useRouter } from "next/router";
 import { useCookies } from "react-cookie";
+
+import { useFormik, Form, FormikProvider } from "formik";
 
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { Icon } from "@iconify/react";
-import { useFormik, Form, FormikProvider } from "formik";
 import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 
@@ -30,6 +35,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
 import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
 import DateTimePicker from "@material-ui/lab/DateTimePicker";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { RegisterUserForm } from "@/types/models/RegisterUserForm.model";
 
@@ -59,6 +65,12 @@ const RootStyle = styled(Page)(({ theme }) => ({
 
 export default function RegisterForm() {
   const router = useRouter();
+  const [Branches, setBranches] = React.useState<{
+    fetched: boolean;
+    message: string;
+    status: string;
+    branches?: Array<{ title: string; name: string; active: boolean }>;
+  }>({ fetched: false, message: "", status: "" });
 
   const [, setAuthCookie] = useCookies([
     process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",
@@ -66,6 +78,34 @@ export default function RegisterForm() {
 
   const dispatch = useDispatch();
   const authState = useSelector((state: RootStore) => state.user);
+
+  React.useEffect(() => {
+    fetchBranches();
+  }, []);
+
+  async function fetchBranches() {
+    try {
+      // eslint-disable-next-line no-shadow
+      const storiesRes = await axios.get<{
+        message: string;
+        status: string;
+        branches?: Array<{ title: string; name: string; active: boolean }>;
+      }>(`${process.env.NEXT_PUBLIC_SERVER}/api/branches`);
+      setBranches({
+        fetched: true,
+        message: "Success Fethed Stories",
+        status: "success",
+        branches: storiesRes.data.branches,
+      });
+    } catch (err) {
+      // console.error(err);
+      setBranches({
+        fetched: true,
+        message: "error on server",
+        status: "error",
+      });
+    }
+  }
 
   const [showPassword, setShowPassword] = useState(false);
   const [currentStep, setStep] = useState<number>(0);
@@ -77,6 +117,8 @@ export default function RegisterForm() {
       password: "",
       gender: undefined,
       roleInTechnoNatura: "student",
+
+      startPeiod: 2020,
 
       // @ts-ignore
       birthDate: Date.now() - 1000 * 60 * 60 * 24 * 365 * 4,
@@ -142,11 +184,31 @@ export default function RegisterForm() {
     }
   }
 
+  if (!Branches) {
+    return (
+      <RootStyle
+        // @ts-ignore
+        title="Loading..."
+      >
+        <Container>
+          <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
+            <div>
+              <CircularProgress />
+            </div>
+            <Typography sx={{ mt: 3, color: "text.secondary" }}>
+              Harap menunggu komponen halaman ini untuk terender. (Ini dapat
+              memakan beberapa detik tergantung pada Koneksi Internet)
+            </Typography>
+          </Box>
+        </Container>
+      </RootStyle>
+    );
+  }
   if (authState.me) {
     return (
       <RootStyle
         // @ts-ignore
-        title="404 Page Not Found "
+        title="Success Created Account! "
       >
         <Container>
           <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
@@ -281,7 +343,9 @@ export default function RegisterForm() {
             </FormControl>
           )}
 
-          {currentStep === 2 && <ChooseRoleInTechnoNatura formik={formik} />}
+          {currentStep === 2 && (
+            <ChooseRoleInTechnoNatura formik={formik} Branches={Branches} />
+          )}
 
           {currentStep === 3 && (
             <>

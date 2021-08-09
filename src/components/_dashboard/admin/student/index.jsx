@@ -26,6 +26,8 @@ import SearchNotFound from "components/SearchNotFound";
 //
 import axios from "axios";
 
+import getAngkatan from "utils/getAngkatan";
+
 import UserListHead from "./UserListHead";
 import UserListToolbar from "./UserListToolbar";
 import UserMoreMenu from "./UserMoreMenu";
@@ -36,6 +38,8 @@ const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
   { id: "username", label: "username", alignRight: false },
   { id: "isAccountVerified", label: "Verified", alignRight: false },
+  { id: "startPeriod", label: "Angkatan", alignRight: false },
+  { id: "gradeInNumber", label: "Kelas", alignRight: false },
 
   { id: "roleInTechnoNatura", label: "Role", alignRight: false },
   { id: "" },
@@ -255,6 +259,18 @@ export default function User() {
                             <TableCell align="left">{username}</TableCell>
                             <TableCell align="left">
                               {isAccountVerified ? "Yes" : "No"}
+                            </TableCell>
+                            <TableCell align="left">
+                              {startPeriod ? (
+                                <>
+                                  {startPeriod}-{startPeriod + 1}
+                                </>
+                              ) : (
+                                "nil"
+                              )}
+                            </TableCell>
+                            <TableCell align="left">
+                              {gradeInNumber ? gradeInNumber : "nil"}
                             </TableCell>
 
                             <TableCell align="left">

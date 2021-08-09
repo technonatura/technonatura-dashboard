@@ -6,14 +6,23 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import Typography from "@material-ui/core/Typography";
-
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
 // ----------------------------------------------------------------------
 
 interface ChooseRoleInTechnoNaturaI {
   formik: any;
+  Branches: {
+    fetched: boolean;
+    message: string;
+    status: string;
+    branches?: Array<{ title: string; name: string; active: boolean }>;
+  };
 }
 export default function ChooseRoleInTechnoNatura({
   formik,
+  Branches,
 }: ChooseRoleInTechnoNaturaI) {
   const { errors, getFieldProps } = formik;
   return (
@@ -25,6 +34,7 @@ export default function ChooseRoleInTechnoNatura({
       helperText={errors.roleInTechnoNatura}
     >
       <FormLabel component="legend">Role in TechnoNatura*</FormLabel>
+
       <RadioGroup row aria-label="roleInTechnoNatura" name="roleInTechnoNatura">
         <FormControlLabel
           value="student"
@@ -46,13 +56,73 @@ export default function ChooseRoleInTechnoNatura({
         />
       </RadioGroup>
 
+      <FormControl fullWidth style={{ marginTop: 15 }}>
+        <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
+
+        <Select
+          value={getFieldProps("startPeriod").value}
+          {...getFieldProps("branch")}
+          name="branch"
+          fullWidth
+          label="Cabang TechnoNatura"
+          error={Boolean(errors.branch)}
+          helperText={errors.branch}
+        >
+          {/* @ts-ignore */}
+          {Branches.branches
+            .filter((branch) => branch.active)
+            .map((branch) => (
+              // @ts-ignore
+              <MenuItem key={branch._id} value={branch._id}>
+                {branch.title}
+              </MenuItem>
+            ))}
+        </Select>
+      </FormControl>
+
+      {getFieldProps("roleInTechnoNatura").value === "student" && (
+        <>
+          <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              fullWidth
+              label="Tahun"
+              {...getFieldProps("startPeriod")}
+              error={Boolean(errors.startPeriod)}
+              helperText={
+                errors.startPeriod ||
+                `Sejak Tahun Berapa Kamu dikelas ${
+                  getFieldProps("gradeInNumber").value
+                }?`
+              }
+              name="startPeriod"
+              type="number"
+              value={getFieldProps("startPeriod").value}
+            />
+            <TextField
+              fullWidth
+              helperText="Angkatan mu"
+              name="startPeriod"
+              type="string"
+              value={`${getFieldProps("startPeriod").value}-${
+                getFieldProps("startPeriod").value + 1
+              }`}
+              disabled
+            />
+          </Stack>
+        </>
+      )}
+
       {(getFieldProps("roleInTechnoNatura").value === "student" ||
         getFieldProps("roleInTechnoNatura").value === "mentor") && (
         <>
           <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth
-              label="What is the Grade now?"
+              label={`${
+                getFieldProps("roleInTechnoNatura").value === "mentor"
+                  ? "Mengajar kelas berapa?"
+                  : "Sekarang Kelas Berapa?"
+              }`}
               {...getFieldProps("gradeInNumber")}
               error={Boolean(errors.gradeInNumber)}
               helperText={errors.gradeInNumber}
@@ -68,7 +138,7 @@ export default function ChooseRoleInTechnoNatura({
           <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
             <TextField
               fullWidth
-              label="What is the staff role?"
+              label="Staff seperti apa?"
               {...getFieldProps("staffRole")}
               error={Boolean(errors.staffRole)}
               helperText={errors.staffRole}
@@ -82,7 +152,7 @@ export default function ChooseRoleInTechnoNatura({
       {(getFieldProps("roleInTechnoNatura").value === "mentor" ||
         getFieldProps("roleInTechnoNatura").value === "staff") && (
         <Typography mt={1}>
-          You are requesting as {getFieldProps("roleInTechnoNatura").value}
+          Anda meminta menjadi {getFieldProps("roleInTechnoNatura").value}
         </Typography>
       )}
     </FormControl>

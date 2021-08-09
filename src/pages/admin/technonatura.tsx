@@ -1,9 +1,10 @@
+import * as React from "react";
+
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 
 // material
 import { styled } from "@material-ui/core/styles";
@@ -12,19 +13,22 @@ import {
   Container,
   Box,
   Typography,
-  Link,
-  Breadcrumbs,
+  Grid,
+  Stack,
+  Button,
 } from "@material-ui/core";
+
+// import { AppWeeklySales } from "components/_dashboard/app";
+
+import MainCard from "components/cards/main";
 
 // components
 import Page from "components/Page";
+import Tabs from "@/components/_dashboard/technonatura-data-manager/Tabs";
 
-import { Icon } from "@iconify/react";
-import Admin from "@iconify/icons-ic/outline-admin-panel-settings";
+// import { Icon } from "@iconify/react";
+// import Cloud from "@iconify/icons-ant-design/cloud-server";
 
-// eslint-disable-next-line import/no-named-as-default
-import checkRoles from "utils/checkRoles";
-import Users from "components/_dashboard/admin/user/index";
 // import
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -36,15 +40,13 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export default function RolesPage() {
-  const router = useRouter();
   const authState = useSelector((state: RootStore) => state.user);
 
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
   //     checkRoles(authState.me?.roles, ["admin"])
   //   );
-  if (authState.me && !checkRoles(authState.me?.roles, ["admin", "teacher"])) {
-    router.push("/");
+  if (authState.me && !authState.me.isAccountVerified) {
     return (
       <>
         <NextSeo
@@ -52,6 +54,7 @@ export default function RolesPage() {
           description="The TechnoNatura Social Media and Dashboard"
           canonical="https://dashboard.technonatura.vercel.app"
         />
+
         <RootStyle
           // @ts-ignore
           title="404 Page Not Found "
@@ -60,7 +63,7 @@ export default function RolesPage() {
             <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
               <div>
                 <Typography variant="h3" paragraph>
-                  You do not have access to this page
+                  Only Verified User Have an Access To This Feature
                 </Typography>
               </div>
               <Typography sx={{ mt: 3, color: "text.secondary" }}>
@@ -76,45 +79,43 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - Admin Dashboard"
+        title="TechnoNatura Data Manager | TechnoNatura App"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
       <Container maxWidth="xl">
-        <div role="presentation">
-          <Breadcrumbs aria-label="breadcrumb">
-            <NextLink href="/admin">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link
-                underline="hover"
-                sx={{ display: "flex", alignItems: "center" }}
-                color="inherit"
-                href="#"
-              >
-                <Icon icon={Admin} style={{ marginRight: 5 }} /> Admin
-              </Link>
-            </NextLink>
-
-            <Typography
-              sx={{ display: "flex", alignItems: "center" }}
-              color="text.primary"
-            >
-              {/* <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" /> */}
-              Breadcrumb
-            </Typography>
-          </Breadcrumbs>
-        </div>
-        <Box sx={{ pb: 5, marginTop: 3 }}>
-          <Typography variant="h3">
-            Hello {authState.me?.fullName}, here are your users.
-          </Typography>
-          <Typography variant="h5" color="grayText">
-            You can delete, and edit (if it really need) user(s).
-          </Typography>
+        <Grid container spacing={3}>
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            // @ts-ignore
+            md={8}
+          >
+            <MainCard
+              title="Welcome to TechnoNatura Data Manager!"
+              description="You can manage datas related to this dashboard ecosystems."
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={5}
+            // @ts-ignore
+            md={4}
+          >
+            <MainCard
+              title="Help Centre"
+              description="Visit our Story HC for more."
+            />
+          </Grid>
+        </Grid>
+      </Container>
+      <Container maxWidth="xl">
+        <Box sx={{ width: "100%", typography: "body1", mt: 2 }}>
+          <Tabs />
         </Box>
       </Container>
-      {/* @ts-ignore */}
-      <Users />
     </>
   );
 }
