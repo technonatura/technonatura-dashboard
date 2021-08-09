@@ -39,6 +39,7 @@ const FormSteps: Array<{
       { label: "Role", input_name: "roleInTechnoNatura", show: false },
       { label: "gradeInNumber", input_name: "gradeInNumber", show: false },
       { label: "startPeriod", input_name: "startPeriod", show: false },
+      { label: "branch", input_name: "branch", show: false },
 
       { label: "staffRole", input_name: "staffRole", show: false },
     ],
