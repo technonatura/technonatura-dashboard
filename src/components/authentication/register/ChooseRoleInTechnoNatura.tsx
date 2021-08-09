@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 // ----------------------------------------------------------------------
 
 interface ChooseRoleInTechnoNaturaI {
@@ -56,29 +57,32 @@ export default function ChooseRoleInTechnoNatura({
         />
       </RadioGroup>
 
-      <FormControl fullWidth style={{ marginTop: 15 }}>
-        <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
+      <Stack mt={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
+        <FormControl fullWidth style={{ marginTop: 15 }}>
+          <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
 
-        <Select
-          value={getFieldProps("startPeriod").value}
-          {...getFieldProps("branch")}
-          name="branch"
-          fullWidth
-          label="Cabang TechnoNatura"
-          error={Boolean(errors.branch)}
-          helperText={errors.branch}
-        >
-          {/* @ts-ignore */}
-          {Branches.branches
-            .filter((branch) => branch.active)
-            .map((branch) => (
-              // @ts-ignore
-              <MenuItem key={branch._id} value={branch._id}>
-                {branch.title}
-              </MenuItem>
-            ))}
-        </Select>
-      </FormControl>
+          <Select
+            value={getFieldProps("startPeriod").value}
+            {...getFieldProps("branch")}
+            name="branch"
+            fullWidth
+            label="Cabang TechnoNatura"
+            error={Boolean(errors.branch)}
+            helperText={errors.branch}
+          >
+            {/* @ts-ignore */}
+            {Branches.branches
+              .filter((branch) => branch.active)
+              .map((branch) => (
+                // @ts-ignore
+                <MenuItem key={branch._id} value={branch._id}>
+                  {branch.title}
+                </MenuItem>
+              ))}
+          </Select>
+          <FormHelperText>{errors.branch}</FormHelperText>
+        </FormControl>
+      </Stack>
 
       {getFieldProps("roleInTechnoNatura").value === "student" && (
         <>
