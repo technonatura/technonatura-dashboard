@@ -27,7 +27,12 @@ const RegisterUserFunc = async (
           status: "error" | "warning";
         }
       | { status: "success"; user: any; token: string }
-    >(`${process.env.NEXT_PUBLIC_SERVER}/auth/signup`, copyOfForm);
+    >(`${process.env.NEXT_PUBLIC_SERVER}/auth/signup`, {
+      ...copyOfForm,
+      system: window.navigator.userAgent,
+      // @ts-ignore
+      platform: window.platform,
+    });
 
     return {
       ...registerUserRes.data,
