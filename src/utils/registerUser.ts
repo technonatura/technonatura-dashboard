@@ -30,8 +30,6 @@ const RegisterUserFunc = async (
     >(`${process.env.NEXT_PUBLIC_SERVER}/auth/signup`, {
       ...copyOfForm,
       system: window.navigator.userAgent,
-      // @ts-ignore
-      platform: window.platform,
     });
 
     return {

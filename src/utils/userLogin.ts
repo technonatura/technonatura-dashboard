@@ -26,8 +26,6 @@ const UserLoginFunc = async (form: {
     >(`${process.env.NEXT_PUBLIC_SERVER}/auth/login`, {
       ...form,
       system: window.navigator.userAgent,
-      // @ts-ignore
-      platform: window.platform,
     });
 
     return {
