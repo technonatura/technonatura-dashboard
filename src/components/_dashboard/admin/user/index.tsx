@@ -23,14 +23,23 @@ import Label from "components/Label";
 import Scrollbar from "components/Scrollbar";
 import SearchNotFound from "components/SearchNotFound";
 
-//
-import axios from "axios";
+import fetchUsers from "@utils/api/getStudents";
 
 import UserListHead from "./UserListHead";
 import UserListToolbar from "./UserListToolbar";
 import UserMoreMenu from "./UserMoreMenu";
 
 // ----------------------------------------------------------------------
+
+interface UserFetchedI {
+  avatar: string;
+  id: string;
+  isAccountVerified: boolean;
+  name: string;
+  roleInTechnoNatura: string;
+  startPeriod: number;
+  username: string;
+}
 
 const TABLE_HEAD = [
   { id: "name", label: "Name", alignRight: false },
@@ -43,23 +52,36 @@ const TABLE_HEAD = [
 
 // ----------------------------------------------------------------------
 
-function descendingComparator(a, b, orderBy) {
+function descendingComparator(
+  a: UserFetchedI,
+  b: UserFetchedI,
+  orderBy: string
+) {
+  // @ts-ignore
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
+  // @ts-ignore
   if (b[orderBy] > a[orderBy]) {
     return 1;
   }
   return 0;
 }
 
-function getComparator(order, orderBy) {
+function getComparator(order: string, orderBy: string) {
   return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+    ? (a: UserFetchedI, b: UserFetchedI) => descendingComparator(a, b, orderBy)
+    : (a: UserFetchedI, b: UserFetchedI) =>
+        -descendingComparator(a, b, orderBy);
 }
 
-function applySortFilter(array, comparator, query) {
+function applySortFilter(
+  array: Array<any>,
+
+  // eslint-disable-next-line no-unused-vars
+  comparator: (a: UserFetchedI, b: UserFetchedI) => number,
+  query: string
+) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
@@ -75,10 +97,8 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
-
 export default function User() {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<{ users: UserFetchedI[] } | undefined>();
   // const { data } = useSWR(
   //   `${process.env.NEXT_PUBLIC_SERVER}/api/users`,
   //   fetcher
@@ -86,38 +106,35 @@ export default function User() {
   // console.log("data", data);
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
+  const [selected, setSelected] = useState<string[]>([]);
   const [orderBy, setOrderBy] = useState("name");
   const [filterName, setFilterName] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsers(setData);
   }, []);
 
-  async function fetchUsers() {
-    const users = await fetcher(`${process.env.NEXT_PUBLIC_SERVER}/api/users`);
-    setData(users);
-  }
-
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (event: any, property: string) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = (event: any) => {
     if (event.target.checked) {
-      const newSelecteds = data.users.map((n) => n.id);
-      setSelected(newSelecteds);
+      if (data) {
+        const newSelecteds = data.users.map((n) => n.id);
+        setSelected(newSelecteds);
+      }
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (event: any, name: string) => {
     const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+    let newSelected: string[] = [];
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name);
     } else if (selectedIndex === 0) {
@@ -133,24 +150,32 @@ export default function User() {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event: any, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event) => {
+  const handleChangeRowsPerPage = (event: any) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
+  const handleFilterByName = (event: any) => {
     setFilterName(event.target.value);
   };
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.users.length) : 0;
+    page > 0
+      ? Math.max(
+          0,
+          (1 + page) * rowsPerPage -
+            // @ts-ignore
+            data.users.length
+        )
+      : 0;
 
   const filteredUsers = applySortFilter(
     data && data.users ? data.users : [],
+    // @ts-ignore
     getComparator(order, orderBy),
     filterName
   );
@@ -162,6 +187,7 @@ export default function User() {
   }
   // console.log(selected);
   return (
+    // @ts-ignore
     <Page title="User | Minimal-UI">
       <Container>
         <Stack
@@ -182,9 +208,11 @@ export default function User() {
             filterName={filterName}
             onFilterName={handleFilterByName}
             fetchUsers={fetchUsers}
+            setData={setData}
           />
         </Card>
         <Card>
+          {/* @ts-ignore */}
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -216,8 +244,6 @@ export default function User() {
                           avatar,
                           isAccountVerified,
                           roleInTechnoNatura,
-                          gradeInNumber,
-                          startPeriod,
                         } = row;
                         const isItemSelected = selected.indexOf(id) !== -1;
 

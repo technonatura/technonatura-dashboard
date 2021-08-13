@@ -61,6 +61,7 @@ export default function UserListToolbar({
   onFilterName,
   selected,
   fetchUsers,
+  setData,
 }) {
   const [openBackdrop, setBackdrop] = useState(false);
 
@@ -131,7 +132,7 @@ ${res.message}`);
                 setBackdrop(true);
                 await VerifySomeUsers(selected, authState.token);
                 setBackdrop(false);
-                fetchUsers();
+                fetchUsers(setData);
               }}
             >
               <Icon icon={Verify} />

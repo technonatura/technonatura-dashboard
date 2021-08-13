@@ -4,19 +4,11 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
-import NextLink from "next/link";
 
 // material
 import { styled } from "@material-ui/core/styles";
 // material
-import {
-  Container,
-  Box,
-  Typography,
-  Grid,
-  Stack,
-  Button,
-} from "@material-ui/core";
+import { Container, Box, Typography, Grid } from "@material-ui/core";
 
 // import { AppWeeklySales } from "components/_dashboard/app";
 

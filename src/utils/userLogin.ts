@@ -16,6 +16,14 @@ const UserLoginFunc = async (form: {
   | { status: "success"; user: UserInterface; token: string }
 > => {
   try {
+    // let geo;
+
+    // try {
+    //   geo = await axios.get("https://geolocation-db.com/json/");
+    // } catch (err) {
+    //   //
+    // }
+
     const registerUserRes = await axios.post<
       | {
           errors?: { password: string; email: string };
@@ -27,6 +35,7 @@ const UserLoginFunc = async (form: {
       ...form,
       system: window.navigator.userAgent,
       date: new Date(),
+      // geo: geo.data,
     });
 
     return {

@@ -2,25 +2,19 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
-import NextLink from "next/link";
 
 // material
 import { styled } from "@material-ui/core/styles";
 // material
-import {
-  Container,
-  Box,
-  Typography,
-  Link,
-  Breadcrumbs,
-  Divider,
-} from "@material-ui/core";
+import { Container, Box, Typography, Divider, Grid } from "@material-ui/core";
 
 // components
 import Page from "components/Page";
 
-import { Icon } from "@iconify/react";
-import Cloud from "@iconify/icons-ant-design/cloud-server";
+import MainCard from "components/cards/main";
+
+// components
+import Tabs from "@/components/_dashboard/cloud/IoT/Tabs";
 
 // import
 
@@ -71,44 +65,44 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - IOT API Cloud Service"
+        title="TechnoNatura App - IoT Cloud Service"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
       <Container maxWidth="xl">
-        <div role="presentation">
-          <Breadcrumbs aria-label="breadcrumb">
-            <NextLink href="/cloud">
-              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <Link
-                underline="hover"
-                sx={{ display: "flex", alignItems: "center" }}
-                color="inherit"
-                href="#"
-              >
-                <Icon icon={Cloud} style={{ marginRight: 5 }} /> Cloud Service
-              </Link>
-            </NextLink>
-
-            <Typography
-              sx={{ display: "flex", alignItems: "center" }}
-              color="text.primary"
+        <Container maxWidth="xl">
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              // @ts-ignore
+              md={8}
             >
-              {/* <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" /> */}
-              Arduino Apps
-            </Typography>
-          </Breadcrumbs>
-        </div>
-        <Box sx={{ pb: 5, marginTop: 3 }}>
-          <Typography variant="h3">
-            Hi {authState.me?.fullName}, welcome to Arduino & IOT Cloud Service
-            API
-          </Typography>
-          <Typography variant="h5" color="grayText">
-            In this cloud service you can interact to our Arduino API, and you
-            can manage your arduino app.
-          </Typography>
-        </Box>
+              <MainCard
+                title="Welcome to TechnoNatura IoT Cloud Service."
+                description="You can manage datas related to this dashboard ecosystems."
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              // @ts-ignore
+              md={4}
+            >
+              <MainCard
+                title="Help Centre"
+                description="Visit our Story HC for more."
+              />
+            </Grid>
+          </Grid>
+        </Container>
+        <Container maxWidth="xl">
+          <Box sx={{ width: "100%", typography: "body1", mt: 2 }}>
+            <Tabs />
+          </Box>
+        </Container>
         <Divider />
       </Container>
     </>

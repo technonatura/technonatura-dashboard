@@ -35,6 +35,8 @@ export type AlumniRoleInTechnoNatura = Array<{
 }>;
 
 export interface UserInterface {
+  _id: string;
+
   isAccountVerified: boolean;
   active: boolean; // shows if the student is alumni or not
 

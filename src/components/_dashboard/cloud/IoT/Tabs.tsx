@@ -11,7 +11,7 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 
-import TechnoNaturaBranch from "./branch";
+import IoTCloudApps from "./apps";
 // components
 
 // import { Icon } from "@iconify/react";
@@ -20,7 +20,7 @@ import TechnoNaturaBranch from "./branch";
 // import
 
 export default function RolesPage() {
-  const [tab, setTab] = React.useState("branch");
+  const [tab, setTab] = React.useState("apps");
 
   const handleChange = (event: any, newValue: any) => {
     setTab(newValue);
@@ -43,12 +43,18 @@ export default function RolesPage() {
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label="TechnoNatura Branch" value="branch" />
+            <Tab label="My Apps" value="apps" />
+            <Tab label="Shared With Me" value="shared" />
+            <Tab label="API Docs" value="docs" />
           </TabList>
         </Box>
-        <TabPanel value="branch">
+        <TabPanel value="apps">
           {/* @ts-ignore */}
-          <TechnoNaturaBranch />
+          <IoTCloudApps sharedWithMe={false} />
+        </TabPanel>
+        <TabPanel value="shared">
+          {/* @ts-ignore */}
+          <IoTCloudApps sharedWithMe />
         </TabPanel>
       </TabContext>
     </>

@@ -20,6 +20,15 @@ const RegisterUserFunc = async (
   };
 
   try {
+    // let geo;
+
+    // try {
+    //  geo = await axios.get("https://geolocation-db.com/json/");
+
+    // }catch(err) {
+    //   //
+    // }
+
     const registerUserRes = await axios.post<
       | {
           errors?: { username: string; email: string };
@@ -31,6 +40,7 @@ const RegisterUserFunc = async (
       ...copyOfForm,
       system: window.navigator.userAgent,
       date: new Date(),
+      // geo: geo.data,
     });
 
     return {

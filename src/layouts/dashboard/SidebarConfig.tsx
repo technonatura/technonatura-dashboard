@@ -81,6 +81,7 @@ const sidebarConfig: sidebarConfigItem[] = [
       },
     ],
   },
+
   {
     title: "Cloud",
     path: "/cloud",
@@ -90,8 +91,8 @@ const sidebarConfig: sidebarConfigItem[] = [
 
     children: [
       {
-        title: "Arduino Apps",
-        path: "/cloud/arduino",
+        title: "IoT Cloud",
+        path: "/cloud/iot",
         forRoles: [],
         isForVerified: false,
       },
