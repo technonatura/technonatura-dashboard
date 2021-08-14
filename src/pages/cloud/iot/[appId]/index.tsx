@@ -67,8 +67,10 @@ export default function RolesPage() {
   };
 
   React.useEffect(() => {
-    fetchIoTApp();
-  }, []);
+    if (!IoTApp.fetched && !IoTApp.app) {
+      fetchIoTApp();
+    }
+  });
 
   async function fetchIoTApp() {
     try {
