@@ -76,7 +76,13 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box sx={{ display: "inline-flex" }}>
-          <Logo />
+          <Logo />{" "}
+          <Typography
+            sx={{ textDecoration: "underline", cursor: "pointer" }}
+            color="primary"
+          >
+            v2.1 BETA
+          </Typography>
         </Box>
       </Box>
 
