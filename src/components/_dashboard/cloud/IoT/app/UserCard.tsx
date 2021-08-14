@@ -60,7 +60,7 @@ const StyledMenu = styled((props: MenuProps) => (
 
 const Roles: Array<{
   title: string;
-  name: "owner" | "admin" | "viewer" | "blocked";
+  name: "owner" | "admin" | "viewer";
 }> = [
   {
     title: "Owner",
