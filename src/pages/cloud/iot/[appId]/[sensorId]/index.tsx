@@ -20,7 +20,7 @@ import Page from "components/Page";
 import MainCard from "components/cards/main";
 
 // components
-import Tabs from "@/components/_dashboard/cloud/IoT/app/Tabs";
+import Tabs from "@/components/_dashboard/cloud/IoT/sensor/Tabs";
 
 // material
 import {
@@ -34,7 +34,10 @@ import {
 
 import Label from "components/Label";
 
-import { IoTAppInterface } from "@/types/models/IoT/IoTApp.model";
+import {
+  IoTAppInterface,
+  sensorInterfaceI,
+} from "@/types/models/IoT/IoTApp.model";
 import checkMeInTeammates from "@utils/checkTeammate";
 // import
 
@@ -52,6 +55,7 @@ export default function RolesPage() {
     message: string;
     status: string;
     app?: IoTAppInterface;
+    sensor?: sensorInterfaceI;
   }>({ fetched: false, message: "", status: "" });
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
@@ -67,10 +71,10 @@ export default function RolesPage() {
   };
 
   React.useEffect(() => {
-    if (router.query.appId && !IoTApp.fetched && !IoTApp.app) {
+    if (router.query.sensorId && !IoTApp.fetched && !IoTApp.app) {
       fetchIoTApp();
     }
-  }, [router.query.appId]);
+  }, [router.query.sensorId]);
 
   async function fetchIoTApp() {
     try {
@@ -79,15 +83,17 @@ export default function RolesPage() {
         message: string;
         status: string;
         app: IoTAppInterface;
-      }>(`${process.env.NEXT_PUBLIC_SERVER}/iot/app`, {
+        sensor: sensorInterfaceI;
+      }>(`${process.env.NEXT_PUBLIC_SERVER}/iot/sensor`, {
         authToken: authState.token,
-        iotAppId: router.query.appId,
+        sensorId: router.query.sensorId,
       });
       setIoTApp({
         fetched: true,
         message: "Success Fethed Stories",
         status: "success",
         app: IoTApp.data.app,
+        sensor: IoTApp.data.sensor,
       });
     } catch (err) {
       // console.error(err);
@@ -144,8 +150,9 @@ export default function RolesPage() {
             <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
               <CircularProgress />
               <Typography sx={{ mt: 3, color: "text.secondary" }}>
-                Tolong tunggu, kami sedang mengambil informasi mengenai App ini
-                (selesai dalam beberapa detik, tergantung kecepatan Internet.).
+                Tolong tunggu, kami sedang mengambil informasi mengenai Sensor
+                ini (selesai dalam beberapa detik, tergantung kecepatan
+                Internet.).
               </Typography>
             </Box>
           </Container>
@@ -155,6 +162,7 @@ export default function RolesPage() {
   }
 
   if (
+    IoTApp.sensor &&
     authState.me &&
     IoTApp.app &&
     (IoTApp.app.visibility === "public" ||
@@ -170,7 +178,7 @@ export default function RolesPage() {
     return (
       <>
         <NextSeo
-          title={`${IoTApp.app.name} - TechnoNatura IoT Cloud Service`}
+          title={`${IoTApp.sensor?.name} - TechnoNatura IoT Cloud Service`}
           description="The TechnoNatura Social Media and Dashboard"
           canonical="https://app.technonatura.vercel.app/cloud/iot"
         />
@@ -185,8 +193,8 @@ export default function RolesPage() {
                 md={8}
               >
                 <MainCard
-                  title={`${IoTApp.app.name} IoT Cloud App`}
-                  description={IoTApp.app.desc}
+                  title={`${IoTApp.sensor?.name} - ${IoTApp.app.name} IoT Cloud App`}
+                  description={IoTApp.sensor?.desc}
                 />
               </Grid>
               <Grid
@@ -205,7 +213,7 @@ export default function RolesPage() {
           </Container>
           <Container maxWidth="xl">
             <Box sx={{ width: "100%", typography: "body1", mt: 2 }}>
-              <Tabs app={IoTApp.app} />
+              <Tabs sensor={IoTApp.sensor} app={IoTApp.app} />
             </Box>
           </Container>
           <Divider />

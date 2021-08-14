@@ -74,10 +74,6 @@ const Roles: Array<{
     title: "Viewer",
     name: "viewer",
   },
-  {
-    title: "Block Access",
-    name: "blocked",
-  },
 ];
 
 // eslint-disable-next-line react/display-name
@@ -159,7 +155,19 @@ export default React.memo(
 
                 <Divider sx={{ my: 0.5 }} />
 
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem
+                  disableRipple
+                  onClick={() => {
+                    formik.setFieldValue(
+                      "team",
+                      formik.values.team.filter((teammate) => {
+                        // @ts-ignore
+                        return teammate.id !== user.id;
+                      })
+                    );
+                    handleClose();
+                  }}
+                >
                   Remove
                 </MenuItem>
               </StyledMenu>

@@ -130,7 +130,7 @@ export default React.memo(
                       // @ts-ignore
                       setAddUser(value);
                     }}
-                    getOptionLabel={(option) => option.name}
+                    getOptionLabel={(option) => option.username}
                     renderInput={(params) => (
                       // @ts-ignore
                       <TextField {...params} label="Controllable" />
@@ -144,7 +144,7 @@ export default React.memo(
                         }}
                         {...props}
                       >
-                        {option.name}
+                        @{option.username}
                       </Box>
                     )}
                     id="controllable-states-demo"

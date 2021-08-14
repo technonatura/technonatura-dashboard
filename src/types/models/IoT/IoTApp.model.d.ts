@@ -1,14 +1,15 @@
-export interface sensorDataInterfaceI<A, B> {
+export interface sensorDataInterfaceI {
   date: number;
-  data: A | B;
+  data: number | boolean;
 }
-export interface sensorInterfaceI<A, B> {
+export interface sensorInterfaceI {
   name: string;
+  desc: string;
 
   appId: string;
   userId: string;
 
-  datas?: Array<sensorDataInterfaceI<A, B>>;
+  datas?: Array<sensorDataInterfaceI>;
   data: {
     data: A | B;
     dateAdded: number;
@@ -18,7 +19,7 @@ export interface sensorInterfaceI<A, B> {
 
 export interface TeammateInterface {
   userId: string;
-  role: "owner" | "admin" | "viewer" | "blocked";
+  role: "owner" | "admin" | "viewer";
   receiveNotification: boolean;
 }
 export interface IoTAppInterface {

@@ -14,6 +14,7 @@ const checkMeInTeammates: checkMeInTeammatesT = (
   permissions
 ) => {
   const myRole = teammates.find((teammate) => teammate.userId === myId)?.role;
+
   if (!myRole) {
     return false;
   }
