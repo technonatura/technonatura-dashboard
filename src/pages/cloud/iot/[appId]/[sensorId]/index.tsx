@@ -193,7 +193,15 @@ export default function RolesPage() {
                 md={8}
               >
                 <MainCard
-                  title={`${IoTApp.sensor?.name} - ${IoTApp.app.name} IoT Cloud App`}
+                  title={
+                    <>
+                      {IoTApp.sensor?.name} -{" "}
+                      <Link href={`/cloud/iot/${IoTApp.app._id}`}>
+                        {IoTApp.app.name}
+                      </Link>{" "}
+                      IoT Cloud App
+                    </>
+                  }
                   description={IoTApp.sensor?.desc}
                 />
               </Grid>

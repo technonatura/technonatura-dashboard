@@ -55,12 +55,6 @@ export default function RolesPage({
         <Typography variant="h5" color="grayText">
           Data Sensor IoT Cloud App Mu {sharedWithMe && "- Shared with Me"}
         </Typography>
-
-        {!sharedWithMe && (
-          <>
-            <Button variant="contained">Create Sensor</Button>
-          </>
-        )}
       </HeaderStyled>
 
       {sensor.datas && sensor.datas.length > 0 ? (
@@ -97,7 +91,7 @@ export default function RolesPage({
       ) : (
         <Typography sx={{ mt: 3, mb: 1.5 }} color="text.secondary">
           {sensor.datas?.length === 0 &&
-            "Kamu belum mempunyai sensor di IoT Cloud App."}
+            "Kamu belum mempunyai data sensor di IoT Cloud App."}
         </Typography>
       )}
     </>

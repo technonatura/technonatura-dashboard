@@ -48,7 +48,7 @@ function MainCard({
 }: {
   // eslint-disable-next-line no-undef
   Icon?: JSX.Element;
-  title: string;
+  title: string | JSX.Element;
   // eslint-disable-next-line no-undef
   description: string | JSX.Element;
 }) {
