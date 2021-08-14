@@ -43,7 +43,7 @@ export default function RolesPage() {
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
   //     checkRoles(authState.me?.roles, ["admin"])
   //   );
-  if (authState.me && !checkRoles(authState.me?.roles, ["admin", "teacher"])) {
+  if (authState.me && !checkRoles(authState.me?.roles, ["admin"])) {
     router.push("/");
     return (
       <>

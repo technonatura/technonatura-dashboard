@@ -20,9 +20,10 @@ import {
 
 import Label from "components/Label";
 
-import { IoTAppInterface } from "@/types/models/IoT/IoTApp.model";
+import { sensorInterfaceI } from "@/types/models/IoT/IoTApp.model";
 
 import CreateBranchDialog from "./create";
+import { useRouter } from "next/router";
 // import
 
 const HeaderStyled = styled(Stack)(({ theme }) => ({
@@ -41,11 +42,12 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
     fetched: boolean;
     message: string;
     status: string;
-    apps?: Array<IoTAppInterface>;
+    sensors?: Array<sensorInterfaceI<number, boolean>>;
   }>({ fetched: false, message: "", status: "" });
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
+  const router = useRouter();
 
   const handleClickOpenCreateBranch = () => {
     setOpenCrateBranch(true);
@@ -62,27 +64,27 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
   async function fetchIoTApps() {
     try {
       // eslint-disable-next-line no-shadow
-      const storiesRes = await axios.post<{
+      const IoTApp = await axios.post<{
         message: string;
         status: string;
-        apps?: Array<IoTAppInterface>;
+        sensors?: Array<sensorInterfaceI<number, boolean>>;
       }>(
-        `${process.env.NEXT_PUBLIC_SERVER}/iot/apps${
+        `${process.env.NEXT_PUBLIC_SERVER}/iot/sensors${
           sharedWithMe ? "?sharedWithMe=true" : ""
         }`,
         {
           authToken: authState.token,
+          iotAppId: router.query.appId,
         }
       );
-      console.log(storiesRes);
       setIoTApps({
         fetched: true,
         message: "Success Fethed Stories",
         status: "success",
-        apps: storiesRes.data.apps,
+        sensors: IoTApp.data.sensors,
       });
     } catch (err) {
-      // console.error(err);
+      console.error(err);
       setIoTApps({
         fetched: true,
         message: "error on server",
@@ -97,13 +99,13 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
     <>
       <HeaderStyled>
         <Typography variant="h5" color="grayText">
-          TechnoNatura Cloud Apps {sharedWithMe && "- Shared with Me"}
+          Sensor IoT Cloud App Mu {sharedWithMe && "- Shared with Me"}
         </Typography>
 
         {!sharedWithMe && (
           <>
             <Button variant="contained" onClick={handleClickOpenCreateBranch}>
-              Create App
+              Create Sensor
             </Button>
             <CreateBranchDialog
               isOpen={openCreateBranch}
@@ -113,24 +115,11 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
         )}
       </HeaderStyled>
 
-      {!IoTApps.fetched && (
-        <Typography sx={{ mt: 3, mb: 1.5 }} color="text.secondary">
-          Fetching Apps
-        </Typography>
-      )}
-
-      {IoTApps.apps &&
-      (sharedWithMe
-        ? IoTApps.apps.filter((app) => app.own != authState.me?._id)
-        : IoTApps.apps
-      ).length > 0 ? (
+      {IoTApps.sensors && IoTApps.sensors.length > 0 ? (
         <Container maxWidth="xl" sx={{ mt: 3 }}>
           <Grid container spacing={3}>
             {/* @ts-ignore */}
-            {(sharedWithMe
-              ? IoTApps.apps.filter((app) => app.own != authState.me?._id)
-              : IoTApps.apps
-            ).map((branch) => (
+            {IoTApps.sensors.map((branch) => (
               <Grid
                 key={branch.name}
                 item
@@ -145,7 +134,10 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
                   >
                     <Typography variant="h5" component="div">
                       {/* eslint-disable-next-line no-underscore-dangle */}
-                      <Link href={`/cloud/iot/${branch._id}`}>
+                      <Link
+                        // @ts-ignore
+                        href={`/cloud/iot/${router.query.appId}/${branch._id}`}
+                      >
                         {" "}
                         {branch.name}{" "}
                       </Link>
@@ -154,14 +146,6 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                       {branch.name}
                     </Typography>
-
-                    <Label size="small">
-                      {branch.isTeam ? "Team" : "Not Team"}
-                    </Label>
-
-                    <Label size="small" style={{ marginLeft: "5px" }}>
-                      {branch.visibility}
-                    </Label>
                   </CardContent>
                 </Card>
               </Grid>
@@ -170,9 +154,14 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
         </Container>
       ) : (
         <Typography sx={{ mt: 3, mb: 1.5 }} color="text.secondary">
-          {sharedWithMe
-            ? "Tidak ada orang yang membagikan appnya ke anda."
-            : "Kamu belum mempunyai aplikasi IoT Cloud App."}
+          {IoTApps.sensors?.length === 0 &&
+            "Kamu belum mempunyai sensor di IoT Cloud App."}
+        </Typography>
+      )}
+
+      {!IoTApps.fetched && (
+        <Typography sx={{ mt: 3, mb: 1.5 }} color="text.secondary">
+          Fetching Sensors
         </Typography>
       )}
     </>
