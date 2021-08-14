@@ -42,7 +42,7 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
     fetched: boolean;
     message: string;
     status: string;
-    sensors?: Array<sensorInterfaceI<number, boolean>>;
+    sensors?: Array<sensorInterfaceI>;
   }>({ fetched: false, message: "", status: "" });
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
@@ -67,7 +67,7 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
       const IoTApp = await axios.post<{
         message: string;
         status: string;
-        sensors?: Array<sensorInterfaceI<number, boolean>>;
+        sensors?: Array<sensorInterfaceI>;
       }>(
         `${process.env.NEXT_PUBLIC_SERVER}/iot/sensors${
           sharedWithMe ? "?sharedWithMe=true" : ""
