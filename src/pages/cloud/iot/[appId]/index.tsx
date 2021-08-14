@@ -67,10 +67,10 @@ export default function RolesPage() {
   };
 
   React.useEffect(() => {
-    if (!IoTApp.fetched && !IoTApp.app) {
+    if (router.query.appId && !IoTApp.fetched && !IoTApp.app) {
       fetchIoTApp();
     }
-  });
+  }, [router.query.appId]);
 
   async function fetchIoTApp() {
     try {
