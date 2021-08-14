@@ -3,6 +3,9 @@ import * as React from "react";
 // import { NextSeo } from "next-seo";
 // import NextLink from "next/link";
 
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
+
 // material
 // import { styled } from "@material-ui/core/styles";
 // material
@@ -39,6 +42,7 @@ export default function RolesPage({
   sensor: sensorInterfaceI;
 }) {
   const [tab, setTab] = React.useState("apps");
+  const authState = useSelector((state: RootStore) => state.user);
 
   const handleChange = (event: any, newValue: any) => {
     setTab(newValue);
