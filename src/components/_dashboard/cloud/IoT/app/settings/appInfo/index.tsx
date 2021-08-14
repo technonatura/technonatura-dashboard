@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import { useRouter } from "next/router";
+
 // import { NextSeo } from "next-seo";
 // import NextLink from "next/link";
 
@@ -40,7 +42,7 @@ import TabPanel from "@material-ui/lab/TabPanel";
 import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 
 import IoTCloudAppSensors from "./index";
-import { useRouter } from "next/router";
+
 // components
 
 // import { Icon } from "@iconify/react";

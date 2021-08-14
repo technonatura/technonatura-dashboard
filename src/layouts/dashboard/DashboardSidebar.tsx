@@ -81,7 +81,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             sx={{ textDecoration: "underline", cursor: "pointer" }}
             color="primary"
           >
-            v2.1 BETA
+            {process.env.NEXT_PUBLIC_VERSION}
           </Typography>
         </Box>
       </Box>

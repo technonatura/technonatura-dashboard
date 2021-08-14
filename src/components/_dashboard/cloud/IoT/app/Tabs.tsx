@@ -13,6 +13,9 @@ import TabPanel from "@material-ui/lab/TabPanel";
 
 import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
 
+import { TeammateInterface } from "types/models/IoT/IoTApp.model";
+import CheckTeammate from "utils/checkTeammate";
+
 import { IoTAppInterface } from "@/types/models/IoT/IoTApp.model";
 
 import IoTCloudAppSensors from "./index";
@@ -63,12 +66,20 @@ export default function RolesPage({ app }: { app: IoTAppInterface }) {
           <Typography variant="h5" color="grayText">
             TechnoNatura Cloud App - Settings
           </Typography>
-          <SettingsAppInfo
-            appToken={app.token}
-            desc={app.desc}
-            name={app.name}
-            visibility={app.visibility}
-          />
+          {CheckTeammate(
+            app.team,
+            // @ts-ignore
+            authState.me?._id,
+            ["owner"]
+          ) && (
+            <SettingsAppInfo
+              appToken={app.token}
+              desc={app.desc}
+              name={app.name}
+              visibility={app.visibility}
+            />
+          )}
+
           {/* @ts-ignore */}
           <DangerZone name={app.name} teammate={app.team} />
         </TabPanel>
