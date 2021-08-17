@@ -86,6 +86,7 @@ export default class SchoolPride extends React.Component<any, EventState> {
     }, 10000);
 
     alert("Selamat Hari Kemerdekaan Indonesia Semua!");
+    console.log("HAPPY INDONESIAN INDEPENDENCE DAY!");
   }
 
   render() {
