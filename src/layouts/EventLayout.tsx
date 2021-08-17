@@ -6,6 +6,7 @@ type EventState = {
   isAnimationEnabled: boolean;
   animationInstance: any;
   nextTickAnimation: any;
+  isPlaying: boolean;
 };
 
 export default class SchoolPride extends React.Component<any, EventState> {
@@ -13,6 +14,7 @@ export default class SchoolPride extends React.Component<any, EventState> {
     isAnimationEnabled: false,
     animationInstance: null,
     nextTickAnimation: {},
+    isPlaying: false,
   };
   constructor(props: any) {
     super(props);
@@ -26,7 +28,7 @@ export default class SchoolPride extends React.Component<any, EventState> {
       this.state.animationInstance({
         particleCount: 3,
         angle,
-        spread: 55,
+        spread: 100,
         origin: { x: originX },
         colors: ["#bb0000", "#ffffff"],
       });
@@ -80,13 +82,19 @@ export default class SchoolPride extends React.Component<any, EventState> {
 
     setTimeout(() => {
       this.stopAnimation();
-    }, 5000);
+    }, 10000);
 
     const eventSong = await new Audio(
       "https://res.cloudinary.com/dsg8ufk2s/video/upload/v1629170256/Hari_Merdeka_-_Lirik_Lagu_Nasional_Indonesia_imiddg.mp3"
     );
     eventSong.volume = 0.1;
-    eventSong.play();
+
+    document.body.addEventListener("mousemove", () => {
+      if (!this.state.isPlaying) {
+        eventSong.play();
+        this.setState({ isPlaying: true });
+      }
+    });
 
     alert("Selamat Hari Kemerdekaan Indonesia Semua!");
   }
