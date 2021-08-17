@@ -14,6 +14,7 @@ import store from "@/global/index";
 
 import ProgressLoad from "components/ProgressLoad";
 import VerifiedAccountNotifier from "components/VerifiedAccountNotifier";
+import IndonesianIndependenceEventLayout from "layouts/EventLayout";
 
 import "../styles/globals.css";
 
@@ -45,6 +46,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <ChakraProvider>
           <ThemeConfig>
+            <IndonesianIndependenceEventLayout />
+
             <ScrollToTop />
             <ProgressLoad />
             <CookiesProvider>
@@ -53,6 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <VerifiedAccountNotifier />
 
                 <Component {...pageProps} />
+
                 <Typography
                   variant="body2"
                   color="textSecondary"
