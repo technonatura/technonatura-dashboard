@@ -1,7 +1,6 @@
 /* eslint-disable react/no-direct-mutation-state */
 import React from "react";
 import ReactCanvasConfetti from "react-canvas-confetti";
-import ReactAudioPlayer from "react-audio-player";
 
 type EventState = {
   isAnimationEnabled: boolean;
@@ -85,8 +84,19 @@ export default class SchoolPride extends React.Component<any, EventState> {
       this.stopAnimation();
     }, 10000);
 
+    const eventSong = await new Audio(
+      "https://res.cloudinary.com/dsg8ufk2s/video/upload/v1629170256/Hari_Merdeka_-_Lirik_Lagu_Nasional_Indonesia_imiddg.mp3"
+    );
+    eventSong.volume = 0.1;
+
+    document.body.addEventListener("mousemove", () => {
+      if (!this.state.isPlaying) {
+        eventSong.play();
+        this.setState({ isPlaying: true });
+      }
+    });
+
     alert("Selamat Hari Kemerdekaan Indonesia Semua!");
-    console.log("HAPPY INDONESIAN INDEPENDENCE DAY!");
   }
 
   render() {
@@ -103,11 +113,6 @@ export default class SchoolPride extends React.Component<any, EventState> {
             left: 0,
             zIndex: 99999,
           }}
-        />
-        <ReactAudioPlayer
-          src="https://res.cloudinary.com/dsg8ufk2s/video/upload/v1629170256/Hari_Merdeka_-_Lirik_Lagu_Nasional_Indonesia_imiddg.mp3"
-          autoPlay
-          controls
         />
       </>
     );
