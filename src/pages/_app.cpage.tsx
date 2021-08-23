@@ -13,6 +13,8 @@ import { Toaster } from "react-hot-toast";
 
 import store from "@/global/index";
 
+import InternalisationWrapper from "locales/index";
+
 import ProgressLoad from "components/ProgressLoad";
 import VerifiedAccountNotifier from "components/VerifiedAccountNotifier";
 import IndonesianIndependenceEventLayout from "layouts/EventLayout";
@@ -46,32 +48,33 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Provider store={store}>
         <Toaster />
-
         <ThemeConfig>
-          <IndonesianIndependenceEventLayout />
+          <InternalisationWrapper>
+            <IndonesianIndependenceEventLayout />
 
-          <ScrollToTop />
-          <ProgressLoad />
-          <CookiesProvider>
-            <DashboardLayout>
-              {/* @ts-ignore */}
-              <VerifiedAccountNotifier />
+            <ScrollToTop />
+            <ProgressLoad />
+            <CookiesProvider>
+              <DashboardLayout>
+                {/* @ts-ignore */}
+                <VerifiedAccountNotifier />
 
-              <Component {...pageProps} />
+                <Component {...pageProps} />
 
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ mt: 5, paddingLeft: 2 }}
-              >
-                {"Copyright © "}
-                <Link color="inherit" href="https://github.com/aldhanekaa">
-                  Aldhanekaa
-                </Link>{" "}
-                {new Date().getFullYear()} - Present . MIT LICENSE
-              </Typography>
-            </DashboardLayout>
-          </CookiesProvider>
+                <Typography
+                  variant="body2"
+                  color="textSecondary"
+                  sx={{ mt: 5, paddingLeft: 2 }}
+                >
+                  {"Copyright © "}
+                  <Link color="inherit" href="https://github.com/aldhanekaa">
+                    Aldhanekaa
+                  </Link>{" "}
+                  {new Date().getFullYear()} - Present . MIT LICENSE
+                </Typography>
+              </DashboardLayout>
+            </CookiesProvider>
+          </InternalisationWrapper>
         </ThemeConfig>
       </Provider>
     </>

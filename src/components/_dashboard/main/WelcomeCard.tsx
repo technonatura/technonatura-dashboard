@@ -1,10 +1,11 @@
 import React from "react";
 
 import { Typography, Card } from "@material-ui/core";
-// import { AppWeeklySales } from "components/_dashboard/app";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
+
+import { useTranslation } from "react-i18next";
 
 // material
 import { experimentalStyled as styled } from "@material-ui/core/styles";
@@ -26,12 +27,13 @@ const RootStyle = styled(Card)(({ theme }) => ({
 }));
 
 function HelpCard() {
+  const [t, i18n] = useTranslation("home");
   const authState = useSelector((state: RootStore) => state.user);
 
   return (
     <RootStyle>
       <Typography variant="h3">
-        Welcome to TechnoNatura Dashboard, {authState.me?.fullName}!
+        {t("greetings", { name: authState.me?.fullName })}
       </Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         Discover the great TechnoNatura Dashboard, write a post, and show your

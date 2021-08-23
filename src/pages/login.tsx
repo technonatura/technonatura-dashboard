@@ -3,6 +3,9 @@ import NextLink from "next/link";
 // material
 import { styled } from "@material-ui/core/styles";
 import { Card, Stack, Link, Container, Typography } from "@material-ui/core";
+
+import LanguagePopover from "layouts/dashboard/LanguagePopover";
+
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components
@@ -44,15 +47,18 @@ export default function Login() {
     //   @ts-ignore
     <RootStyle title="Login | Minimal-UI">
       <AuthLayout>
-        Don’t have an account? &nbsp;
-        <Link
-          underline="none"
-          variant="subtitle2"
-          href="/register"
-          component={NextLink}
-        >
-          Get started
-        </Link>
+        <p style={{ marginRight: 10, display: "inline-block" }}>
+          Don’t have an account? &nbsp;
+          <Link
+            underline="none"
+            variant="subtitle2"
+            href="/register"
+            component={NextLink}
+          >
+            Get started
+          </Link>
+        </p>
+        {/* <LanguagePopover /> */}
       </AuthLayout>
 
       <MHidden width="mdDown">

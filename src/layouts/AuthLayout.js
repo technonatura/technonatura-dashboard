@@ -3,7 +3,10 @@ import NextLink from "next/link";
 
 // material
 import { experimentalStyled as styled } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { Typography, Stack } from "@material-ui/core";
+
+import LanguagePopover from "layouts/dashboard/LanguagePopover";
+
 // components
 import Logo from "../components/Logo";
 //
@@ -36,9 +39,17 @@ AuthLayout.propTypes = {
 export default function AuthLayout({ children }) {
   return (
     <HeaderStyle>
-      <NextLink href="/">
-        <Logo />
-      </NextLink>
+      <Stack
+        display="flex"
+        direction="row"
+        style={{ width: "400px" }}
+        justifyContent="space-between"
+      >
+        <NextLink href="/">
+          <Logo />
+        </NextLink>
+        <LanguagePopover />
+      </Stack>
 
       <MHidden width="smDown">
         <Typography
