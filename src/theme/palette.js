@@ -28,7 +28,7 @@ const GREY = {
   500_80: alpha("#919EAB", 0.8),
 };
 
-const ERROR = {
+const PRIMARY = {
   lighter: "#C8FACD",
   light: "#5BE584",
   main: "#00AB55",
@@ -68,7 +68,7 @@ const WARNING = {
   darker: "#7A4F01",
   contrastText: GREY[800],
 };
-const PRIMARY = {
+const ERROR = {
   lighter: "#FFE7D9",
   light: "#FFA48D",
   main: "#FF4842",

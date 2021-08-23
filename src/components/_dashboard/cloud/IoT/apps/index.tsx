@@ -74,7 +74,6 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
           authToken: authState.token,
         }
       );
-      console.log(storiesRes);
       setIoTApps({
         fetched: true,
         message: "Success Fethed Stories",
@@ -154,10 +153,6 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                       {branch.name}
                     </Typography>
-
-                    <Label size="small">
-                      {branch.isTeam ? "Team" : "Not Team"}
-                    </Label>
 
                     <Label size="small" style={{ marginLeft: "5px" }}>
                       {branch.visibility}

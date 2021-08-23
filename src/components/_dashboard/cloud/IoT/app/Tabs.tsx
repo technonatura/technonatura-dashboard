@@ -74,7 +74,7 @@ export default function RolesPage({ app }: { app: IoTAppInterface }) {
             app.team,
             // @ts-ignore
             authState.me?._id,
-            ["owner"]
+            ["owner", "admin"]
           ) && (
             <SettingsAppInfo
               appToken={app.token}

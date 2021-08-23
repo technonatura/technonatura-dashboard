@@ -29,6 +29,7 @@ import {
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 import { styled } from "@material-ui/core/styles";
+import toast from "react-hot-toast";
 
 import Page from "components/Page";
 
@@ -86,6 +87,7 @@ export default function LoginForm() {
 
       if (userLogin.status === "success") {
         dispatch(UserSignUpLoginSuccess(userLogin.user, userLogin.token));
+        toast.success("Login Success!");
         if (formik.values.remember) {
           setAuthCookie(
             process.env.NEXT_PUBLIC_AUTH_TOKEN_COOKIE_NAME || "authCookie",

@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.6.5",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@iconify/icons-ant-design": "^1.1.0",
@@ -51,6 +50,7 @@
     "react-canvas-confetti": "^1.2.1",
     "react-cookie": "^4.0.3",
     "react-dom": "17.0.2",
+    "react-hot-toast": "^2.1.0",
     "react-intl": "^5.20.4",
     "react-material-ui-carousel": "^2.2.6",
     "react-perfect-scrollbar": "^1.5.8",

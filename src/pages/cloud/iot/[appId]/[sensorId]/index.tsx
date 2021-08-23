@@ -33,6 +33,8 @@ import {
 } from "@material-ui/core";
 
 import Label from "components/Label";
+import { useDispatch } from "react-redux";
+import { IoTCSSuccess } from "global/actions/IoTCloudServiceApp.action";
 
 import {
   IoTAppInterface,
@@ -60,6 +62,8 @@ export default function RolesPage() {
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
+  const IoTState = useSelector((state: RootStore) => state.iotApp);
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleClickOpenCreateBranch = () => {
@@ -88,6 +92,8 @@ export default function RolesPage() {
         authToken: authState.token,
         sensorId: router.query.sensorId,
       });
+      dispatch(IoTCSSuccess(IoTApp.data.app));
+
       setIoTApp({
         fetched: true,
         message: "Success Fethed Stories",

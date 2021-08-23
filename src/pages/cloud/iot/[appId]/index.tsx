@@ -34,6 +34,9 @@ import {
 
 import Label from "components/Label";
 
+import { useDispatch } from "react-redux";
+import { IoTCSSuccess } from "global/actions/IoTCloudServiceApp.action";
+
 import { IoTAppInterface } from "@/types/models/IoT/IoTApp.model";
 import checkMeInTeammates from "@utils/checkTeammate";
 // import
@@ -53,21 +56,15 @@ export default function RolesPage() {
     status: string;
     app?: IoTAppInterface;
   }>({ fetched: false, message: "", status: "" });
-  const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
+  const IoTState = useSelector((state: RootStore) => state.iotApp);
+
   const router = useRouter();
-
-  const handleClickOpenCreateBranch = () => {
-    setOpenCrateBranch(true);
-  };
-
-  const handleCloseCreateBranch = () => {
-    setOpenCrateBranch(false);
-  };
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (router.query.appId && !IoTApp.fetched && !IoTApp.app) {
+    if (router.query.appId && !IoTState.fetched && !IoTState.app) {
       fetchIoTApp();
     }
   }, [router.query.appId]);
@@ -83,9 +80,10 @@ export default function RolesPage() {
         authToken: authState.token,
         iotAppId: router.query.appId,
       });
+      dispatch(IoTCSSuccess(IoTApp.data.app));
       setIoTApp({
         fetched: true,
-        message: "Success Fethed Stories",
+        message: "Success Fetched Stories",
         status: "success",
         app: IoTApp.data.app,
       });
@@ -128,7 +126,7 @@ export default function RolesPage() {
     );
   }
 
-  if (!IoTApp.fetched) {
+  if (IoTState.loading) {
     return (
       <>
         <NextSeo
@@ -156,21 +154,21 @@ export default function RolesPage() {
 
   if (
     authState.me &&
-    IoTApp.app &&
-    (IoTApp.app.visibility === "public" ||
-      (IoTApp.app.visibility === "private" &&
-        checkMeInTeammates(IoTApp.app.team, authState.me._id, [
+    IoTState.app &&
+    (IoTState.app.visibility === "public" ||
+      (IoTState.app.visibility === "private" &&
+        checkMeInTeammates(IoTState.app.team, authState.me._id, [
           "owner",
           "admin",
           "viewer",
         ]))) &&
-    !checkMeInTeammates(IoTApp.app.team, authState.me._id, ["blocked"])
+    !checkMeInTeammates(IoTState.app.team, authState.me._id, ["blocked"])
   ) {
     // eslint-disable-next-line no-unused-vars
     return (
       <>
         <NextSeo
-          title={`${IoTApp.app.name} - TechnoNatura IoT Cloud Service`}
+          title={`${IoTState.app.name} - TechnoNatura IoT Cloud Service`}
           description="The TechnoNatura Social Media and Dashboard"
           canonical="https://app.technonatura.vercel.app/cloud/iot"
         />
@@ -185,8 +183,8 @@ export default function RolesPage() {
                 md={8}
               >
                 <MainCard
-                  title={`${IoTApp.app.name} IoT Cloud App`}
-                  description={IoTApp.app.desc}
+                  title={`${IoTState.app.name} IoT Cloud App`}
+                  description={IoTState.app.desc}
                 />
               </Grid>
               <Grid
@@ -205,7 +203,7 @@ export default function RolesPage() {
           </Container>
           <Container maxWidth="xl">
             <Box sx={{ width: "100%", typography: "body1", mt: 2 }}>
-              <Tabs app={IoTApp.app} />
+              <Tabs app={IoTState.app} />
             </Box>
           </Container>
           <Divider />

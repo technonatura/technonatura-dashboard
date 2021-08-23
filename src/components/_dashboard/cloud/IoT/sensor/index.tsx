@@ -14,8 +14,6 @@ import {
   Card,
   CardContent,
   Stack,
-  Button,
-  Link,
 } from "@material-ui/core";
 
 import Label from "components/Label";

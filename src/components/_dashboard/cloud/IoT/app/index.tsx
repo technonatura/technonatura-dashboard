@@ -77,6 +77,7 @@ export default function RolesPage({ sharedWithMe }: { sharedWithMe: boolean }) {
           iotAppId: router.query.appId,
         }
       );
+
       setIoTApps({
         fetched: true,
         message: "Success Fethed Stories",

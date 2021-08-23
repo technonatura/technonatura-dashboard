@@ -78,25 +78,21 @@ export default class SchoolPride extends React.Component<any, EventState> {
     this.state.isAnimationEnabled = false;
   }
   async componentDidMount() {
-    this.startAnimation();
-
-    setTimeout(() => {
-      this.stopAnimation();
-    }, 10000);
-
-    const eventSong = await new Audio(
-      "https://res.cloudinary.com/dsg8ufk2s/video/upload/v1629170256/Hari_Merdeka_-_Lirik_Lagu_Nasional_Indonesia_imiddg.mp3"
-    );
-    eventSong.volume = 0.1;
-
-    document.body.addEventListener("mousemove", () => {
-      if (!this.state.isPlaying) {
-        eventSong.play();
-        this.setState({ isPlaying: true });
-      }
-    });
-
-    alert("Selamat Hari Kemerdekaan Indonesia Semua!");
+    // this.startAnimation();
+    // setTimeout(() => {
+    //   this.stopAnimation();
+    // }, 10000);
+    // const eventSong = await new Audio(
+    //   "https://res.cloudinary.com/dsg8ufk2s/video/upload/v1629170256/Hari_Merdeka_-_Lirik_Lagu_Nasional_Indonesia_imiddg.mp3"
+    // );
+    // eventSong.volume = 0.1;
+    // document.body.addEventListener("mousemove", () => {
+    //   if (!this.state.isPlaying) {
+    //     eventSong.play();
+    //     this.setState({ isPlaying: true });
+    //   }
+    // });
+    // alert("Selamat Hari Kemerdekaan Indonesia Semua!");
   }
 
   render() {

@@ -65,7 +65,7 @@ export default function RolesPage({
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label="My Sensors" value="apps" />
+            <Tab label="Sensors" value="apps" />
             <Tab label="Settings" value="settings" />
           </TabList>
         </Box>
@@ -82,7 +82,7 @@ export default function RolesPage({
             app.team,
             // @ts-ignore
             authState.me?._id,
-            ["owner"]
+            ["owner", "admin"]
           ) && <SettingsAppInfo desc={sensor.desc} name={sensor.name} />}
           {/* @ts-ignore */}
           <DangerZone name={sensor.name} teammate={app.team} />

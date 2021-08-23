@@ -5,10 +5,11 @@ import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 // import { NextCookieProvider } from "next-universal-cookie";
 
-import { ChakraProvider } from "@chakra-ui/react";
 import { Typography, Link } from "@material-ui/core";
 
 import { NextSeo } from "next-seo";
+
+import { Toaster } from "react-hot-toast";
 
 import store from "@/global/index";
 
@@ -44,34 +45,34 @@ function MyApp({ Component, pageProps }: AppProps) {
         canonical="https://dashboard.technonatura.vercel.app"
       />
       <Provider store={store}>
-        <ChakraProvider>
-          <ThemeConfig>
-            <IndonesianIndependenceEventLayout />
+        <Toaster />
 
-            <ScrollToTop />
-            <ProgressLoad />
-            <CookiesProvider>
-              <DashboardLayout>
-                {/* @ts-ignore */}
-                <VerifiedAccountNotifier />
+        <ThemeConfig>
+          <IndonesianIndependenceEventLayout />
 
-                <Component {...pageProps} />
+          <ScrollToTop />
+          <ProgressLoad />
+          <CookiesProvider>
+            <DashboardLayout>
+              {/* @ts-ignore */}
+              <VerifiedAccountNotifier />
 
-                <Typography
-                  variant="body2"
-                  color="textSecondary"
-                  sx={{ mt: 5, paddingLeft: 2 }}
-                >
-                  {"Copyright © "}
-                  <Link color="inherit" href="https://github.com/aldhanekaa">
-                    Aldhanekaa
-                  </Link>{" "}
-                  {new Date().getFullYear()} - Present . MIT LICENSE
-                </Typography>
-              </DashboardLayout>
-            </CookiesProvider>
-          </ThemeConfig>
-        </ChakraProvider>
+              <Component {...pageProps} />
+
+              <Typography
+                variant="body2"
+                color="textSecondary"
+                sx={{ mt: 5, paddingLeft: 2 }}
+              >
+                {"Copyright © "}
+                <Link color="inherit" href="https://github.com/aldhanekaa">
+                  Aldhanekaa
+                </Link>{" "}
+                {new Date().getFullYear()} - Present . MIT LICENSE
+              </Typography>
+            </DashboardLayout>
+          </CookiesProvider>
+        </ThemeConfig>
       </Provider>
     </>
   );

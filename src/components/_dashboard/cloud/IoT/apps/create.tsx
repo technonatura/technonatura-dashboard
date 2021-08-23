@@ -84,7 +84,7 @@ export default function CreateIoTCloudApp({
   const authState = useSelector((state: RootStore) => state.user);
 
   React.useEffect(() => {
-    fetchUsers(setUsers, true);
+    if (!users?.users) fetchUsers(setUsers, true);
   });
 
   const formik = useFormik({

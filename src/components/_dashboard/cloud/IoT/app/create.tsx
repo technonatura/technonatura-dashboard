@@ -77,7 +77,7 @@ export default function CreateIoTCloudApp({
   const authState = useSelector((state: RootStore) => state.user);
 
   React.useEffect(() => {
-    fetchUsers(setUsers, true);
+    if (!users?.users) fetchUsers(setUsers, true);
   });
 
   const formik = useFormik({
@@ -95,7 +95,6 @@ export default function CreateIoTCloudApp({
           authState.token,
           router.query.appId
         );
-        console.log(registeredApp);
         if (registeredApp.errors) {
           formik.setErrors(registeredApp.errors);
         }
@@ -115,7 +114,7 @@ export default function CreateIoTCloudApp({
 
   // eslint-disable-next-line no-unused-vars
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const { errors, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
     <>
@@ -129,70 +128,62 @@ export default function CreateIoTCloudApp({
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
             <DialogTitle>Create Sensor</DialogTitle>
             <DialogContent>
-              {!users ? (
-                <Box sx={{ width: "100%" }}>
-                  <LinearProgress />
-                </Box>
-              ) : (
-                <>
-                  <TextField
-                    // eslint-disable-next-line react/no-array-index-key
-                    fullWidth
-                    label="Sensor Name"
-                    {...getFieldProps("sensorName")}
-                    error={Boolean(errors.sensorName)}
-                    // @ts-ignore
-                    helperText={
-                      /* eslint-disable */
-                      // @ts-ignore
+              <TextField
+                // eslint-disable-next-line react/no-array-index-key
+                fullWidth
+                label="Sensor Name"
+                {...getFieldProps("sensorName")}
+                error={Boolean(errors.sensorName)}
+                // @ts-ignore
+                helperText={
+                  /* eslint-disable */
+                  // @ts-ignore
 
-                      errors["sensorName"]
+                  errors["sensorName"]
 
-                      /* eslint-enable */
-                    }
-                    style={{ marginTop: 20 }}
-                    disabled={isSubmitting}
-                  />
-                  <TextField
-                    // eslint-disable-next-line react/no-array-index-key
-                    fullWidth
-                    label="Sensor Description"
-                    {...getFieldProps("desc")}
-                    error={Boolean(errors.desc)}
-                    // @ts-ignore
-                    helperText={
-                      /* eslint-disable */
-                      // @ts-ignore
+                  /* eslint-enable */
+                }
+                style={{ marginTop: 20 }}
+                disabled={isSubmitting}
+              />
+              <TextField
+                // eslint-disable-next-line react/no-array-index-key
+                fullWidth
+                label="Sensor Description"
+                {...getFieldProps("desc")}
+                error={Boolean(errors.desc)}
+                // @ts-ignore
+                helperText={
+                  /* eslint-disable */
+                  // @ts-ignore
 
-                      errors["desc"]
+                  errors["desc"]
 
-                      /* eslint-enable */
-                    }
-                    style={{ marginTop: 20 }}
-                    disabled={isSubmitting}
-                  />
+                  /* eslint-enable */
+                }
+                style={{ marginTop: 20 }}
+                disabled={isSubmitting}
+              />
 
-                  <FormControl
-                    fullWidth
-                    sx={{ mt: 3 }}
-                    // @ts-ignore
-                    error={errors.dataType}
-                  >
-                    <InputLabel id="dataType">Data Type</InputLabel>
-                    <Select
-                      labelId="dataType"
-                      id="demo-simple-select"
-                      {...getFieldProps("dataType")}
-                      label="Visibilitas"
-                      disabled={isSubmitting}
-                    >
-                      <MenuItem value="boolean">Boolean</MenuItem>
-                      <MenuItem value="number">Number</MenuItem>
-                    </Select>
-                    <FormHelperText> {errors.dataType}</FormHelperText>
-                  </FormControl>
-                </>
-              )}
+              <FormControl
+                fullWidth
+                sx={{ mt: 3 }}
+                // @ts-ignore
+                error={errors.dataType}
+              >
+                <InputLabel id="dataType">Data Type</InputLabel>
+                <Select
+                  labelId="dataType"
+                  id="demo-simple-select"
+                  {...getFieldProps("dataType")}
+                  label="Visibilitas"
+                  disabled={isSubmitting}
+                >
+                  <MenuItem value="boolean">Boolean</MenuItem>
+                  <MenuItem value="number">Number</MenuItem>
+                </Select>
+                <FormHelperText> {errors.dataType}</FormHelperText>
+              </FormControl>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseCreateBranch}>Cancel</Button>
