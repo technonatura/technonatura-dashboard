@@ -82,14 +82,7 @@ export default function DashboardLayout({ children }) {
   }
 
   if (authState.loading || !authState.me) {
-    if (
-      !authState.me &&
-      (pathname === "/login" ||
-        pathname === "/register" ||
-        pathname === "/_error" ||
-        pathname === "/404" ||
-        pathname === "/forgot-password")
-    ) {
+    if (!authState.me && (pathname === "/_error" || pathname === "/404")) {
       return children;
     }
 
