@@ -78,7 +78,7 @@ export default function useUser() {
       user.status !== "success" &&
       !["/login", "/signin", "/register", "/signup"].includes(router.pathname)
     ) {
-      router.push("/login");
+      router.push(`/login?to=${router.pathname}`);
     }
 
     if (user.status === "success") {

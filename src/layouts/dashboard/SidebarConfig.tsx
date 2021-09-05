@@ -155,6 +155,12 @@ const sidebarConfig: sidebarConfigItem[] = [
         forRoles: ["admin"],
         isForVerified: true,
       },
+      {
+        title: "Manage API Apps",
+        path: "/admin/api",
+        forRoles: ["admin"],
+        isForVerified: true,
+      },
     ],
   },
 

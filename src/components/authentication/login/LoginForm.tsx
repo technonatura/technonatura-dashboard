@@ -95,6 +95,16 @@ export default function LoginForm() {
             { path: "/", maxAge: ms("1y") }
           );
         }
+
+        if (
+          router.query.to &&
+          typeof router.query.to === "string" &&
+          router.query.to.startsWith("/")
+        ) {
+          router.push(router.query.to);
+
+          return;
+        }
         router.push("/");
       }
       // navigate('/dashboard', { replace: true });

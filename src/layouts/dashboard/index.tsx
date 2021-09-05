@@ -86,6 +86,13 @@ export default function DashboardLayout({ children }) {
       return children;
     }
 
+    if (
+      !authState.me &&
+      !authState.loading &&
+      (pathname === "/login" || pathname === "/register")
+    ) {
+      return children;
+    }
     return (
       <LoadingRootStyle>
         <AuthLayout>TechnoNatura Dashboard</AuthLayout>
