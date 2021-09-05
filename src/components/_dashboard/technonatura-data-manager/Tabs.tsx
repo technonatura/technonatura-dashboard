@@ -11,6 +11,8 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 
+import TeachersAccount from "components/_dashboard/admin/teacher/account/index";
+
 import TechnoNaturaBranch from "./branch";
 // components
 
@@ -44,11 +46,18 @@ export default function RolesPage() {
             aria-label="lab API tabs example"
           >
             <Tab label="TechnoNatura Branch" value="branch" />
+            <Tab label="TechnoNatura Teacher Account" value="teacher" />
+            <Tab label="TechnoNatura Staff" value="staff" />
+            <Tab label="TechnoNatura Gallery" value="gallery" />
           </TabList>
         </Box>
         <TabPanel value="branch">
           {/* @ts-ignore */}
           <TechnoNaturaBranch />
+        </TabPanel>
+        <TabPanel value="teacher">
+          {/* @ts-ignore */}
+          <TeachersAccount />
         </TabPanel>
       </TabContext>
     </>

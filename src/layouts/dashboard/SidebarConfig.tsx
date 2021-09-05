@@ -7,6 +7,8 @@ import Project from "@iconify/icons-eva/folder-outline";
 import Story from "@iconify/icons-eva/book-outline";
 // import Teacher from "@iconify/icons-eva/";
 
+// import Teacher from "@iconify/icons-eva/";
+
 // import shoppingBagFill from "@iconify/icons-eva/shopping-bag-fill";
 // import fileTextFill from "@iconify/icons-eva/file-text-fill";
 // import lockFill from "@iconify/icons-eva/lock-fill";
@@ -65,8 +67,9 @@ const sidebarConfig: sidebarConfigItem[] = [
       },
     ],
   },
+
   {
-    title: "Project Showcase",
+    title: "Project",
     path: "/project",
     icon: getIcon(Project),
     isForVerified: false,
@@ -76,6 +79,28 @@ const sidebarConfig: sidebarConfigItem[] = [
       {
         title: "My Projects",
         path: "/project/my",
+        forRoles: [],
+        isForVerified: false,
+      },
+    ],
+  },
+  {
+    title: "Tools",
+    path: "/tools",
+    icon: getIcon(Story),
+    isForVerified: false,
+    forRoles: [],
+
+    children: [
+      {
+        title: "URL Shortener",
+        path: "/tools/url",
+        forRoles: [],
+        isForVerified: false,
+      },
+      {
+        title: "Team",
+        path: "/tools/team",
         forRoles: [],
         isForVerified: false,
       },
@@ -130,30 +155,23 @@ const sidebarConfig: sidebarConfigItem[] = [
         forRoles: ["admin"],
         isForVerified: true,
       },
+    ],
+  },
+
+  {
+    title: "Teacher",
+    path: "/teacher",
+    icon: getIcon(Admin),
+    isForVerified: true,
+    forRoles: ["admin", "teacher"],
+
+    children: [
       {
-        title: "Manage Staff",
-        path: "/admin/staff",
+        title: "Classroom",
+        path: "/teacher/classroom",
         forRoles: ["admin", "teacher"],
         isForVerified: true,
       },
-      // {
-      //   title: "Manage Gallery",
-      //   path: "/admin/gallery",
-      //   forRoles: ["admin", "teacher"],
-      //   isForVerified: true,
-      // },
-      // {
-      //   title: "Manage Project",
-      //   path: "/admin/project",
-      //   forRoles: ["admin", "teacher"],
-      //   isForVerified: true,
-      // },
-      // {
-      //   title: "Manage Story",
-      //   path: "/admin/story",
-      //   forRoles: ["admin", "teacher"],
-      //   isForVerified: true,
-      // },
     ],
   },
   {
