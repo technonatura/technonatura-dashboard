@@ -45,12 +45,10 @@ export default function RolesPage() {
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label=" Branch" value="branch" />
-            <Tab label=" Teacher Account" value="teacher" />
-            <Tab label=" Staff" value="staff" />
-            <Tab label=" Gallery" value="gallery" />
-            <Tab label=" News" value="news" />
-            <Tab label=" Blog" value="Blog" />
+            <Tab label="TechnoNatura Branch" value="branch" />
+            <Tab label="TechnoNatura Teacher Account" value="teacher" />
+            <Tab label="TechnoNatura Staff" value="staff" />
+            <Tab label="TechnoNatura Gallery" value="gallery" />
           </TabList>
         </Box>
         <TabPanel value="branch">
