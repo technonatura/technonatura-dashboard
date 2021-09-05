@@ -44,9 +44,8 @@ export default function LanguagePopover() {
   ]);
 
   useEffect(() => {
-    if (i18next.languages.includes(cookies["lang"])) {
+    if (i18next.languages.includes(cookies.lang)) {
       setCookie("lang", cookies["lang"]);
-
       // @ts-ignore
       changeLanguage(cookies["lang"]);
     } else {
@@ -73,7 +72,7 @@ export default function LanguagePopover() {
       ...LANGS.slice(index + 1),
     ]);
     dispatch(SetLang(LANGS[index].value));
-    setCookie("lang", LANGS[index].value, { path: "/", maxAge: ms("1y") });
+    setCookie("lang", LANGS[index].value, { maxAge: ms("1y") });
     setOpen(false);
   };
 
