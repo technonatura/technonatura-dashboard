@@ -2,18 +2,30 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 import { NextSeo } from "next-seo";
-// import NextLink from "next/link";
+import NextLink from "next/link";
 
 // material
 import { styled } from "@material-ui/core/styles";
 // material
-import { Container, Box, Typography } from "@material-ui/core";
+import {
+  Container,
+  Box,
+  Typography,
+  Link,
+  Grid,
+  Breadcrumbs,
+} from "@material-ui/core";
+
+import MainCard from "components/cards/main";
 
 // components
 import Page from "components/Page";
 
-// import { Icon } from "@iconify/react";
-// import Cloud from "@iconify/icons-ant-design/cloud-server";
+// components
+import Tabs from "@/components/_dashboard/cloud/auth";
+
+import { Icon } from "@iconify/react";
+import Cloud from "@iconify/icons-ant-design/cloud-server";
 
 // eslint-disable-next-line import/no-named-as-default
 import checkRoles from "utils/checkRoles";
@@ -72,14 +84,60 @@ export default function RolesPage() {
         canonical="https://dashboard.technonatura.vercel.app"
       />
       <Container maxWidth="xl">
-        <Box sx={{ pb: 5, marginTop: 3 }}>
-          <Typography variant="h3">
-            We are sorry that Authentication API is not available yet for now :(
-          </Typography>
-          <Typography variant="h5" color="grayText">
-            Don&apos;t worry, we will anounce this cloud service sooner!
-          </Typography>
-        </Box>
+        <Container maxWidth="xl">
+          <Grid container spacing={3}>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              // @ts-ignore
+              md={8}
+            >
+              <MainCard
+                title={
+                  <>
+                    <Breadcrumbs aria-label="breadcrumb">
+                      <NextLink href="/cloud">
+                        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+                        <Link
+                          underline="hover"
+                          sx={{ display: "flex", alignItems: "center" }}
+                          color="inherit"
+                          href="#"
+                        >
+                          <Icon icon={Cloud} style={{ marginRight: 5 }} /> Cloud
+                          Service
+                        </Link>
+                      </NextLink>
+
+                      <Typography
+                        sx={{ display: "flex", alignItems: "center" }}
+                        color="text.primary"
+                      >
+                        {/* <GrainIcon sx={{ mr: 0.5 }} fontSize="inherit" /> */}
+                        Auth API
+                      </Typography>
+                    </Breadcrumbs>
+                    Welcome to TechnoNatura IoT Cloud Service.
+                  </>
+                }
+                description="You can manage datas related to this dashboard ecosystems."
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={5}
+              // @ts-ignore
+              md={4}
+            >
+              <MainCard title="Docs" description="Visit our Docs for more." />
+            </Grid>
+          </Grid>
+          <Box sx={{ pb: 5, marginTop: 3 }}>
+            <Tabs />
+          </Box>
+        </Container>
       </Container>
     </>
   );

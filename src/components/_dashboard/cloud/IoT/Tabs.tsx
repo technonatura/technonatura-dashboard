@@ -56,6 +56,15 @@ export default function RolesPage() {
           {/* @ts-ignore */}
           <IoTCloudApps sharedWithMe />
         </TabPanel>
+        <TabPanel value="docs">
+          {/* @ts-ignore */}
+          <iframe
+            src="https://docs.technonatura.vercel.app"
+            frameBorder="0"
+            width="100%"
+            height="500px"
+          ></iframe>
+        </TabPanel>
       </TabContext>
     </>
   );
