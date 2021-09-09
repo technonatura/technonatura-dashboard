@@ -145,7 +145,10 @@ export default function LoginForm() {
               Click login to continue using TechnoNatura Social Account to
               TechnoNatura Project
             </Typography>
-            <form method="post" action="http://localhost:3010/api/login">
+            <form
+              method="post"
+              action="https://tn-project.vercel.app/api/login"
+            >
               <input type="hidden" name="token" value={authState.token} />
               <LoadingButton
                 type="submit"
