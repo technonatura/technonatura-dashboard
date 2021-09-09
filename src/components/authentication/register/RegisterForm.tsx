@@ -225,15 +225,7 @@ export default function RegisterForm() {
     );
   }
   if (authState.me) {
-    if (
-      router.query.app &&
-      typeof router.query.app === "string" &&
-      router.query.app === "tn-project"
-    ) {
-      router.push("/login/?app=tn-project");
-
-      return "Authenticate you...";
-    }
+    
     return (
       <RootStyle
         // @ts-ignore
