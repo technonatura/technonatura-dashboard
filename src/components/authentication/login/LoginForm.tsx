@@ -147,7 +147,7 @@ export default function LoginForm() {
             </Typography>
             <form
               method="post"
-              action="https://tn-project.vercel.app/api/login"
+              action="https://tn-project.vercel.app/api/login/"
             >
               <input type="hidden" name="token" value={authState.token} />
               <LoadingButton
