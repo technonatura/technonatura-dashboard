@@ -71,7 +71,11 @@ export default function useUser() {
       user.status === "success" &&
       ["/login", "/signin", "/register", "/signup"].includes(router.pathname)
     ) {
-      router.push("/");
+      if (String(router.query.app) == "tn-project") {
+        console.log(router.query);
+      } else {
+        router.push("/");
+      }
     }
     if (
       user.status !== "success" &&

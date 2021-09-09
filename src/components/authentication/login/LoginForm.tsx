@@ -26,6 +26,7 @@ import {
   Container,
   Box,
   Typography,
+  Button,
 } from "@material-ui/core";
 import { LoadingButton } from "@material-ui/lab";
 import { styled } from "@material-ui/core/styles";
@@ -49,6 +50,8 @@ const RootStyle = styled(Page)(({ theme }) => ({
 }));
 
 export default function LoginForm() {
+  const [submitting, setSubmitting] = useState<boolean>(false);
+
   const router = useRouter();
   const [error, setError] = useState<string>("");
 
@@ -97,6 +100,13 @@ export default function LoginForm() {
         }
 
         if (
+          router.query.app &&
+          typeof router.query.app === "string" &&
+          router.query.app === "tn-project"
+        ) {
+          return;
+        }
+        if (
           router.query.to &&
           typeof router.query.to === "string" &&
           router.query.to.startsWith("/")
@@ -117,6 +127,42 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword((show) => !show);
   };
+
+  if (authState.me && router.query.app === "tn-project") {
+    return (
+      <RootStyle
+        // @ts-ignore
+        title="404 Page Not Found "
+      >
+        <Container>
+          <Box sx={{ width: 500, margin: "auto", textAlign: "center" }}>
+            <div>
+              <Typography variant="h3" paragraph>
+                Login to TechnoNatura Project
+              </Typography>
+            </div>
+            <Typography sx={{ mt: 3, color: "text.secondary" }}>
+              Click login to continue using TechnoNatura Social Account to
+              TechnoNatura Project
+            </Typography>
+            <form method="post" action="http://localhost:3010/api/login">
+              <input type="hidden" name="token" value={authState.token} />
+              <LoadingButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 5 }}
+                // loading={submitting}
+                // onClick={() => setSubmitting(true)}
+              >
+                Login
+              </LoadingButton>
+            </form>
+          </Box>
+        </Container>
+      </RootStyle>
+    );
+  }
 
   if (authState.me) {
     return (
