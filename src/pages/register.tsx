@@ -9,6 +9,8 @@ import Page from "../components/Page";
 import { MHidden } from "../components/@material-extend";
 import { RegisterForm } from "../components/authentication/register";
 
+import { useRouter } from "next/router";
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Page)(({ theme }) => ({
@@ -39,6 +41,19 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
+    const router = useRouter();
+
+  
+   if (
+      router.query.app &&
+      typeof router.query.app === "string" &&
+      router.query.app === "tn-project"
+    ) {
+      router.push("/login/?app=tn-project");
+
+      return "Authenticate you...";
+    }
+  
   return (
     <RootStyle
       // @ts-ignore
