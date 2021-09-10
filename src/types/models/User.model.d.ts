@@ -66,7 +66,7 @@ export interface UserInterface {
   points: number;
 
   accountCreated: Date;
-  birthDate: Date;
+  birthDate: number;
 
   roleInTechnoNatura:
     | TeacherRoleInTechnoNatura
