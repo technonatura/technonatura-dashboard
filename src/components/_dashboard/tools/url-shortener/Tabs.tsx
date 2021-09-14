@@ -11,7 +11,7 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 
-import TeachersAccount from "components/_dashboard/admin/teacher/account/index";
+// import TeachersAccount from "components/_dashboard/admin/teacher/account/index";
 
 import TechnoNaturaBranch from "./branch";
 // components
@@ -57,7 +57,7 @@ export default function RolesPage() {
         </TabPanel>
         <TabPanel value="teacher">
           {/* @ts-ignore */}
-          <TeachersAccount />
+          {/* <TeachersAccount /> */}
         </TabPanel>
       </TabContext>
     </>
