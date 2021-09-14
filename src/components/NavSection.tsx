@@ -67,6 +67,7 @@ function NavItem({
   isActiveRoot,
   match,
   isUserVerified,
+  userRoles,
 }: {
   item: sidebarConfigItem;
   isActiveRoot: boolean;
@@ -74,6 +75,7 @@ function NavItem({
   match: (path: string) => boolean;
 
   isUserVerified?: boolean;
+  userRoles: string[];
 }) {
   const theme = useTheme();
 
@@ -130,40 +132,44 @@ function NavItem({
               if (isForVerified && !isUserVerified) {
                 return "";
               }
-              return (
-                // eslint-disable-next-line react/no-array-index-key
-                <NextLink key={index} href={path}>
-                  <ListItemStyle
-                    key={title}
-                    sx={{
-                      ...(isActiveSub && activeSubStyle),
-                    }}
-                  >
-                    <ListItemIconStyle>
-                      <Box
-                        component="span"
-                        sx={{
-                          width: 4,
-                          height: 4,
-                          display: "flex",
-                          borderRadius: "50%",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          bgcolor: "text.disabled",
-                          // eslint-disable-next-line no-shadow
-                          transition: (theme) =>
-                            theme.transitions.create("transform"),
-                          ...(isActiveSub && {
-                            transform: "scale(2)",
-                            bgcolor: "primary.main",
-                          }),
-                        }}
-                      />
-                    </ListItemIconStyle>
-                    <ListItemText disableTypography primary={title} />
-                  </ListItemStyle>
-                </NextLink>
-              );
+
+              if (checkRoles(userRoles, item.forRoles)) {
+                return (
+                  // eslint-disable-next-line react/no-array-index-key
+                  <NextLink key={index} href={path}>
+                    <ListItemStyle
+                      key={title}
+                      sx={{
+                        ...(isActiveSub && activeSubStyle),
+                      }}
+                    >
+                      <ListItemIconStyle>
+                        <Box
+                          component="span"
+                          sx={{
+                            width: 4,
+                            height: 4,
+                            display: "flex",
+                            borderRadius: "50%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: "text.disabled",
+                            // eslint-disable-next-line no-shadow
+                            transition: (theme) =>
+                              theme.transitions.create("transform"),
+                            ...(isActiveSub && {
+                              transform: "scale(2)",
+                              bgcolor: "primary.main",
+                            }),
+                          }}
+                        />
+                      </ListItemIconStyle>
+                      <ListItemText disableTypography primary={title} />
+                    </ListItemStyle>
+                  </NextLink>
+                );
+              }
+              return "";
             })}
           </List>
         </Collapse>
@@ -195,12 +201,13 @@ export default function NavSection() {
   return (
     <Box>
       <List disablePadding>
-        {sidebarConfig.map((item) =>
-          item.isForVerified ? (
-            authState.me?.isAccountVerified &&
-            (item.forRoles ? (
+        {sidebarConfig.map((item) => {
+          if (item.isForVerified) {
+            return (
+              authState.me?.isAccountVerified &&
               checkRoles(authState.me.roles, item.forRoles) && (
                 <NavItem
+                  userRoles={authState.me.roles}
                   key={item.title}
                   item={item}
                   isActiveRoot={match(item.path)}
@@ -208,25 +215,21 @@ export default function NavSection() {
                   isUserVerified={authState.me?.isAccountVerified}
                 />
               )
-            ) : (
-              <NavItem
-                key={item.title}
-                item={item}
-                isActiveRoot={match(item.path)}
-                match={match}
-                isUserVerified={authState.me?.isAccountVerified}
-              />
-            ))
-          ) : (
+            );
+          }
+
+          return (
             <NavItem
+              // @ts-ignore
+              userRoles={authState.me.roles}
               key={item.title}
               item={item}
               isActiveRoot={match(item.path)}
               match={match}
               isUserVerified={authState.me?.isAccountVerified}
             />
-          )
-        )}
+          );
+        })}
       </List>
     </Box>
   );

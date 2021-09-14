@@ -2,9 +2,7 @@
 import * as Yup from "yup";
 
 const RegisterSchema = Yup.object().shape({
-  branch:
-    Yup.string()
-    .required("Branch required"),
+  branch: Yup.string().required("Branch required"),
 
   fullName: Yup.string()
     .min(2, "Too Short!")

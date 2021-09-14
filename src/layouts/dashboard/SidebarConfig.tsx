@@ -43,20 +43,20 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/",
     icon: getIcon(Home),
     isForVerified: false,
-    forRoles: [],
+    forRoles: ["user"],
   },
   {
     title: "Story",
     path: "/story",
     icon: getIcon(Story),
     isForVerified: false,
-    forRoles: [],
+    forRoles: ["user"],
 
     children: [
       {
         title: "My Stories",
         path: "/story/my",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
       {
@@ -73,13 +73,13 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/project",
     icon: getIcon(Project),
     isForVerified: false,
-    forRoles: [],
+    forRoles: ["user"],
 
     children: [
       {
         title: "My Projects",
         path: "/project/my",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
     ],
@@ -95,13 +95,13 @@ const sidebarConfig: sidebarConfigItem[] = [
       {
         title: "URL Shortener",
         path: "/tools/url",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
       {
         title: "Team",
         path: "/tools/team",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
     ],
@@ -112,25 +112,25 @@ const sidebarConfig: sidebarConfigItem[] = [
     path: "/cloud",
     icon: getIcon(Cloud),
     isForVerified: false,
-    forRoles: [],
+    forRoles: ["user"],
 
     children: [
       {
         title: "IoT Cloud",
         path: "/cloud/iot",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
       {
         title: "Auth Apps",
         path: "/cloud/auth",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
       {
         title: "GraphQL API",
         path: "/cloud/graphql-api",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
     ],
@@ -146,7 +146,7 @@ const sidebarConfig: sidebarConfigItem[] = [
       {
         title: "Manage Technonatura",
         path: "/admin/technonatura",
-        forRoles: ["admin"],
+        forRoles: ["admin", "teacher"],
         isForVerified: true,
       },
       {
@@ -161,25 +161,15 @@ const sidebarConfig: sidebarConfigItem[] = [
         forRoles: ["admin"],
         isForVerified: true,
       },
-    ],
-  },
-
-  {
-    title: "Teacher",
-    path: "/teacher",
-    icon: getIcon(Admin),
-    isForVerified: true,
-    forRoles: ["admin", "teacher"],
-
-    children: [
       {
         title: "Classroom",
-        path: "/teacher/classroom",
-        forRoles: ["admin", "teacher"],
+        path: "/admin/classroom",
         isForVerified: true,
+        forRoles: ["admin", "teacher"],
       },
     ],
   },
+
   {
     title: "settings",
     path: "/settings",
@@ -191,13 +181,13 @@ const sidebarConfig: sidebarConfigItem[] = [
       {
         title: "User Data",
         path: "/settings/user",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
       {
         title: "Privacy Data",
         path: "/settings/privacy",
-        forRoles: [],
+        forRoles: ["user"],
         isForVerified: false,
       },
     ],

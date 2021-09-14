@@ -11,9 +11,9 @@ import TabContext from "@material-ui/lab/TabContext";
 import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 
-import TeachersAccount from "components/_dashboard/technonatura-data-manager/teacher/account/index";
+import Classes from "./class";
+import Archives from "./archives";
 
-import TechnoNaturaBranch from "./branch";
 // components
 
 // import { Icon } from "@iconify/react";
@@ -21,8 +21,8 @@ import TechnoNaturaBranch from "./branch";
 
 // import
 
-export default function RolesPage() {
-  const [tab, setTab] = React.useState("branch");
+export default function ClassroomPage() {
+  const [tab, setTab] = React.useState("class");
 
   const handleChange = (event: any, newValue: any) => {
     setTab(newValue);
@@ -45,22 +45,15 @@ export default function RolesPage() {
             onChange={handleChange}
             aria-label="lab API tabs example"
           >
-            <Tab label=" Branch" value="branch" />
-            <Tab label=" Teacher Account" value="teacher" />
-            <Tab label=" Staff" value="staff" />
-            <Tab label=" Students" value="students" />
-            <Tab label=" Gallery" value="gallery" />
-            <Tab label=" News" value="news" />
-            <Tab label=" Blog" value="Blog" />
+            <Tab label=" Class" value="class" />
+            <Tab label=" Archives" value="archives" />
           </TabList>
         </Box>
-        <TabPanel value="branch">
-          {/* @ts-ignore */}
-          <TechnoNaturaBranch />
+        <TabPanel value="class">
+          <Classes />
         </TabPanel>
-        <TabPanel value="teacher">
-          {/* @ts-ignore */}
-          <TeachersAccount />
+        <TabPanel value="archives">
+          <Archives />
         </TabPanel>
       </TabContext>
     </>
