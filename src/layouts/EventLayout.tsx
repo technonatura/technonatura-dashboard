@@ -38,18 +38,24 @@ class SchoolPride extends React.Component<ReduxType, EventState> {
     this.nextTickAnimation = this.nextTickAnimation.bind(this);
 
     Store.subscribe(async () => {
-      console.log(this.props);
+      // console.log(this.props);
       if (this.props && this.props.me) {
         const {
           me: { birthDate },
         } = this.props;
         // const birthDate = 1221136012000;
-        console.log(birthDate);
+        // console.log(birthDate);
+        console.log(
+          new Date(birthDate).getDate(),
+          new Date().getDate(),
+          new Date(birthDate).getMonth(),
+          new Date().getMonth()
+        );
         if (
           new Date(birthDate).getDate() === new Date().getDate() &&
           new Date(birthDate).getMonth() === new Date().getMonth()
         ) {
-          console.log("asdd");
+          // console.log("asdd");
           setTimeout(() => {
             this.stopAnimation();
             this.setState({ openDiolog: false });
@@ -61,7 +67,7 @@ class SchoolPride extends React.Component<ReduxType, EventState> {
           document.body.addEventListener("mousemove", () => {
             if (!this.state.isPlaying) {
               this.startAnimation();
-              console.log(this.props);
+              // console.log(this.props);
 
               eventSong.play();
               this.setState({ isPlaying: true });

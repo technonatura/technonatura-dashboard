@@ -12,7 +12,15 @@ import { RootStore } from "@/global/index";
 import axios from "axios";
 
 // material
-// import { styled } from "@material-ui/core/styles";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormHelperText,
+  Autocomplete,
+  Box,
+} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -30,13 +38,22 @@ const createBranchSchema = Yup.object().shape({
     .required("Title is required"),
   name: Yup.string()
     .matches(
-      /^[A-Za-z0-9_-]*$/,
-      "Only letters, numbers, underscores, and dashes are allowed."
+      /^[a-zA-Z0-9._-]*$/,
+      "Only letters, numbers, underscores, dashes, and periods are allowed."
     )
     .min(1, "Too Short!")
-    .max(20, "Too Long!")
+    .max(50, "Too Long!")
+
     .required("name is required"),
+  category: Yup.string().required("Category is required"),
+  gradePeriod: Yup.number().required("This input required"),
 });
+
+let year: number[] = [];
+
+for (let i = new Date().getFullYear() - 6; i <= new Date().getFullYear(); i++) {
+  year.push(i);
+}
 
 export default function CreateBranch({
   isOpen,
@@ -53,34 +70,41 @@ export default function CreateBranch({
     initialValues: {
       title: "",
       name: "",
+      category: "",
+      gradePeriod: "",
     },
     validationSchema: createBranchSchema,
     onSubmit: async (values) => {
-      try {
-        const CreatedBranch = await axios.post<{
-          message: string;
-          status: string;
-          branch?: { title: string; name: string };
-          errors: { title: string; name: string };
-        }>(`${process.env.NEXT_PUBLIC_SERVER}/branch/add`, {
-          authToken: authState.token,
-          ...values,
-        });
-
-        if (CreatedBranch.data.status === "success") {
-          alert(CreatedBranch.data.message);
-          handleCloseCreateBranch();
-          fetchBranches();
-        }
-
-        if (CreatedBranch.data.errors) {
-          formik.setErrors(CreatedBranch.data.errors);
-        }
-      } catch (err) {
-        console.error(err);
-      }
+      // try {
+      //   const CreatedBranch = await axios.post<{
+      //     message: string;
+      //     status: string;
+      //     branch?: { title: string; name: string };
+      //     errors: { title: string; name: string };
+      //   }>(`${process.env.NEXT_PUBLIC_SERVER}/branch/add`, {
+      //     authToken: authState.token,
+      //     ...values,
+      //   });
+      //   if (CreatedBranch.data.status === "success") {
+      //     alert(CreatedBranch.data.message);
+      //     handleCloseCreateBranch();
+      //     fetchBranches();
+      //   }
+      //   if (CreatedBranch.data.errors) {
+      //     formik.setErrors(CreatedBranch.data.errors);
+      //   }
+      // } catch (err) {
+      //   console.error(err);
+      // }
     },
   });
+
+  React.useEffect(() => {
+    // const regex = /\s/i;
+    const titleCopy = formik.values.title.replaceAll(" ", "-");
+    formik.setFieldValue("name", titleCopy);
+    console.log(formik.values.title);
+  }, [formik.values.title]);
 
   //   const authState = useSelector((state: RootStore) => state.user);
 
@@ -132,9 +156,59 @@ export default function CreateBranch({
 
                   /* eslint-enable */
                 }
+                value={getFieldProps("title").value.replaceAll(" ", "-")}
                 style={{ marginTop: 20 }}
-                disabled={isSubmitting}
+                disabled={true}
               />
+              <FormControl
+                fullWidth
+                sx={{ mt: 3 }}
+                // @ts-ignore
+                error={errors.gradePeriod}
+              >
+                <Autocomplete
+                  id="grouped-demo"
+                  options={year}
+                  // @ts-ignore
+                  getOptionLabel={(option) => option}
+                  sx={{ width: "100%" }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Year" />
+                  )}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      {option}
+                    </Box>
+                  )}
+                />
+              </FormControl>
+              <FormControl
+                fullWidth
+                sx={{ mt: 3 }}
+                // @ts-ignore
+                error={errors.category}
+              >
+                <InputLabel id="category">Kategori</InputLabel>
+                <Select
+                  labelId="category"
+                  id="demo-simple-select"
+                  {...getFieldProps("category")}
+                  label="Kategori"
+                  disabled={isSubmitting}
+                  error={Boolean(errors.category)}
+                >
+                  <MenuItem value="art">Art</MenuItem>
+                  <MenuItem value="science">Science</MenuItem>
+                  <MenuItem value="engineering">Engineering</MenuItem>
+                  <MenuItem value="social">Social</MenuItem>
+                  <MenuItem value="entrepreneur">Entrepreneur</MenuItem>
+                </Select>
+                <FormHelperText> {errors.category}</FormHelperText>
+              </FormControl>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseCreateBranch}>Cancel</Button>

@@ -16,7 +16,7 @@ import MainCard from "components/cards/main";
 
 // components
 import Page from "components/Page";
-import Tabs from "@/components/_dashboard/admin/classroom/Tabs";
+import Tabs from "@/components/_dashboard/classroom/Tabs";
 
 // import { Icon } from "@iconify/react";
 // import Cloud from "@iconify/icons-ant-design/cloud-server";

@@ -30,9 +30,6 @@ import CardActions from "@material-ui/core/CardActions";
 
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
-import CreateBranchDialog from "./create";
-// import
-
 //   @ts-ignore
 function MenuPopover({ children, sx, ...other }) {
   return (
@@ -62,23 +59,19 @@ function MenuPopover({ children, sx, ...other }) {
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const branches = ["TechnoNatura Depok", "TechnoNatura Jogja"];
-const year = [2019, 2020, 2021];
+let year: number[] = [];
 
+for (let i = new Date().getFullYear() - 6; i <= new Date().getFullYear(); i++) {
+  year.push(i);
+}
 export default function ArchivesComponent() {
   const gradeOptions = grade.map((option) => {
     return {
       firstLetter:
-        option <= 6
-          ? "Elementary"
-          : option >= 6 && option <= 9
-          ? "Junior High School"
-          : "High School",
+        option <= 6 ? "MI" : option >= 6 && option <= 9 ? "MTS" : "MA",
       value: option,
     };
   });
-
-  const branchAnchorEl = React.useRef(null);
-  const gradeAnchorEl = React.useRef(null);
 
   const [openBranchesFilter, setOpenBranchesFilter] =
     React.useState<boolean>(false);
@@ -90,17 +83,6 @@ export default function ArchivesComponent() {
   }>({ fetched: false, message: "", status: "" });
 
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
-
-  //   const authState = useSelector((state: RootStore) => state.user);
-
-  const handleClickOpenCreateBranch = () => {
-    setOpenCrateBranch(true);
-  };
-
-  const handleCloseCreateBranch = () => {
-    setOpenCrateBranch(false);
-    console.log(openCreateBranch);
-  };
 
   React.useEffect(() => {
     fetchBranches();
@@ -168,7 +150,7 @@ export default function ArchivesComponent() {
               groupBy={(option) => option.firstLetter}
               // @ts-ignore
               getOptionLabel={(option) => option.value}
-              sx={{ width: 200 }}
+              sx={{ width: 100 }}
               renderInput={(params) => <TextField {...params} label="Grade" />}
               renderOption={(props, option) => (
                 <Box
@@ -224,11 +206,6 @@ export default function ArchivesComponent() {
           </CardContent>
         </Card>
       </Grid>
-      <CreateBranchDialog
-        isOpen={openCreateBranch}
-        handleCloseCreateBranch={handleCloseCreateBranch}
-        fetchBranches={fetchBranches}
-      />
     </>
   );
 }

@@ -3,8 +3,10 @@ import Home from "@iconify/icons-eva/home-outline";
 import settingsFill from "@iconify/icons-eva/settings-2-outline";
 import Cloud from "@iconify/icons-ant-design/cloud-server";
 import Admin from "@iconify/icons-ic/outline-admin-panel-settings";
+import ClassIcon from "@iconify/icons-ic/outline-class";
 import Project from "@iconify/icons-eva/folder-outline";
 import Story from "@iconify/icons-eva/book-outline";
+
 // import Teacher from "@iconify/icons-eva/";
 
 // import Teacher from "@iconify/icons-eva/";
@@ -161,13 +163,15 @@ const sidebarConfig: sidebarConfigItem[] = [
         forRoles: ["admin"],
         isForVerified: true,
       },
-      {
-        title: "Classroom",
-        path: "/admin/classroom",
-        isForVerified: true,
-        forRoles: ["admin", "teacher"],
-      },
     ],
+  },
+
+  {
+    title: "Classroom",
+    path: "/classroom",
+    icon: getIcon(ClassIcon),
+    isForVerified: true,
+    forRoles: ["user"],
   },
 
   {

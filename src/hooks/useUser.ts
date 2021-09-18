@@ -72,7 +72,7 @@ export default function useUser() {
       ["/login", "/signin", "/register", "/signup"].includes(router.pathname)
     ) {
       if (String(router.query.app) == "tn-project") {
-        console.log(router.query);
+        // console.log(router.query);
       } else {
         router.push("/");
       }

@@ -20,6 +20,10 @@ export interface StaffRoleInTechnoNatura {
   branch: string;
 }
 
+export interface AlumniRoleInTechnoNaturaI {
+  isAlumni: boolean;
+}
+
 export interface StudentRoleInTechnoNatura {
   student: boolean;
   grade: GradeInNumber;
@@ -71,7 +75,9 @@ export interface UserInterface {
   roleInTechnoNatura:
     | TeacherRoleInTechnoNatura
     | StudentRoleInTechnoNatura
-    | StaffRoleInTechnoNatura;
+    | StaffRoleInTechnoNatura
+    | AlumniRoleInTechnoNaturaI;
+
   alumni: AlumniRoleInTechnoNatura;
 
   badges: Array<string>;

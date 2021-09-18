@@ -132,6 +132,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           ></noscript> */}
           <Main />
           <NextScript />
+
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                    // before React is loaded
+            if (typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object') {
+               ${
+                 process.env.NODE_ENV == "production"
+                   ? "window.__REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function(){}"
+                   : ""
+               }
+            }
+                  `,
+            }}
+          />
         </body>
       </Html>
     );

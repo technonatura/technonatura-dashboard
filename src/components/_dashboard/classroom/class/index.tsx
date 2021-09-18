@@ -1,7 +1,7 @@
 import * as React from "react";
 
-// import { useSelector } from "react-redux";
-// import { RootStore } from "@/global/index";
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
 
 import axios from "axios";
 
@@ -14,6 +14,11 @@ import {
   CardContent,
   Stack,
   Button,
+  Menu,
+  MenuItem,
+  Autocomplete,
+  Box,
+  TextField,
 } from "@material-ui/core";
 
 import Label from "components/Label";
@@ -22,9 +27,21 @@ import CardActions from "@material-ui/core/CardActions";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 import CreateBranchDialog from "./create";
+import checkRoles from "@utils/checkRoles";
 // import
 
-export default function RolesPage() {
+const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+export default function ClassroomPage() {
+  const gradeOptions = grade.map((option) => {
+    return {
+      firstLetter:
+        option <= 6 ? "MI" : option >= 6 && option <= 9 ? "MTS" : "MA",
+      value: option,
+    };
+  });
+  const gradeAnchorEl = React.useRef(null);
+
   const [Branches, setBranches] = React.useState<{
     fetched: boolean;
     message: string;
@@ -33,7 +50,7 @@ export default function RolesPage() {
   }>({ fetched: false, message: "", status: "" });
   const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
 
-  //   const authState = useSelector((state: RootStore) => state.user);
+  const authState = useSelector((state: RootStore) => state.user);
 
   const handleClickOpenCreateBranch = () => {
     setOpenCrateBranch(true);
@@ -84,17 +101,78 @@ export default function RolesPage() {
         <Typography variant="h5" color="grayText">
           TechnoNatura Classes
         </Typography>
-        <Stack direction="row" spacing={2}>
-          <Button variant="outlined" endIcon={<ArrowDropDownIcon />}>
-            TechnoNatura Depok
-          </Button>
-          <Button variant="outlined" endIcon={<ArrowDropDownIcon />}>
-            Level 8
-          </Button>
-          <Button variant="contained" onClick={handleClickOpenCreateBranch}>
-            Create Branch
-          </Button>
-        </Stack>
+        {authState.me?.roles &&
+          checkRoles(authState.me?.roles, ["teacher", "admin"]) && (
+            <Stack direction="row" spacing={2}>
+              <div>
+                <Autocomplete
+                  id="grouped-demo"
+                  // @ts-ignore
+                  options={Branches.branches}
+                  // @ts-ignore
+                  getOptionLabel={(option) => option.title}
+                  sx={{ width: 225 }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Branch" />
+                  )}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      {option.title}
+                    </Box>
+                  )}
+                />
+              </div>
+              {checkRoles(authState.me?.roles, ["admin"])}
+              <div>
+                <Autocomplete
+                  id="grouped-demo"
+                  options={gradeOptions}
+                  groupBy={(option) => option.firstLetter}
+                  // @ts-ignore
+                  getOptionLabel={(option) => option.value}
+                  sx={{ width: 100 }}
+                  value={{
+                    // @ts-ignore
+                    firstLetter: authState.me?.roleInTechnoNatura.teacher
+                      ? // @ts-ignore
+                        String(authState.me?.roleInTechnoNatura.grade)
+                      : String(8),
+                    // @ts-ignore
+                    value: authState.me?.roleInTechnoNatura.teacher
+                      ? // @ts-ignore
+                        String(authState.me?.roleInTechnoNatura.grade)
+                      : String(8),
+                  }}
+                  disabled={checkRoles(authState.me?.roles, ["teacher"])}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Grade"
+                      // @ts-ignore
+                      disabled={checkRoles(authState.me?.roles, ["teacher"])}
+                    />
+                  )}
+                  renderOption={(props, option) => (
+                    <Box
+                      component="li"
+                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                      {...props}
+                    >
+                      {option.value}
+                    </Box>
+                  )}
+                />
+              </div>
+
+              <Button variant="contained" onClick={handleClickOpenCreateBranch}>
+                Create Class
+              </Button>
+            </Stack>
+          )}
       </Stack>
 
       {
