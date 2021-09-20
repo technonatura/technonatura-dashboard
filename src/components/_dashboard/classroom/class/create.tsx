@@ -20,6 +20,7 @@ import {
   FormHelperText,
   Autocomplete,
   Box,
+  Stack,
 } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -30,6 +31,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 // material
 import { Button } from "@material-ui/core";
 import LoadingButton from "@material-ui/lab/LoadingButton";
+import checkRoles from "@utils/checkRoles";
 
 const createBranchSchema = Yup.object().shape({
   title: Yup.string()
@@ -47,8 +49,10 @@ const createBranchSchema = Yup.object().shape({
     .required("name is required"),
   category: Yup.string().required("Category is required"),
   gradePeriod: Yup.number().required("This input required"),
+  grade: Yup.number().required("This input required"),
 });
 
+const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 let year: number[] = [];
 
 for (let i = new Date().getFullYear() - 6; i <= new Date().getFullYear(); i++) {
@@ -72,6 +76,7 @@ export default function CreateBranch({
       name: "",
       category: "",
       gradePeriod: "",
+      grade: "",
     },
     validationSchema: createBranchSchema,
     onSubmit: async (values) => {
@@ -160,20 +165,36 @@ export default function CreateBranch({
                 style={{ marginTop: 20 }}
                 disabled={true}
               />
-              <FormControl
-                fullWidth
-                sx={{ mt: 3 }}
-                // @ts-ignore
-                error={errors.gradePeriod}
-              >
+              {/* @ts-ignore */}
+              <Stack fullWidth sx={{ mt: 3 }} direction="row">
+                {authState.me && checkRoles(authState.me.roles, ["admin"]) && (
+                  <Autocomplete
+                    options={grade}
+                    // @ts-ignore
+                    getOptionLabel={(option) => option}
+                    sx={{ width: "100%" }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Grade" />
+                    )}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                        {...props}
+                      >
+                        {option}
+                      </Box>
+                    )}
+                  />
+                )}
                 <Autocomplete
-                  id="grouped-demo"
+                  id="gradePeriod"
                   options={year}
                   // @ts-ignore
                   getOptionLabel={(option) => option}
                   sx={{ width: "100%" }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Year" />
+                    <TextField {...params} label="Grade Period" />
                   )}
                   renderOption={(props, option) => (
                     <Box
@@ -185,7 +206,7 @@ export default function CreateBranch({
                     </Box>
                   )}
                 />
-              </FormControl>
+              </Stack>
               <FormControl
                 fullWidth
                 sx={{ mt: 3 }}

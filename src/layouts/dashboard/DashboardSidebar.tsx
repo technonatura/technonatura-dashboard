@@ -94,7 +94,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             ) : (
               <>
                 {" "}
-                <Avatar alt="Aldhaneka A" />
+                {/* @ts-ignore */}
+                <Avatar
+                  alt={authState.me?.username}
+                  src={authState.me?.avatar}
+                />
                 <Box sx={{ ml: 2 }}>
                   <Typography
                     variant="subtitle2"
