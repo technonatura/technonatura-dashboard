@@ -26,7 +26,6 @@ import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 // material
 import { Button } from "@material-ui/core";
@@ -48,6 +47,7 @@ const createBranchSchema = Yup.object().shape({
 
     .required("name is required"),
   category: Yup.string().required("Category is required"),
+  branchId: Yup.string().required("Branch is required"),
   gradePeriod: Yup.number().required("This input required"),
   grade: Yup.number().required("This input required"),
 });
@@ -63,10 +63,12 @@ export default function CreateBranch({
   isOpen,
   handleCloseCreateBranch,
   fetchBranches,
+  branches,
 }: {
   isOpen: boolean;
   handleCloseCreateBranch: () => void;
   fetchBranches: () => Promise<void>;
+  branches?: Array<{ title: string; name: string; active: boolean }>;
 }) {
   const authState = useSelector((state: RootStore) => state.user);
 
@@ -77,6 +79,7 @@ export default function CreateBranch({
       category: "",
       gradePeriod: "",
       grade: "",
+      branch: "",
     },
     validationSchema: createBranchSchema,
     onSubmit: async (values) => {
@@ -165,6 +168,28 @@ export default function CreateBranch({
                 style={{ marginTop: 20 }}
                 disabled={true}
               />
+              {authState.me &&
+                checkRoles(authState.me.roles, ["admin"]) &&
+                branches && (
+                  <Autocomplete
+                    options={branches}
+                    // @ts-ignore
+                    getOptionLabel={(option) => option.id}
+                    sx={{ width: "100%", marginTop: "20px" }}
+                    renderInput={(params) => (
+                      <TextField {...params} label="Branch" />
+                    )}
+                    renderOption={(props, option) => (
+                      <Box
+                        component="li"
+                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                        {...props}
+                      >
+                        {option.title}
+                      </Box>
+                    )}
+                  />
+                )}
               {/* @ts-ignore */}
               <Stack fullWidth sx={{ mt: 3 }} direction="row">
                 {authState.me && checkRoles(authState.me.roles, ["admin"]) && (
@@ -187,6 +212,7 @@ export default function CreateBranch({
                     )}
                   />
                 )}
+
                 <Autocomplete
                   id="gradePeriod"
                   options={year}

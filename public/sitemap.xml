@@ -2,21 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>http://localhost:3000src//*{.page,}</loc>
-    <lastmod>2021-09-18T13:21:19.624Z</lastmod>
+    <lastmod>2021-09-24T14:40:19.889Z</lastmod>
   </url>
 
   <url>
     <loc>http://localhost:3000src//blog/[post].page</loc>
-    <lastmod>2021-09-18T13:21:19.624Z</lastmod>
+    <lastmod>2021-09-24T14:40:19.889Z</lastmod>
   </url>
 
   <url>
     <loc>http://localhost:3000src/!/_*.js</loc>
-    <lastmod>2021-09-18T13:21:19.624Z</lastmod>
+    <lastmod>2021-09-24T14:40:19.889Z</lastmod>
   </url>
 
   <url>
     <loc>http://localhost:3000src/!/api</loc>
-    <lastmod>2021-09-18T13:21:19.624Z</lastmod>
+    <lastmod>2021-09-24T14:40:19.889Z</lastmod>
   </url>
 </urlset>

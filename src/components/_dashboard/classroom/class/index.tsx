@@ -108,7 +108,7 @@ export default function ClassroomPage() {
                 <Autocomplete
                   id="grouped-demo"
                   // @ts-ignore
-                  options={Branches.branches}
+                  options={Branches.branches?.filter((branch) => branch.active)}
                   // @ts-ignore
                   getOptionLabel={(option) => option.title}
                   sx={{ width: 225 }}
@@ -225,6 +225,7 @@ export default function ClassroomPage() {
         isOpen={openCreateBranch}
         handleCloseCreateBranch={handleCloseCreateBranch}
         fetchBranches={fetchBranches}
+        branches={Branches.branches?.filter((branch) => branch.active)}
       />
     </>
   );
