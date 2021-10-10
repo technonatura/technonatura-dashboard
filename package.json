@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.4.0",
+    "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
     "@iconify/icons-ant-design": "^1.1.0",
     "@iconify/icons-eva": "^1.1.0",
@@ -20,6 +20,8 @@
     "@material-ui/lab": "^5.0.0-alpha.38",
     "@material-ui/styles": "^5.0.0-alpha.36",
     "@material-ui/utils": "^5.0.0-alpha.36",
+    "@mui/icons-material": "^5.0.0-rc.1",
+    "@mui/material": "^5.0.0-rc.1",
     "@tabler/icons": "^1.41.2",
     "apexcharts": "^3.27.1",
     "axios": "^0.21.1",
