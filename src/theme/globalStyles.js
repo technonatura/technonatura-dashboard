@@ -1,4 +1,4 @@
-import { withStyles } from "@mui/material/styles";
+import { withStyles } from "@mui/styles";
 import palette from "./palette";
 // ----------------------------------------------------------------------
 
