@@ -2,7 +2,7 @@
 // import { GetServerSideProps } from "next";
 // import { applyServerSideCookie } from "next-universal-cookie";
 import Document, { DocumentContext, DocumentInitialProps } from "next/document";
-import { ServerStyleSheets } from "@mui/styles";
+import { ServerStyleSheets } from "@mui/material/styles";
 
 import React from "react";
 // // @ts-ignore
