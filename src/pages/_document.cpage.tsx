@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 // import { GA_TRACKING_ID } from "../utils/gtag";
-import { ServerStyleSheets } from "@mui/material/styles";
+import { ServerStyleSheets } from "@mui/styles";
 import React from "react";
 
 export default class MyDocument extends Document {
