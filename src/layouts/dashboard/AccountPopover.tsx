@@ -11,7 +11,7 @@ import homeFill from "@iconify/icons-eva/home-fill";
 import personFill from "@iconify/icons-eva/person-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
 // material
-import { alpha } from "@mui/material/styles";
+import { alpha } from "@mui/styles";
 import {
   Button,
   Box,

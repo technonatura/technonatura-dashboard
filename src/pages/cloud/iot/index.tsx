@@ -4,7 +4,7 @@ import { RootStore } from "@/global/index";
 import { NextSeo } from "next-seo";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 // material
 import { Container, Box, Typography, Divider, Grid } from "@mui/material";
 

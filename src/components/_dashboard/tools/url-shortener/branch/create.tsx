@@ -12,7 +12,7 @@ import { RootStore } from "@/global/index";
 import axios from "axios";
 
 // material
-// import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/styles";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";

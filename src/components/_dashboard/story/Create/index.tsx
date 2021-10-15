@@ -16,7 +16,7 @@ import StorySchema, { StorySchemaI } from "./StorySchema";
 // import NextLink from "next/link";
 
 // material
-// import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/styles";
 // // material
 // import { Container, Box, Typography } from "@mui/material";
 

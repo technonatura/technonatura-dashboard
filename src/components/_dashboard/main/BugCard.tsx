@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react";
 import BugReport from "@iconify/icons-ic/bug-report";
 
 // material
-import { alpha, experimentalStyled as styled } from "@mui/material/styles";
+import { alpha, experimentalStyled as styled } from "@mui/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

@@ -4,7 +4,7 @@ import { Typography, Card, Link } from "@mui/material";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 // material
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

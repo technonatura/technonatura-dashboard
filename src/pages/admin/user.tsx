@@ -6,7 +6,7 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 // material
 import { Container, Box, Typography, Link, Breadcrumbs } from "@mui/material";
 

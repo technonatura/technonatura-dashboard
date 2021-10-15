@@ -4,7 +4,7 @@ import * as React from "react";
 // import NextLink from "next/link";
 
 // material
-// import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/styles";
 // material
 import { Box, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";

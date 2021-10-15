@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import bugFilled from "@iconify/icons-ant-design/bug-filled";
 // material
-import { alpha, experimentalStyled as styled } from "@mui/material/styles";
+import { alpha, experimentalStyled as styled } from "@mui/styles";
 import { Card, Typography } from "@mui/material";
 // utils
 import { fShortenNumber } from "../../../utils/formatNumber";

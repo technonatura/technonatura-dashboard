@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 // material
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

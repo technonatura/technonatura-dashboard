@@ -5,7 +5,7 @@ import {
   ThemeProvider,
   StyledEngineProvider as StylesProvider,
   createTheme,
-} from "@mui/material/styles";
+} from "@mui/styles";
 //
 import shape from "./shape";
 import palette from "./palette";

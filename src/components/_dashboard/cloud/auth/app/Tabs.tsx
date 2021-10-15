@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 // material
-// import { styled } from "@mui/material/styles";
+// import { styled } from "@mui/styles";
 // material
 import { Box, Tab, Typography } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";

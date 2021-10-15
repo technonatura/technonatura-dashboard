@@ -7,7 +7,7 @@ import { RootStore } from "@/global/index";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 import {
   Box,
   Link,

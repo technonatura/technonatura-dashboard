@@ -6,7 +6,7 @@ import { RootStore } from "@/global/index";
 import axios from "axios";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 import {
   Grid,
   Container,

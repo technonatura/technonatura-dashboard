@@ -6,7 +6,7 @@ import { RootStore } from "@/global/index";
 import { useRouter } from "next/router";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 
 import useUser from "hooks/useUser";
 import NextLink from "next/link";

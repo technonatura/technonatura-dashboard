@@ -1,7 +1,7 @@
 import { merge } from "lodash";
 import ReactApexChart from "react-apexcharts";
 // material
-import { useTheme, experimentalStyled as styled } from "@mui/material/styles";
+import { useTheme, experimentalStyled as styled } from "@mui/styles";
 import { Card, CardHeader } from "@mui/material";
 // utils
 import { fNumber } from "../../../utils/formatNumber";

@@ -6,7 +6,7 @@ import { Typography, Card } from "@mui/material";
 import { Icon } from "@iconify/react";
 import Cloud from "@iconify/icons-ant-design/cloud-server";
 // material
-import { alpha, experimentalStyled as styled } from "@mui/material/styles";
+import { alpha, experimentalStyled as styled } from "@mui/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

@@ -8,7 +8,7 @@ import { RootStore } from "@/global/index";
 import { useTranslation } from "react-i18next";
 
 // material
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

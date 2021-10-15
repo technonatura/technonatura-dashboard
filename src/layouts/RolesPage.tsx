@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 // material
 import { Container, Box, Typography } from "@mui/material";
 

@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 import NextLink from "next/link";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 // material
 import {
   Container,

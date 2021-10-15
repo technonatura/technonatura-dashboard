@@ -10,7 +10,7 @@ import bellFill from "@iconify/icons-eva/bell-fill";
 import clockFill from "@iconify/icons-eva/clock-fill";
 import doneAllFill from "@iconify/icons-eva/done-all-fill";
 // material
-import { alpha } from "@mui/material/styles";
+import { alpha } from "@mui/styles";
 import {
   Box,
   List,

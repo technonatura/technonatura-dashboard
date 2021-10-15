@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import shareFill from "@iconify/icons-eva/share-fill";
 import messageCircleFill from "@iconify/icons-eva/message-circle-fill";
 // material
-import { alpha, experimentalStyled as styled } from "@mui/material/styles";
+import { alpha, experimentalStyled as styled } from "@mui/styles";
 import {
   Box,
   Link,

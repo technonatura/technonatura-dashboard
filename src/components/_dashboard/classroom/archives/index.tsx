@@ -5,7 +5,7 @@ import * as React from "react";
 
 import axios from "axios";
 
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/styles";
 
 // material
 import {

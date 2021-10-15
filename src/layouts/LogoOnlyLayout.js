@@ -1,6 +1,6 @@
 import { Link as RouterLink, Outlet } from "react-router-dom";
 // material
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 // components
 import Logo from "../components/Logo";
 

@@ -9,7 +9,7 @@ import Verify from "@iconify/icons-ic/baseline-verified";
 import { useSelector } from "react-redux";
 
 // material
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 import {
   Box,
   Toolbar,

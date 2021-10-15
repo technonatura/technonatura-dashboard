@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 // import NextLink from "next/link";
 
 // material
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 // material
 import { Container, Box, Typography } from "@mui/material";
 

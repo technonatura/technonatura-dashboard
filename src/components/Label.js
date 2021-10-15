@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 // material
-import { alpha, experimentalStyled as styled } from "@mui/material/styles";
+import { alpha, experimentalStyled as styled } from "@mui/styles";
 
 // ----------------------------------------------------------------------
 

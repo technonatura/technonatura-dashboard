@@ -29,7 +29,7 @@ import {
   Button,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { styled } from "@mui/material/styles";
+import { styled } from "@mui/styles";
 import toast from "react-hot-toast";
 
 import Page from "components/Page";

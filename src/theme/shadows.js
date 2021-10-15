@@ -1,5 +1,5 @@
 // material
-import { alpha } from "@mui/material/styles/";
+import { alpha } from "@mui/styles/";
 import palette from "./palette";
 
 // ----------------------------------------------------------------------

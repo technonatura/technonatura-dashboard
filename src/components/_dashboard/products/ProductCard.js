@@ -3,7 +3,7 @@ import NextLink from "next/link";
 
 // material
 import { Box, Card, Link, Typography, Stack } from "@mui/material";
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { experimentalStyled as styled } from "@mui/styles";
 // utils
 import { fCurrency } from "../../../utils/formatNumber";
 //

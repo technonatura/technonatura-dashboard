@@ -1,5 +1,5 @@
-import { createStyles, makeStyles } from "@mui/material/styles";
-import { useTheme } from "@mui/material/styles";
+import { createStyles, makeStyles } from "@mui/styles";
+import { useTheme } from "@mui/styles";
 
 // ----------------------------------------------------------------------
 

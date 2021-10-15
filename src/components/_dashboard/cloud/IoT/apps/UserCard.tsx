@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { FormikProps } from "formik";
 
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha } from "@mui/styles";
 import Button from "@mui/material/Button";
 import Menu, { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
