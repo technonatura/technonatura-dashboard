@@ -14,10 +14,10 @@ import {
   CardContent,
   Stack,
   Button,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Label from "components/Label";
-import CardActions from "@material-ui/core/CardActions";
+import CardActions from "@mui/material/CardActions";
 import CreateBranchDialog from "./create";
 // import
 

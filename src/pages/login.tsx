@@ -1,8 +1,8 @@
 import NextLink from "next/link";
 
 // material
-import { styled } from "@material-ui/core/styles";
-import { Card, Stack, Link, Container, Typography } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
+import { Card, Stack, Link, Container, Typography } from "@mui/material";
 
 import LanguagePopover from "layouts/dashboard/LanguagePopover";
 

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "eslint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
@@ -15,13 +16,9 @@
     "@iconify/icons-eva": "^1.1.0",
     "@iconify/icons-ic": "^1.1.6",
     "@iconify/react": "^1.1.4",
-    "@material-ui/core": "^5.0.0-beta.2",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/lab": "^5.0.0-alpha.38",
-    "@material-ui/styles": "^5.0.0-alpha.36",
-    "@material-ui/utils": "^5.0.0-alpha.36",
-    "@mui/icons-material": "^5.0.0-rc.1",
-    "@mui/material": "^5.0.0-rc.1",
+    "@mui/icons-material": "^5.0.4",
+    "@mui/lab": "^5.0.0-alpha.51",
+    "@mui/material": "^5.0.4",
     "@tabler/icons": "^1.41.2",
     "apexcharts": "^3.27.1",
     "axios": "^0.21.1",

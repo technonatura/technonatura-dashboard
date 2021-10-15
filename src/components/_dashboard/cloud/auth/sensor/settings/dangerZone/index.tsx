@@ -10,22 +10,15 @@ import { useFormik, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
 
 // material
-// import { styled } from "@material-ui/core/styles";
+// import { styled } from "@mui/material/styles";
 // material
-import {
-  Box,
-  Tab,
-  Card,
-  Typography,
-  TextField,
-  Button,
-} from "@material-ui/core";
-import TabContext from "@material-ui/lab/TabContext";
-import TabList from "@material-ui/lab/TabList";
-import TabPanel from "@material-ui/lab/TabPanel";
-import WarningIcon from "@material-ui/icons/Warning";
+import { Box, Tab, Card, Typography, TextField, Button } from "@mui/material";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import WarningIcon from "@mui/icons-material/Warning";
 
-import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 
 import { TeammateInterface } from "types/models/IoT/IoTApp.model";
 import CheckTeammate from "utils/checkTeammate";
@@ -33,7 +26,7 @@ import CheckTeammate from "utils/checkTeammate";
 import IoTCloudAppSensors from "./index";
 import { values } from "lodash";
 import axios from "axios";
-import { LoadingButton } from "@material-ui/lab";
+import { LoadingButton } from "@mui/lab";
 // components
 
 // import { Icon } from "@iconify/react";

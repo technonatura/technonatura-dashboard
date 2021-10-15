@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 
 // material
 // material
-import { Container, Grid } from "@material-ui/core";
+import { Container, Grid } from "@mui/material";
 
 // import { AppWeeklySales } from "components/_dashboard/app";
 

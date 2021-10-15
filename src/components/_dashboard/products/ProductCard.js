@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import NextLink from "next/link";
 
 // material
-import { Box, Card, Link, Typography, Stack } from "@material-ui/core";
-import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { Box, Card, Link, Typography, Stack } from "@mui/material";
+import { experimentalStyled as styled } from "@mui/material/styles";
 // utils
 import { fCurrency } from "../../../utils/formatNumber";
 //

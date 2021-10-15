@@ -14,7 +14,7 @@ import {
   Divider,
   Typography,
   CardHeader,
-} from "@material-ui/core";
+} from "@mui/material";
 // utils
 import { mockImgCover } from "../../../utils/mockImages";
 //

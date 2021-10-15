@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 // material
-import { alpha } from "@material-ui/core/styles";
+import { alpha } from "@mui/material/styles";
 import {
   Box,
   MenuItem,
   ListItemIcon,
   ListItemText,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootStore } from "global/index";

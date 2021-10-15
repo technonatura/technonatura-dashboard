@@ -10,9 +10,9 @@ import axios from "axios";
 import { NextSeo } from "next-seo";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 // material
-import { Container, Box, Typography, Divider, Grid } from "@material-ui/core";
+import { Container, Box, Typography, Divider, Grid } from "@mui/material";
 
 // components
 import Page from "components/Page";
@@ -30,7 +30,7 @@ import {
   Button,
   Link,
   CircularProgress,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Label from "components/Label";
 import { useDispatch } from "react-redux";

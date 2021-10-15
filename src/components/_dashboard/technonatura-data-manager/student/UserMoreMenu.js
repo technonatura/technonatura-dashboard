@@ -10,7 +10,7 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
+} from "@mui/material";
 
 // ----------------------------------------------------------------------
 

@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import NextLink from "next/link";
 
 // material
-import { experimentalStyled as styled } from "@material-ui/core/styles";
-import { Typography, Stack } from "@material-ui/core";
+import { experimentalStyled as styled } from "@mui/material/styles";
+import { Typography, Stack } from "@mui/material";
 
 import LanguagePopover from "layouts/dashboard/LanguagePopover";
 

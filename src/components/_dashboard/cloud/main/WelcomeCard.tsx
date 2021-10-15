@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Typography, Card } from "@material-ui/core";
+import { Typography, Card } from "@mui/material";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 // material
-import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@mui/material/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

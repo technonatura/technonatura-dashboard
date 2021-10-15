@@ -5,13 +5,7 @@ import { NextSeo } from "next-seo";
 import NextLink from "next/link";
 
 // material
-import {
-  Container,
-  Box,
-  Typography,
-  Link,
-  Breadcrumbs,
-} from "@material-ui/core";
+import { Container, Box, Typography, Link, Breadcrumbs } from "@mui/material";
 
 import { Icon } from "@iconify/react";
 import Cloud from "@iconify/icons-ant-design/cloud-server";

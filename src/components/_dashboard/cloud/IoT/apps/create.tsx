@@ -27,10 +27,10 @@ import {
   FormHelperText,
   LinearProgress,
   Box,
-} from "@material-ui/core/";
+} from "@mui/material/";
 
 // material
-import LoadingButton from "@material-ui/lab/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import fetchUsers from "@utils/api/getStudents";
 import RegisterIotCloudApp from "@utils/api/CreateIoTCloudApp";

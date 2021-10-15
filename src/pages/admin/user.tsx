@@ -6,15 +6,9 @@ import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 // material
-import {
-  Container,
-  Box,
-  Typography,
-  Link,
-  Breadcrumbs,
-} from "@material-ui/core";
+import { Container, Box, Typography, Link, Breadcrumbs } from "@mui/material";
 
 // components
 import Page from "components/Page";

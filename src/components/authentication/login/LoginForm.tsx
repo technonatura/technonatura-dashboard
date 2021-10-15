@@ -27,9 +27,9 @@ import {
   Box,
   Typography,
   Button,
-} from "@material-ui/core";
-import { LoadingButton } from "@material-ui/lab";
-import { styled } from "@material-ui/core/styles";
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { styled } from "@mui/material/styles";
 import toast from "react-hot-toast";
 
 import Page from "components/Page";

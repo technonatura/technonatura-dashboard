@@ -5,7 +5,7 @@ import * as React from "react";
 
 import axios from "axios";
 
-import { styled, alpha } from "@material-ui/core/styles";
+import { styled, alpha } from "@mui/material/styles";
 
 // material
 import {
@@ -23,12 +23,12 @@ import {
   Autocomplete,
   TextField,
   Box,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Label from "components/Label";
-import CardActions from "@material-ui/core/CardActions";
+import CardActions from "@mui/material/CardActions";
 
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 //   @ts-ignore
 function MenuPopover({ children, sx, ...other }) {

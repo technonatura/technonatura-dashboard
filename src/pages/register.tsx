@@ -1,7 +1,7 @@
 import NextLink from "next/link";
 // material
-import { styled } from "@material-ui/core/styles";
-import { Card, Link, Container, Typography } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
+import { Card, Link, Container, Typography } from "@mui/material";
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components
@@ -41,19 +41,18 @@ const ContentStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
-    const router = useRouter();
+  const router = useRouter();
 
-  
-   if (
-      router.query.app &&
-      typeof router.query.app === "string" &&
-      router.query.app === "tn-project"
-    ) {
-      router.push("/login/?app=tn-project");
+  if (
+    router.query.app &&
+    typeof router.query.app === "string" &&
+    router.query.app === "tn-project"
+  ) {
+    router.push("/login/?app=tn-project");
 
-      return "Authenticate you...";
-    }
-  
+    return "Authenticate you...";
+  }
+
   return (
     <RootStyle
       // @ts-ignore

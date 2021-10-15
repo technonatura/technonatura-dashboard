@@ -19,12 +19,12 @@ import {
   Autocomplete,
   Box,
   TextField,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Label from "components/Label";
-import CardActions from "@material-ui/core/CardActions";
+import CardActions from "@mui/material/CardActions";
 
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import CreateBranchDialog from "./create";
 import checkRoles from "@utils/checkRoles";

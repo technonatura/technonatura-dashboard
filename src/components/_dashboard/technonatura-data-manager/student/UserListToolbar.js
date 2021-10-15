@@ -9,7 +9,7 @@ import Verify from "@iconify/icons-ic/baseline-verified";
 import { useSelector } from "react-redux";
 
 // material
-import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@mui/material/styles";
 import {
   Box,
   Toolbar,
@@ -20,7 +20,7 @@ import {
   InputAdornment,
   Backdrop,
   CircularProgress,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import VerifySomeUsers from "./verifySomeUsers";
 import DeleteSomeUsers from "./deleteUsers";

@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { CookiesProvider } from "react-cookie";
 // import { NextCookieProvider } from "next-universal-cookie";
 
-import { Typography, Link } from "@material-ui/core";
+import { Typography, Link } from "@mui/material";
 
 import { NextSeo } from "next-seo";
 
