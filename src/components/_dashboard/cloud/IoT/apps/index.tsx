@@ -6,7 +6,7 @@ import { RootStore } from "@/global/index";
 import axios from "axios";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 import {
   Grid,
   Container,
@@ -16,7 +16,7 @@ import {
   Stack,
   Button,
   Link,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import Label from "components/Label";
 

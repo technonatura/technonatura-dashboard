@@ -9,7 +9,7 @@ import { Icon } from "@iconify/react";
 import arrowIosForwardFill from "@iconify/icons-eva/arrow-ios-forward-fill";
 import arrowIosDownwardFill from "@iconify/icons-eva/arrow-ios-downward-fill";
 // material
-import { alpha, useTheme, styled } from "@material-ui/core/styles";
+import { alpha, useTheme, styled } from "@mui/material/styles";
 import {
   Box,
   List,
@@ -17,7 +17,7 @@ import {
   Collapse,
   ListItemText,
   ListItemIcon,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import sidebarConfig, {
   sidebarConfigItem,

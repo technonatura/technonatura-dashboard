@@ -2,15 +2,15 @@ import * as React from "react";
 
 import { FormikProps } from "formik";
 
-import { styled, alpha } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Menu, { MenuProps } from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Divider from "@material-ui/core/Divider";
-import Stack from "@material-ui/core/Stack";
+import { styled, alpha } from "@mui/material/styles";
+import Button from "@mui/material/Button";
+import Menu, { MenuProps } from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
+import Stack from "@mui/material/Stack";
 
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import { Card, CardHeader, Avatar } from "@material-ui/core/";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { Card, CardHeader, Avatar } from "@mui/material/";
 
 import { TeammateInterface } from "types/models/IoT/IoTApp.model";
 import { UserInterface } from "types/models/User.model";

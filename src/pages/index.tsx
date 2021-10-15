@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, Container } from "@material-ui/core";
+import { Grid, Container } from "@mui/material";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 import {

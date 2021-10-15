@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import axios from "axios";
 
 // material
-// import { styled } from "@material-ui/core/styles";
+// import { styled } from "@mui/material/styles";
 // material
 import {
   Box,
@@ -30,8 +30,8 @@ import {
   Select,
   FormHelperText,
   LinearProgress,
-} from "@material-ui/core";
-import LoadingButton from "@material-ui/lab/LoadingButton";
+} from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useRouter } from "next/router";
 // components

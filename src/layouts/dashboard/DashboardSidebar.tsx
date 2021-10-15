@@ -7,7 +7,7 @@ import { RootStore } from "@/global/index";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 import {
   Box,
   Link,
@@ -17,7 +17,7 @@ import {
   Avatar,
   Stack,
   CircularProgress,
-} from "@material-ui/core";
+} from "@mui/material";
 
 // components
 import Logo from "../../components/Logo";

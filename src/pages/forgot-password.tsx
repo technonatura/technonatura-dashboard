@@ -1,8 +1,8 @@
 import NextLink from "next/link";
 
 // material
-import { styled } from "@material-ui/core/styles";
-import { Stack, Link, Container, Typography } from "@material-ui/core";
+import { styled } from "@mui/material/styles";
+import { Stack, Link, Container, Typography } from "@mui/material";
 // layouts
 import AuthLayout from "../layouts/AuthLayout";
 // components

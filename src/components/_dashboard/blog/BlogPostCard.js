@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import shareFill from "@iconify/icons-eva/share-fill";
 import messageCircleFill from "@iconify/icons-eva/message-circle-fill";
 // material
-import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
+import { alpha, experimentalStyled as styled } from "@mui/material/styles";
 import {
   Box,
   Link,
@@ -14,7 +14,7 @@ import {
   Avatar,
   Typography,
   CardContent,
-} from "@material-ui/core";
+} from "@mui/material";
 // utils
 import { fDate } from "../../../utils/formatTime";
 import { fShortenNumber } from "../../../utils/formatNumber";

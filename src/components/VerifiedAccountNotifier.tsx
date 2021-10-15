@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
 // material
-import { Alert, AlertTitle, Stack, Link } from "@material-ui/core";
+import { Alert, AlertTitle, Stack, Link } from "@mui/material";
 
 // @ts-ignore
 // eslint-disable-next-line no-undef

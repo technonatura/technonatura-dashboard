@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 // material
-import { CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@mui/material";
 import {
   ThemeProvider,
   StyledEngineProvider as StylesProvider,
   createTheme,
-} from "@material-ui/core/styles";
+} from "@mui/material/styles";
 //
 import shape from "./shape";
 import palette from "./palette";

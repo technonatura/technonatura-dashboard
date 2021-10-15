@@ -19,8 +19,8 @@ import {
   TextField,
   Box,
   Button,
-} from "@material-ui/core/";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from "@mui/material/";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { TeammateInterface } from "types/models/IoT/IoTApp.model";
 import { UserInterface } from "types/models/User.model";

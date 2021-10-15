@@ -16,7 +16,7 @@ import eyeFill from "@iconify/icons-eva/eye-fill";
 import eyeOffFill from "@iconify/icons-eva/eye-off-fill";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 // material
 import {
   Container,
@@ -26,16 +26,16 @@ import {
   InputAdornment,
   Box,
   Typography,
-} from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
-import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-import DateTimePicker from "@material-ui/lab/DateTimePicker";
-import CircularProgress from "@material-ui/core/CircularProgress";
+} from "@mui/material";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DateTimePicker from "@mui/lab/DateTimePicker";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { RegisterUserForm } from "@/types/models/RegisterUserForm.model";
 
@@ -225,7 +225,6 @@ export default function RegisterForm() {
     );
   }
   if (authState.me) {
-    
     return (
       <RootStyle
         // @ts-ignore

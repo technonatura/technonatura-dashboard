@@ -1,13 +1,13 @@
 import React from "react";
 
-import { Typography, Card, Link } from "@material-ui/core";
+import { Typography, Card, Link } from "@mui/material";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 import { Icon } from "@iconify/react";
 import BugReport from "@iconify/icons-ic/bug-report";
 
 // material
-import { alpha, experimentalStyled as styled } from "@material-ui/core/styles";
+import { alpha, experimentalStyled as styled } from "@mui/material/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

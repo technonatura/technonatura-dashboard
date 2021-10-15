@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 // material
-import { Box } from "@material-ui/core";
+import { Box } from "@mui/material";
 
 // ----------------------------------------------------------------------
 

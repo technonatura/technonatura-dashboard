@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Typography, Card, Link } from "@material-ui/core";
+import { Typography, Card, Link } from "@mui/material";
 // import { AppWeeklySales } from "components/_dashboard/app";
 
 // material
-import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@mui/material/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

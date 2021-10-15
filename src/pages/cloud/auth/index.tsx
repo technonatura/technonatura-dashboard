@@ -5,7 +5,7 @@ import { NextSeo } from "next-seo";
 import NextLink from "next/link";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 // material
 import {
   Container,
@@ -14,7 +14,7 @@ import {
   Link,
   Grid,
   Breadcrumbs,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import MainCard from "components/cards/main";
 

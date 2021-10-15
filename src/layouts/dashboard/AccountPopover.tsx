@@ -11,7 +11,7 @@ import homeFill from "@iconify/icons-eva/home-fill";
 import personFill from "@iconify/icons-eva/person-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
 // material
-import { alpha } from "@material-ui/core/styles";
+import { alpha } from "@mui/material/styles";
 import {
   Button,
   Box,
@@ -20,7 +20,7 @@ import {
   Typography,
   Avatar,
   IconButton,
-} from "@material-ui/core";
+} from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";

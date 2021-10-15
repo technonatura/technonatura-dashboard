@@ -1,6 +1,6 @@
 // material
 
-import { LoadingButton } from "@material-ui/lab";
+import { LoadingButton } from "@mui/lab";
 
 // eslint-disable-next-line import/no-cycle
 import FormSteps from "./FormSteps";

@@ -21,15 +21,15 @@ import {
   Autocomplete,
   Box,
   Stack,
-} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
+} from "@mui/material";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 // material
-import { Button } from "@material-ui/core";
-import LoadingButton from "@material-ui/lab/LoadingButton";
+import { Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import checkRoles from "@utils/checkRoles";
 
 const createBranchSchema = Yup.object().shape({

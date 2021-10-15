@@ -6,12 +6,12 @@ import { RootStore } from "@/global/index";
 import { useRouter } from "next/router";
 
 // material
-import { styled } from "@material-ui/core/styles";
+import { styled } from "@mui/material/styles";
 
 import useUser from "hooks/useUser";
 import NextLink from "next/link";
 // material
-import { Box, Button, Typography, Container, Link } from "@material-ui/core";
+import { Box, Button, Typography, Container, Link } from "@mui/material";
 // components
 import { MotionContainer } from "components/animate";
 import Page from "components/Page";

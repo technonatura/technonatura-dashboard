@@ -14,7 +14,7 @@ import * as Yup from "yup";
 import axios from "axios";
 
 // material
-// import { styled } from "@material-ui/core/styles";
+// import { styled } from "@mui/material/styles";
 // material
 import {
   Box,
@@ -32,14 +32,14 @@ import {
   Select,
   FormHelperText,
   LinearProgress,
-} from "@material-ui/core";
-import LoadingButton from "@material-ui/lab/LoadingButton";
+} from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-import TabContext from "@material-ui/lab/TabContext";
-import TabList from "@material-ui/lab/TabList";
-import TabPanel from "@material-ui/lab/TabPanel";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
-import SettingsApplicationsIcon from "@material-ui/icons/SettingsApplications";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 
 import IoTCloudAppSensors from "./index";
 

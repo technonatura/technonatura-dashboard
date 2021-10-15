@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Typography, Card } from "@material-ui/core";
+import { Typography, Card } from "@mui/material";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
@@ -8,7 +8,7 @@ import { RootStore } from "@/global/index";
 import { useTranslation } from "react-i18next";
 
 // material
-import { experimentalStyled as styled } from "@material-ui/core/styles";
+import { experimentalStyled as styled } from "@mui/material/styles";
 // utils
 // import { fShortenNumber } from "../../../utils/formatNumber";
 

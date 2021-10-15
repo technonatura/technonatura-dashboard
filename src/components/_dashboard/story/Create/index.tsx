@@ -3,11 +3,11 @@ import * as React from "react";
 // import { useSelector } from "react-redux";
 // import { RootStore } from "@/global/index";
 
-import Accordion from "@material-ui/core/Accordion";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 import { useFormik } from "formik";
 import StorySchema, { StorySchemaI } from "./StorySchema";
@@ -16,9 +16,9 @@ import StorySchema, { StorySchemaI } from "./StorySchema";
 // import NextLink from "next/link";
 
 // material
-// import { styled } from "@material-ui/core/styles";
+// import { styled } from "@mui/material/styles";
 // // material
-// import { Container, Box, Typography } from "@material-ui/core";
+// import { Container, Box, Typography } from "@mui/material";
 
 // import { Icon } from "@iconify/react";
 // import Cloud from "@iconify/icons-ant-design/cloud-server";
