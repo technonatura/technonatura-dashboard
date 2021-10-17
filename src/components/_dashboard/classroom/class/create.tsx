@@ -45,6 +45,7 @@ const createBranchSchema = Yup.object().shape({
     .required("Description is required"),
   thumbnail: Yup.string()
     .min(4, "Too Short!")
+    .url()
     .required("Thumbnail is required"),
   name: Yup.string()
     .matches(
@@ -61,6 +62,7 @@ const createBranchSchema = Yup.object().shape({
   grade: Yup.number().required("This input required"),
   from: Yup.number().required("This week required"),
   to: Yup.number().required("This input required"),
+  isTeam: Yup.boolean().required(),
 });
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -97,13 +99,22 @@ export default function CreateBranch({
       name: "",
       category: "",
       gradePeriod: new Date().getFullYear(),
-      grade: 8,
+      // @ts-ignore
+      grade: authState.me?.roleInTechnoNatura.teacher
+        ? // @ts-ignore
+          authState.me?.roleInTechnoNatura.grade
+        : // @ts-ignore
+        authState.me?.roleInTechnoNatura.student
+        ? // @ts-ignore
+          authState.me?.roleInTechnoNatura.grade
+        : 8,
       branchId: "",
       active: true,
       from: Date.now() - 1000 * 60 * 60 * 24 * new Date().getDay(),
       to: Date.now() + 1000 * 60 * 60 * 24 * (6 - new Date().getDay()),
       desc: "",
       thumbnail: "",
+      isTeam: false,
     },
     validationSchema: createBranchSchema,
     onSubmit: async (values) => {
@@ -115,6 +126,7 @@ export default function CreateBranch({
           handleCloseCreateBranch();
           fetchBranches();
         }
+        console.log(CreatedClassroom);
         if (CreatedClassroom.errors) {
           // @ts-ignore
           formik.setErrors(CreatedClassroom.errors);
@@ -127,9 +139,10 @@ export default function CreateBranch({
 
   React.useEffect(() => {
     // const regex = /\s/i;
-    const titleCopy = formik.values.title.replaceAll(" ", "-");
-    formik.setFieldValue("name", titleCopy);
-    console.log(formik.values.title);
+    if (!formik.touched.name) {
+      const titleCopy = formik.values.title.replaceAll(" ", "-");
+      formik.setFieldValue("name", titleCopy);
+    }
   }, [formik.values.title]);
 
   //   const authState = useSelector((state: RootStore) => state.user);
@@ -190,9 +203,7 @@ export default function CreateBranch({
 
                   /* eslint-enable */
                 }
-                value={getFieldProps("title").value.replaceAll(" ", "-")}
                 style={{ marginTop: 20 }}
-                disabled={true}
               />
               <TextField
                 style={{ marginTop: 15 }}
@@ -268,18 +279,10 @@ export default function CreateBranch({
                     // @ts-ignore
                     getOptionLabel={(option) => option.value}
                     sx={{ width: "100%" }}
-                    value={{
-                      // @ts-ignore
-                      firstLetter: authState.me?.roleInTechnoNatura.teacher
-                        ? // @ts-ignore
-                          String(authState.me?.roleInTechnoNatura.grade)
-                        : String(8),
-                      // @ts-ignore
-                      value: authState.me?.roleInTechnoNatura.teacher
-                        ? // @ts-ignore
-                          String(authState.me?.roleInTechnoNatura.grade)
-                        : String(8),
+                    onInputChange={(e, i) => {
+                      setFieldValue("grade", i);
                     }}
+                    value={{ value: values.grade, firstLetter: values.grade }}
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -315,11 +318,15 @@ export default function CreateBranch({
                   options={year}
                   value={values.gradePeriod}
                   // @ts-ignore
-                  getOptionLabel={(option) => `${option} - ${option + 1}`}
+                  getOptionLabel={(option) => option}
                   sx={{ width: "100%" }}
+                  onInputChange={(e, i) => {
+                    setFieldValue("gradePeriod", i);
+                  }}
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      value
                       label="Grade Period"
                       error={Boolean(
                         // @ts-ignore
@@ -391,29 +398,55 @@ export default function CreateBranch({
                 </Stack>
               </LocalizationProvider>
 
-              <FormControl
-                fullWidth
-                sx={{ mt: 3 }}
-                // @ts-ignore
-                error={errors.category}
-              >
-                <InputLabel id="category">Kategori</InputLabel>
-                <Select
-                  labelId="category"
-                  id="demo-simple-select"
-                  {...getFieldProps("category")}
-                  label="Kategori"
-                  disabled={isSubmitting}
-                  error={Boolean(errors.category)}
+              {/* @ts-ignore */}
+              <Stack fullWidth sx={{ mt: 3 }} direction="row">
+                <FormControl
+                  fullWidth
+                  sx={{ mt: 3 }}
+                  // @ts-ignore
+                  error={errors.category}
                 >
-                  <MenuItem value="art">Art</MenuItem>
-                  <MenuItem value="science">Science</MenuItem>
-                  <MenuItem value="engineering">Engineering</MenuItem>
-                  <MenuItem value="social">Social</MenuItem>
-                  <MenuItem value="entrepreneur">Entrepreneur</MenuItem>
-                </Select>
-                <FormHelperText> {errors.category}</FormHelperText>
-              </FormControl>
+                  <InputLabel id="category">Kategori</InputLabel>
+                  <Select
+                    labelId="category"
+                    id="demo-simple-select"
+                    {...getFieldProps("category")}
+                    label="Kategori"
+                    disabled={isSubmitting}
+                    error={Boolean(errors.category)}
+                  >
+                    <MenuItem value="art">Art</MenuItem>
+                    <MenuItem value="science">Science</MenuItem>
+                    <MenuItem value="engineering">Engineering</MenuItem>
+                    <MenuItem value="social">Social</MenuItem>
+                    <MenuItem value="entrepreneur">Entrepreneur</MenuItem>
+                  </Select>
+                  <FormHelperText> {errors.category}</FormHelperText>
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  sx={{ mt: 3 }}
+                  // @ts-ignore
+                  error={errors.isTeam}
+                  {...getFieldProps("isTeam")}
+                >
+                  <InputLabel id="isTeam">Team</InputLabel>
+                  <Select
+                    labelId="isTeam"
+                    id="demo-simple-select"
+                    {...getFieldProps("isTeam")}
+                    label="Team"
+                    disabled={isSubmitting}
+                    error={Boolean(errors.isTeam)}
+                  >
+                    {/* @ts-ignore */}
+                    <MenuItem value={true}>Yes</MenuItem>
+                    {/* @ts-ignore */}
+                    <MenuItem value={false}>No</MenuItem>
+                  </Select>
+                  <FormHelperText> {errors.isTeam}</FormHelperText>
+                </FormControl>
+              </Stack>
             </DialogContent>
             <DialogActions>
               <Button onClick={handleCloseCreateBranch}>Cancel</Button>

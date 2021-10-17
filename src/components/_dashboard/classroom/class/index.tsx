@@ -40,24 +40,34 @@ export default function ClassroomPage() {
       value: option,
     };
   });
-
   const [Branches, setBranches] = React.useState<{
     fetched: boolean;
     message: string;
     status: string;
     branches?: Array<{ title: string; name: string; active: boolean }>;
   }>({ fetched: false, message: "", status: "" });
-  const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
+  const [openCreateClassroom, setOpenCreateClassroom] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
+  const [Grade, setGrade] = React.useState(() =>
+    // @ts-ignore
+    authState.me?.roleInTechnoNatura.teacher
+      ? // @ts-ignore
+        String(authState.me?.roleInTechnoNatura.grade)
+      : // @ts-ignore
+      authState.me?.roleInTechnoNatura.student
+      ? // @ts-ignore
+        authState.me?.roleInTechnoNatura.grade
+      : 1
+  );
 
-  const handleClickOpenCreateBranch = () => {
-    setOpenCrateBranch(true);
+  const handleClickOpenCreateClassroom = () => {
+    setOpenCreateClassroom(true);
   };
 
-  const handleCloseCreateBranch = () => {
-    setOpenCrateBranch(false);
-    console.log(openCreateBranch);
+  const handleCloseCreateClassroom = () => {
+    setOpenCreateClassroom(false);
+    console.log(openCreateClassroom);
   };
 
   React.useEffect(() => {
@@ -93,7 +103,7 @@ export default function ClassroomPage() {
   return (
     <>
       <Stack
-        sx={{ marginTop: 3 }}
+        sx={{ marginTop: 1 }}
         direction="row"
         justifyContent="space-between"
       >
@@ -167,7 +177,10 @@ export default function ClassroomPage() {
                 />
               </div>
 
-              <Button variant="contained" onClick={handleClickOpenCreateBranch}>
+              <Button
+                variant="contained"
+                onClick={handleClickOpenCreateClassroom}
+              >
                 Create Class
               </Button>
             </Stack>
@@ -221,8 +234,8 @@ export default function ClassroomPage() {
         )
       }
       <CreateBranchDialog
-        isOpen={openCreateBranch}
-        handleCloseCreateBranch={handleCloseCreateBranch}
+        isOpen={openCreateClassroom}
+        handleCloseCreateBranch={handleCloseCreateClassroom}
         fetchBranches={fetchBranches}
         branches={Branches.branches?.filter((branch) => branch.active)}
       />

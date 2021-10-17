@@ -1,7 +1,7 @@
 import * as React from "react";
 
-// import { NextSeo } from "next-seo";
-// import NextLink from "next/link";
+import { useSelector } from "react-redux";
+import { RootStore } from "@/global/index";
 
 // material
 // import { styled } from "@mui/material/styles";
@@ -19,7 +19,7 @@ import Archives from "./archives";
 // import { Icon } from "@iconify/react";
 // import Cloud from "@iconify/icons-ant-design/cloud-server";
 
-// import
+import checkRoles from "@utils/checkRoles";
 
 export default function ClassroomPage() {
   const [tab, setTab] = React.useState("class");
@@ -27,6 +27,7 @@ export default function ClassroomPage() {
   const handleChange = (event: any, newValue: any) => {
     setTab(newValue);
   };
+  const authState = useSelector((state: RootStore) => state.user);
 
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
@@ -37,24 +38,30 @@ export default function ClassroomPage() {
   return (
     <>
       <TabContext value={tab}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList
-            variant="scrollable"
-            scrollButtons
-            allowScrollButtonsMobile
-            onChange={handleChange}
-            aria-label="lab API tabs example"
-          >
-            <Tab label=" Class" value="class" />
-            <Tab label=" Archives" value="archives" />
-          </TabList>
-        </Box>
+        {authState.me && checkRoles(authState.me.roles, ["admin", "teacher"]) && (
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              onChange={handleChange}
+              aria-label="lab API tabs example"
+            >
+              <Tab label=" Class" value="class" />
+
+              <Tab label=" Archives" value="archives" />
+            </TabList>
+          </Box>
+        )}
+
         <TabPanel value="class">
           <Classes />
         </TabPanel>
-        <TabPanel value="archives">
-          <Archives />
-        </TabPanel>
+        {authState.me && checkRoles(authState.me.roles, ["admin", "teacher"]) && (
+          <TabPanel value="archives">
+            <Archives />
+          </TabPanel>
+        )}
       </TabContext>
     </>
   );
