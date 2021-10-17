@@ -75,12 +75,10 @@ for (let i = new Date().getFullYear() - 6; i <= new Date().getFullYear(); i++) {
 export default function CreateBranch({
   isOpen,
   handleCloseCreateBranch,
-  fetchBranches,
   branches,
 }: {
   isOpen: boolean;
   handleCloseCreateBranch: () => void;
-  fetchBranches: () => Promise<void>;
   branches?: Array<{ title: string; name: string; active: boolean }>;
 }) {
   const gradeOptions = grade.map((option) => {
@@ -124,7 +122,6 @@ export default function CreateBranch({
         if (CreatedClassroom.status === "success") {
           alert(CreatedClassroom.message);
           handleCloseCreateBranch();
-          fetchBranches();
         }
         console.log(CreatedClassroom);
         if (CreatedClassroom.errors) {

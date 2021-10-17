@@ -3,6 +3,8 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
+import axios from "axios";
+
 // material
 // import { styled } from "@mui/material/styles";
 // material
@@ -23,11 +25,47 @@ import checkRoles from "@utils/checkRoles";
 
 export default function ClassroomPage() {
   const [tab, setTab] = React.useState("class");
+  const [Branches, setBranches] = React.useState<{
+    fetched: boolean;
+    message: string;
+    status: string;
+    branches: Array<{ title: string; name: string; active: boolean }>;
+  }>({ fetched: false, message: "", status: "", branches: [] });
 
   const handleChange = (event: any, newValue: any) => {
     setTab(newValue);
   };
   const authState = useSelector((state: RootStore) => state.user);
+
+  React.useEffect(() => {
+    fetchBranches();
+  }, []);
+
+  async function fetchBranches() {
+    try {
+      // eslint-disable-next-line no-shadow
+      const branches = await axios.get<{
+        message: string;
+        status: string;
+        branches: Array<{ title: string; name: string; active: boolean }>;
+      }>(`${process.env.NEXT_PUBLIC_SERVER}/api/branches`);
+      console.log(branches.data.branches);
+      setBranches({
+        fetched: true,
+        message: "Success Fethed Branch",
+        status: "success",
+        branches: branches.data.branches,
+      });
+    } catch (err) {
+      // console.error(err);
+      setBranches({
+        fetched: true,
+        message: "error on server",
+        status: "error",
+        branches: [],
+      });
+    }
+  }
 
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
@@ -55,11 +93,11 @@ export default function ClassroomPage() {
         )}
 
         <TabPanel value="class">
-          <Classes />
+          <Classes Branches={Branches} />
         </TabPanel>
         {authState.me && checkRoles(authState.me.roles, ["admin", "teacher"]) && (
           <TabPanel value="archives">
-            <Archives />
+            <Archives Branches={Branches} />
           </TabPanel>
         )}
       </TabContext>

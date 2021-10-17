@@ -32,7 +32,16 @@ import checkRoles from "@utils/checkRoles";
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-export default function ClassroomPage() {
+export default function ClassroomPage({
+  Branches,
+}: {
+  Branches: {
+    fetched: boolean;
+    message: string;
+    status: string;
+    branches: Array<{ title: string; name: string; active: boolean }>;
+  };
+}) {
   const gradeOptions = grade.map((option) => {
     return {
       firstLetter:
@@ -40,12 +49,7 @@ export default function ClassroomPage() {
       value: option,
     };
   });
-  const [Branches, setBranches] = React.useState<{
-    fetched: boolean;
-    message: string;
-    status: string;
-    branches?: Array<{ title: string; name: string; active: boolean }>;
-  }>({ fetched: false, message: "", status: "" });
+
   const [openCreateClassroom, setOpenCreateClassroom] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
@@ -70,33 +74,6 @@ export default function ClassroomPage() {
     console.log(openCreateClassroom);
   };
 
-  React.useEffect(() => {
-    fetchBranches();
-  }, []);
-
-  async function fetchBranches() {
-    try {
-      // eslint-disable-next-line no-shadow
-      const branches = await axios.get<{
-        message: string;
-        status: string;
-        branches?: Array<{ title: string; name: string; active: boolean }>;
-      }>(`${process.env.NEXT_PUBLIC_SERVER}/api/branches`);
-      setBranches({
-        fetched: true,
-        message: "Success Fethed Branch",
-        status: "success",
-        branches: branches.data.branches,
-      });
-    } catch (err) {
-      // console.error(err);
-      setBranches({
-        fetched: true,
-        message: "error on server",
-        status: "error",
-      });
-    }
-  }
   //   const authState = useSelector((state: RootStore) => state.user);
 
   // eslint-disable-next-line no-unused-vars
@@ -115,9 +92,13 @@ export default function ClassroomPage() {
             <Stack direction="row" spacing={2}>
               <div>
                 <Autocomplete
+                  loading={!Branches.branches}
                   id="grouped-demo"
                   // @ts-ignore
-                  options={Branches.branches?.filter((branch) => branch.active)}
+                  options={
+                    Branches.branches &&
+                    Branches.branches?.filter((branch) => branch.active)
+                  }
                   // @ts-ignore
                   getOptionLabel={(option) => option.title}
                   sx={{ width: 225 }}
@@ -236,7 +217,6 @@ export default function ClassroomPage() {
       <CreateBranchDialog
         isOpen={openCreateClassroom}
         handleCloseCreateBranch={handleCloseCreateClassroom}
-        fetchBranches={fetchBranches}
         branches={Branches.branches?.filter((branch) => branch.active)}
       />
     </>

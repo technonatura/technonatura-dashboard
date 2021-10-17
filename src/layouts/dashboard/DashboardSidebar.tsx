@@ -17,6 +17,7 @@ import {
   Avatar,
   Stack,
   CircularProgress,
+  Badge,
 } from "@mui/material";
 
 // components
@@ -24,6 +25,9 @@ import Logo from "../../components/Logo";
 import Scrollbar from "../../components/Scrollbar";
 import NavSection from "../../components/NavSection";
 import { MHidden } from "../../components/@material-extend";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import ClassIcon from "@mui/icons-material/Class";
+import Tooltip from "@mui/material/Tooltip";
 
 // ----------------------------------------------------------------------
 
@@ -95,10 +99,50 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
               <>
                 {" "}
                 {/* @ts-ignore */}
-                <Avatar
-                  alt={authState.me?.username}
-                  src={authState.me?.avatar}
-                />
+                {authState.me ? (
+                  authState.me.roles.includes("admin") ? (
+                    <Badge
+                      color="primary"
+                      overlap="circular"
+                      badgeContent={
+                        <Tooltip title="You are an admin">
+                          {/* @ts-ignore */}
+                          <AdminPanelSettingsIcon fontSize="2px" />
+                        </Tooltip>
+                      }
+                    >
+                      <Avatar
+                        alt={authState.me?.username}
+                        src={authState.me?.avatar}
+                      />
+                    </Badge>
+                  ) : (
+                    authState.me.roles.includes("teacher") && (
+                      <Badge
+                        color="primary"
+                        overlap="circular"
+                        badgeContent={
+                          <Tooltip title="Teacher">
+                            {/* @ts-ignore */}
+                            <ClassIcon fontSize="2px" />
+                          </Tooltip>
+                        }
+                      >
+                        <Avatar
+                          alt={authState.me?.username}
+                          src={authState.me?.avatar}
+                        />
+                      </Badge>
+                    )
+                  )
+                ) : (
+                  <Avatar
+                    // @ts-ignore
+                    alt={authState.me?.username}
+                    // @ts-ignore
+                    src={authState.me?.avatar}
+                  />
+                )}
                 <Box sx={{ ml: 2 }}>
                   <Typography
                     variant="subtitle2"

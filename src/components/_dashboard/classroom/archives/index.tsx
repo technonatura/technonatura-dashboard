@@ -58,13 +58,21 @@ function MenuPopover({ children, sx, ...other }) {
 }
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const branches = ["TechnoNatura Depok", "TechnoNatura Jogja"];
 let year: number[] = [];
 
 for (let i = new Date().getFullYear() - 6; i <= new Date().getFullYear(); i++) {
   year.push(i);
 }
-export default function ArchivesComponent() {
+export default function ArchivesComponent({
+  Branches,
+}: {
+  Branches: {
+    fetched: boolean;
+    message: string;
+    status: string;
+    branches: Array<{ title: string; name: string; active: boolean }>;
+  };
+}) {
   const gradeOptions = grade.map((option) => {
     return {
       firstLetter:
@@ -75,42 +83,7 @@ export default function ArchivesComponent() {
 
   const [openBranchesFilter, setOpenBranchesFilter] =
     React.useState<boolean>(false);
-  const [Branches, setBranches] = React.useState<{
-    fetched: boolean;
-    message: string;
-    status: string;
-    branches?: Array<{ title: string; name: string; active: boolean }>;
-  }>({ fetched: false, message: "", status: "" });
 
-  const [openCreateBranch, setOpenCrateBranch] = React.useState(false);
-
-  React.useEffect(() => {
-    fetchBranches();
-  }, []);
-
-  async function fetchBranches() {
-    try {
-      // eslint-disable-next-line no-shadow
-      const storiesRes = await axios.get<{
-        message: string;
-        status: string;
-        branches?: Array<{ title: string; name: string; active: boolean }>;
-      }>(`${process.env.NEXT_PUBLIC_SERVER}/api/branches`);
-      setBranches({
-        fetched: true,
-        message: "Success Fethed Stories",
-        status: "success",
-        branches: storiesRes.data.branches,
-      });
-    } catch (err) {
-      // console.error(err);
-      setBranches({
-        fetched: true,
-        message: "error on server",
-        status: "error",
-      });
-    }
-  }
   //   const authState = useSelector((state: RootStore) => state.user);
 
   // eslint-disable-next-line no-unused-vars
@@ -128,8 +101,12 @@ export default function ArchivesComponent() {
           <div>
             <Autocomplete
               id="grouped-demo"
-              options={branches}
-              getOptionLabel={(option) => option}
+              loading={!Branches.branches}
+              options={
+                Branches.branches &&
+                Branches.branches?.filter((branch) => branch.active)
+              }
+              getOptionLabel={(option) => option.title}
               sx={{ width: 240 }}
               renderInput={(params) => <TextField {...params} label="Branch" />}
               renderOption={(props, option) => (
@@ -138,7 +115,7 @@ export default function ArchivesComponent() {
                   sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                   {...props}
                 >
-                  {option}
+                  {option.title}
                 </Box>
               )}
             />
