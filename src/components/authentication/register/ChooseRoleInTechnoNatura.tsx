@@ -62,7 +62,6 @@ export default function ChooseRoleInTechnoNatura({
           <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
 
           <Select
-            value={getFieldProps("startPeriod").value}
             {...getFieldProps("branch")}
             name="branch"
             fullWidth

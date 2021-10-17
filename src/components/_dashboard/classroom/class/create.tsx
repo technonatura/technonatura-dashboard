@@ -6,17 +6,11 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
 
-// import { NextSeo } from "next-seo";
-// import NextLink from "next/link";
-
-import axios from "axios";
-
 // material
 import {
   FormControl,
-  InputLabel,
   MenuItem,
-  Select,
+  InputLabel,
   FormHelperText,
   Autocomplete,
   Box,
@@ -27,16 +21,31 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+
 // material
-import { Button } from "@mui/material";
+import { Button, Select } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import checkRoles from "@utils/checkRoles";
+
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import { DateRange } from "@mui/lab/DateRangePicker";
+import MobileDateRangePicker from "@mui/lab/MobileDateRangePicker";
+
+import CreateClassrom from "utils/api/CreateClassroom";
 
 const createBranchSchema = Yup.object().shape({
   title: Yup.string()
     .min(4, "Too Short!")
     .max(50, "Too Long!")
     .required("Title is required"),
+  desc: Yup.string()
+    .min(4, "Too Short!")
+    .max(100, "Too Long!")
+    .required("Description is required"),
+  thumbnail: Yup.string()
+    .min(4, "Too Short!")
+    .required("Thumbnail is required"),
   name: Yup.string()
     .matches(
       /^[a-zA-Z0-9._-]*$/,
@@ -50,6 +59,8 @@ const createBranchSchema = Yup.object().shape({
   branchId: Yup.string().required("Branch is required"),
   gradePeriod: Yup.number().required("This input required"),
   grade: Yup.number().required("This input required"),
+  from: Yup.number().required("This week required"),
+  to: Yup.number().required("This input required"),
 });
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
@@ -70,6 +81,14 @@ export default function CreateBranch({
   fetchBranches: () => Promise<void>;
   branches?: Array<{ title: string; name: string; active: boolean }>;
 }) {
+  const gradeOptions = grade.map((option) => {
+    return {
+      firstLetter:
+        option <= 6 ? "MI" : option >= 6 && option <= 9 ? "MTS" : "MA",
+      value: option,
+    };
+  });
+  const [value, setValue] = React.useState<DateRange<Date>>([null, null]);
   const authState = useSelector((state: RootStore) => state.user);
 
   const formik = useFormik({
@@ -77,33 +96,32 @@ export default function CreateBranch({
       title: "",
       name: "",
       category: "",
-      gradePeriod: "",
-      grade: "",
-      branch: "",
+      gradePeriod: new Date().getFullYear(),
+      grade: 8,
+      branchId: "",
+      active: true,
+      from: Date.now() - 1000 * 60 * 60 * 24 * new Date().getDay(),
+      to: Date.now() + 1000 * 60 * 60 * 24 * (6 - new Date().getDay()),
+      desc: "",
+      thumbnail: "",
     },
     validationSchema: createBranchSchema,
     onSubmit: async (values) => {
-      // try {
-      //   const CreatedBranch = await axios.post<{
-      //     message: string;
-      //     status: string;
-      //     branch?: { title: string; name: string };
-      //     errors: { title: string; name: string };
-      //   }>(`${process.env.NEXT_PUBLIC_SERVER}/branch/add`, {
-      //     authToken: authState.token,
-      //     ...values,
-      //   });
-      //   if (CreatedBranch.data.status === "success") {
-      //     alert(CreatedBranch.data.message);
-      //     handleCloseCreateBranch();
-      //     fetchBranches();
-      //   }
-      //   if (CreatedBranch.data.errors) {
-      //     formik.setErrors(CreatedBranch.data.errors);
-      //   }
-      // } catch (err) {
-      //   console.error(err);
-      // }
+      try {
+        // @ts-ignore
+        const CreatedClassroom = await CreateClassrom(values, authState.token);
+        if (CreatedClassroom.status === "success") {
+          alert(CreatedClassroom.message);
+          handleCloseCreateBranch();
+          fetchBranches();
+        }
+        if (CreatedClassroom.errors) {
+          // @ts-ignore
+          formik.setErrors(CreatedClassroom.errors);
+        }
+      } catch (err) {
+        console.error(err);
+      }
     },
   });
 
@@ -118,14 +136,22 @@ export default function CreateBranch({
 
   // eslint-disable-next-line no-unused-vars
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    isSubmitting,
+    getFieldProps,
+    values,
+    setFieldValue,
+  } = formik;
 
   return (
     <>
       <Dialog fullWidth open={isOpen} onClose={handleCloseCreateBranch}>
         <FormikProvider value={formik}>
           <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-            <DialogTitle>Create Branch</DialogTitle>
+            <DialogTitle>Create Classroom</DialogTitle>
             <DialogContent>
               <TextField
                 style={{ marginTop: 15 }}
@@ -168,38 +194,109 @@ export default function CreateBranch({
                 style={{ marginTop: 20 }}
                 disabled={true}
               />
+              <TextField
+                style={{ marginTop: 15 }}
+                fullWidth
+                label="Description"
+                {...getFieldProps("desc")}
+                error={Boolean(
+                  // @ts-ignore
+                  touched["desc"] && errors["desc"]
+                )}
+                // @ts-ignore
+                helperText={
+                  /* eslint-disable */
+
+                  errors["desc"]
+
+                  /* eslint-enable */
+                }
+                disabled={isSubmitting}
+              />
+              <TextField
+                style={{ marginTop: 15 }}
+                fullWidth
+                label="Thumbnail, photo url"
+                {...getFieldProps("thumbnail")}
+                error={Boolean(
+                  // @ts-ignore
+                  touched["thumbnail"] && errors["thumbnail"]
+                )}
+                // @ts-ignore
+                helperText={
+                  /* eslint-disable */
+
+                  errors["thumbnail"]
+
+                  /* eslint-enable */
+                }
+                disabled={isSubmitting}
+              />
               {authState.me &&
                 checkRoles(authState.me.roles, ["admin"]) &&
                 branches && (
-                  <Autocomplete
-                    options={branches}
-                    // @ts-ignore
-                    getOptionLabel={(option) => option.id}
-                    sx={{ width: "100%", marginTop: "20px" }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Branch" />
-                    )}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                        {...props}
-                      >
-                        {option.title}
-                      </Box>
-                    )}
-                  />
+                  <FormControl fullWidth style={{ marginTop: 20 }}>
+                    <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
+
+                    <Select
+                      {...getFieldProps("branchId")}
+                      name="branchId"
+                      fullWidth
+                      label="Cabang TechnoNatura"
+                      error={Boolean(errors.branchId)}
+                    >
+                      {/* @ts-ignore */}
+                      {branches
+                        .filter((branch) => branch.active)
+                        .map((branch) => (
+                          // @ts-ignore
+                          <MenuItem key={branch._id} value={branch._id}>
+                            {branch.title}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>{errors.branchId}</FormHelperText>
+                  </FormControl>
                 )}
               {/* @ts-ignore */}
               <Stack fullWidth sx={{ mt: 3 }} direction="row">
                 {authState.me && checkRoles(authState.me.roles, ["admin"]) && (
                   <Autocomplete
-                    options={grade}
+                    id="grade"
+                    options={gradeOptions}
+                    groupBy={(option) => option.firstLetter}
                     // @ts-ignore
-                    getOptionLabel={(option) => option}
+                    getOptionLabel={(option) => option.value}
                     sx={{ width: "100%" }}
+                    value={{
+                      // @ts-ignore
+                      firstLetter: authState.me?.roleInTechnoNatura.teacher
+                        ? // @ts-ignore
+                          String(authState.me?.roleInTechnoNatura.grade)
+                        : String(8),
+                      // @ts-ignore
+                      value: authState.me?.roleInTechnoNatura.teacher
+                        ? // @ts-ignore
+                          String(authState.me?.roleInTechnoNatura.grade)
+                        : String(8),
+                    }}
                     renderInput={(params) => (
-                      <TextField {...params} label="Grade" />
+                      <TextField
+                        {...params}
+                        label="Grade"
+                        error={Boolean(
+                          // @ts-ignore
+                          touched["grade"] && errors["grade"]
+                        )}
+                        // @ts-ignore
+                        helperText={
+                          /* eslint-disable */
+
+                          errors["grade"]
+
+                          /* eslint-enable */
+                        }
+                      />
                     )}
                     renderOption={(props, option) => (
                       <Box
@@ -207,7 +304,7 @@ export default function CreateBranch({
                         sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                         {...props}
                       >
-                        {option}
+                        {option.value}
                       </Box>
                     )}
                   />
@@ -216,11 +313,27 @@ export default function CreateBranch({
                 <Autocomplete
                   id="gradePeriod"
                   options={year}
+                  value={values.gradePeriod}
                   // @ts-ignore
-                  getOptionLabel={(option) => option}
+                  getOptionLabel={(option) => `${option} - ${option + 1}`}
                   sx={{ width: "100%" }}
                   renderInput={(params) => (
-                    <TextField {...params} label="Grade Period" />
+                    <TextField
+                      {...params}
+                      label="Grade Period"
+                      error={Boolean(
+                        // @ts-ignore
+                        touched["gradePeriod"] && errors["gradePeriod"]
+                      )}
+                      // @ts-ignore
+                      helperText={
+                        /* eslint-disable */
+
+                        errors["gradePeriod"]
+
+                        /* eslint-enable */
+                      }
+                    />
                   )}
                   renderOption={(props, option) => (
                     <Box
@@ -228,11 +341,56 @@ export default function CreateBranch({
                       sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
                       {...props}
                     >
-                      {option}
+                      {option} - {option + 1}
                     </Box>
                   )}
                 />
               </Stack>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={3} mt={3} width="100%">
+                  <MobileDateRangePicker
+                    startText="Start Week"
+                    value={[values.from, values.to]}
+                    onChange={(newValue) => {
+                      console.log(newValue);
+                      setFieldValue(
+                        "from",
+                        new Date(String(newValue[0])).getTime()
+                      );
+                      setFieldValue(
+                        "to",
+                        new Date(String(newValue[1])).getTime()
+                      );
+                    }}
+                    minDate={2021}
+                    showToolbar
+                    todayText="d"
+                    renderInput={(startProps, endProps) => (
+                      <React.Fragment>
+                        <TextField
+                          fullWidth
+                          {...startProps}
+                          error={Boolean(
+                            // @ts-ignore
+                            touched["from"] && errors["from"]
+                          )}
+                        />
+                        <Box sx={{ mx: 2 }}> to </Box>
+                        <TextField
+                          fullWidth
+                          {...endProps}
+                          error={Boolean(
+                            // @ts-ignore
+                            touched["from"] && errors["from"]
+                          )}
+                        />
+                      </React.Fragment>
+                    )}
+                    toolbarTitle="Select Week"
+                  />
+                </Stack>
+              </LocalizationProvider>
+
               <FormControl
                 fullWidth
                 sx={{ mt: 3 }}

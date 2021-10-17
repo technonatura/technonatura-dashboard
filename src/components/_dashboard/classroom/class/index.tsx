@@ -40,7 +40,6 @@ export default function ClassroomPage() {
       value: option,
     };
   });
-  const gradeAnchorEl = React.useRef(null);
 
   const [Branches, setBranches] = React.useState<{
     fetched: boolean;
@@ -68,16 +67,16 @@ export default function ClassroomPage() {
   async function fetchBranches() {
     try {
       // eslint-disable-next-line no-shadow
-      const storiesRes = await axios.get<{
+      const branches = await axios.get<{
         message: string;
         status: string;
         branches?: Array<{ title: string; name: string; active: boolean }>;
       }>(`${process.env.NEXT_PUBLIC_SERVER}/api/branches`);
       setBranches({
         fetched: true,
-        message: "Success Fethed Stories",
+        message: "Success Fethed Branch",
         status: "success",
-        branches: storiesRes.data.branches,
+        branches: branches.data.branches,
       });
     } catch (err) {
       // console.error(err);
@@ -126,7 +125,7 @@ export default function ClassroomPage() {
                   )}
                 />
               </div>
-              {checkRoles(authState.me?.roles, ["admin"])}
+              {/* {checkRoles(authState.me?.roles, ["admin"])} */}
               <div>
                 <Autocomplete
                   id="grouped-demo"
