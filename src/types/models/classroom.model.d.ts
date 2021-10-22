@@ -1,4 +1,5 @@
 export interface ClassroomInterface {
+  _id: string;
   owner: string;
 
   title: string;

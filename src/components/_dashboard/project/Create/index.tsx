@@ -17,6 +17,7 @@ import {
   Container,
   Alert,
   AlertTitle,
+  TextField,
 } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -67,6 +68,7 @@ export default function CreateProjectComponent() {
 
       draft: true,
     },
+
     validationSchema: ProjectSchema,
     onSubmit: () => {},
   });
@@ -74,6 +76,20 @@ export default function CreateProjectComponent() {
   React.useEffect(() => {
     fetchClassrooms();
   }, []);
+
+  React.useEffect(() => {
+    formik.setFieldValue(
+      "category",
+      classrooms.data.find((c) => c._id === formik.values.classroomId)?.category
+    );
+  }, [formik.values.classroomId]);
+  React.useEffect(() => {
+    // const regex = /\s/i;
+    if (!formik.touched.name) {
+      const titleCopy = formik.values.title.replaceAll(" ", "-");
+      formik.setFieldValue("name", titleCopy);
+    }
+  }, [formik.values.title]);
 
   async function fetchClassrooms() {
     try {
@@ -91,17 +107,20 @@ export default function CreateProjectComponent() {
         // @ts-ignore
         `${process.env.NEXT_PUBLIC_SERVER}/api/classrooms/?username=${authState.me.username}&grade=${authState.me?.roleInTechnoNatura.grade}&gradePeriod=${authState.me?.roleInTechnoNatura.startPeriod}`
       );
+      console.log(classrooms.data);
       setClassrooms({
         loading: false,
         fetched: true,
+        error: false,
         // @ts-ignore
-        classrooms: classrooms.data.classrooms,
+        data: classrooms.data.classrooms,
       });
     } catch (err) {
       console.log("ERROR OCCURED WHEN FETCHING CLASSROOMS!", err);
       setClassrooms({
         loading: false,
         fetched: true,
+        error: true,
         // @ts-ignore
         classrooms: [],
       });
@@ -165,10 +184,64 @@ export default function CreateProjectComponent() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-              feugiat. Aliquam eget maximus est, id dignissim quam.
-            </Typography>
+            <TextField
+              style={{ marginTop: 15 }}
+              fullWidth
+              label="Title"
+              {...getFieldProps("title")}
+              error={Boolean(
+                // @ts-ignore
+                touched["title"] && errors["title"]
+              )}
+              // @ts-ignore
+              helperText={
+                /* eslint-disable */
+
+                errors["title"]
+
+                /* eslint-enable */
+              }
+              disabled={isSubmitting}
+            />
+            <TextField
+              // eslint-disable-next-line react/no-array-index-key
+              fullWidth
+              label="Name"
+              {...getFieldProps("name")}
+              error={Boolean(
+                // @ts-ignore
+                touched["name"] && errors["name"]
+              )}
+              // @ts-ignore
+              helperText={
+                /* eslint-disable */
+                // @ts-ignore
+
+                errors["name"]
+
+                /* eslint-enable */
+              }
+              style={{ marginTop: 20 }}
+            />
+            <TextField
+              style={{ marginTop: 15 }}
+              fullWidth
+              label="Description"
+              {...getFieldProps("desc")}
+              error={Boolean(
+                // @ts-ignore
+                touched["desc"] && errors["desc"]
+              )}
+              // @ts-ignore
+              helperText={
+                /* eslint-disable */
+
+                errors["desc"]
+
+                /* eslint-enable */
+              }
+              disabled={isSubmitting}
+            />
           </AccordionDetails>
         </Accordion>
         <Accordion
@@ -195,20 +268,21 @@ export default function CreateProjectComponent() {
                 // @ts-ignore
                 error={errors.classroomId}
               >
-                <InputLabel id="classroomId">Kategori</InputLabel>
+                <InputLabel id="classroomId">Classroom</InputLabel>
                 <Select
                   labelId="classroomId"
                   id="demo-simple-select"
                   {...getFieldProps("classroomId")}
-                  label="Kategori"
+                  label="Classroom"
                   disabled={isSubmitting}
                   error={Boolean(errors.classroomId)}
                 >
-                  <MenuItem value="art">Art</MenuItem>
-                  <MenuItem value="science">Science</MenuItem>
-                  <MenuItem value="engineering">Engineering</MenuItem>
-                  <MenuItem value="social">Social</MenuItem>
-                  <MenuItem value="entrepreneur">Entrepreneur</MenuItem>
+                  {classrooms.data &&
+                    classrooms.data.map((classroom) => (
+                      <MenuItem key={classroom.name} value={classroom._id}>
+                        {classroom.title}
+                      </MenuItem>
+                    ))}
                 </Select>
                 <FormHelperText> {errors.classroomId}</FormHelperText>
               </FormControl>
@@ -218,21 +292,14 @@ export default function CreateProjectComponent() {
                 // @ts-ignore
                 error={errors.category}
               >
-                <InputLabel id="category">Kategori</InputLabel>
-                <Select
-                  labelId="category"
+                <TextField
                   id="demo-simple-select"
                   {...getFieldProps("category")}
-                  label="Kategori"
-                  disabled={isSubmitting}
+                  placeholder="Kategori"
+                  disabled={true}
                   error={Boolean(errors.category)}
-                >
-                  <MenuItem value="art">Art</MenuItem>
-                  <MenuItem value="science">Science</MenuItem>
-                  <MenuItem value="engineering">Engineering</MenuItem>
-                  <MenuItem value="social">Social</MenuItem>
-                  <MenuItem value="entrepreneur">Entrepreneur</MenuItem>
-                </Select>
+                  value={formik.values.category}
+                ></TextField>
                 <FormHelperText> {errors.category}</FormHelperText>
               </FormControl>
             </Stack>

@@ -94,7 +94,7 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - Manage Story"
+        title="TechnoNatura App - Manage Project"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
@@ -108,8 +108,8 @@ export default function RolesPage() {
             md={8}
           >
             <MainCard
-              title="Welcome to Your Story Dashboard!"
-              description="You can manage story through this page."
+              title="Welcome to Your Project Dashboard!"
+              description="You can manage project through this page."
             />
           </Grid>
           <Grid

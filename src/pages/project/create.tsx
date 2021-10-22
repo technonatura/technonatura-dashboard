@@ -88,7 +88,7 @@ export default function RolesPage() {
   return (
     <>
       <NextSeo
-        title="TechnoNatura App - IOT API Cloud Service"
+        title="TechnoNatura App - Project"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
