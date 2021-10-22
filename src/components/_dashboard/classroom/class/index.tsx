@@ -19,16 +19,25 @@ import {
   Autocomplete,
   Box,
   TextField,
+  InputLabel,
+  Select,
+  FormControl,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-
+import SearchIcon from "@mui/icons-material/Search";
+import { styled } from "@mui/material/styles";
 import Label from "components/Label";
 import CardActions from "@mui/material/CardActions";
 
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-
+import AddIcon from "@mui/icons-material/Add";
 import CreateBranchDialog from "./create";
 import checkRoles from "@utils/checkRoles";
 // import
+const Input = styled("input")({
+  display: "none",
+});
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -51,6 +60,8 @@ export default function ClassroomPage({
   });
 
   const [openCreateClassroom, setOpenCreateClassroom] = React.useState(false);
+  const [openSelectedBranch, setSelectedBranch] =
+    React.useState<string>("false");
 
   const authState = useSelector((state: RootStore) => state.user);
   const [Grade, setGrade] = React.useState(() =>
@@ -91,31 +102,36 @@ export default function ClassroomPage({
           checkRoles(authState.me?.roles, ["teacher", "admin"]) && (
             <Stack direction="row" spacing={2}>
               <div>
-                <Autocomplete
-                  loading={!Branches.branches}
-                  id="grouped-demo"
-                  // @ts-ignore
-                  options={
-                    Branches.branches &&
-                    Branches.branches?.filter((branch) => branch.active)
-                  }
-                  // @ts-ignore
-                  getOptionLabel={(option) => option.title}
-                  sx={{ width: 225 }}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Branch" />
-                  )}
-                  renderOption={(props, option) => (
-                    <Box
-                      component="li"
-                      sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                      {...props}
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                  <FormControl fullWidth style={{ width: "210px" }}>
+                    <InputLabel id="branch">Cabang TechnoNatura</InputLabel>
+
+                    <Select
+                      name="branch"
+                      fullWidth
+                      label="Cabang TechnoNatura"
+                      onChange={(e) => {
+                        // @ts-ignore
+                        setSelectedBranch(e.target.value);
+                      }}
+                      // error={Boolean(errors.branch)}
+                      // helperText={errors.branch}
                     >
-                      {option.title}
-                    </Box>
-                  )}
-                />
+                      {/* @ts-ignore */}
+                      {Branches.branches
+                        .filter((branch) => branch.active)
+                        .map((branch) => (
+                          // @ts-ignore
+                          <MenuItem key={branch._id} value={branch._id}>
+                            {branch.title}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                    {/* <FormHelperText>{errors.branch}</FormHelperText> */}
+                  </FormControl>
+                </Stack>
               </div>
+
               {/* {checkRoles(authState.me?.roles, ["admin"])} */}
               <div>
                 <Autocomplete
@@ -127,15 +143,9 @@ export default function ClassroomPage({
                   sx={{ width: 100 }}
                   value={{
                     // @ts-ignore
-                    firstLetter: authState.me?.roleInTechnoNatura.teacher
-                      ? // @ts-ignore
-                        String(authState.me?.roleInTechnoNatura.grade)
-                      : String(8),
+                    firstLetter: Grade,
                     // @ts-ignore
-                    value: authState.me?.roleInTechnoNatura.teacher
-                      ? // @ts-ignore
-                        String(authState.me?.roleInTechnoNatura.grade)
-                      : String(8),
+                    value: Grade,
                   }}
                   disabled={checkRoles(authState.me?.roles, ["teacher"])}
                   renderInput={(params) => (
@@ -158,12 +168,21 @@ export default function ClassroomPage({
                 />
               </div>
 
-              <Button
-                variant="contained"
-                onClick={handleClickOpenCreateClassroom}
-              >
-                Create Class
-              </Button>
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary">
+                  <SearchIcon />
+                </IconButton>
+              </label>
+              <label htmlFor="icon-button-file">
+                <Tooltip title="Add Class">
+                  <IconButton
+                    color="primary"
+                    onClick={handleClickOpenCreateClassroom}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </Tooltip>
+              </label>
             </Stack>
           )}
       </Stack>

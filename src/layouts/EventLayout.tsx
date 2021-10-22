@@ -45,12 +45,12 @@ class SchoolPride extends React.Component<ReduxType, EventState> {
         } = this.props;
         // const birthDate = 1221136012000;
         // console.log(birthDate);
-        console.log(
-          new Date(birthDate).getDate(),
-          new Date().getDate(),
-          new Date(birthDate).getMonth(),
-          new Date().getMonth()
-        );
+        // console.log(
+        //   new Date(birthDate).getDate(),
+        //   new Date().getDate(),
+        //   new Date(birthDate).getMonth(),
+        //   new Date().getMonth()
+        // );
         if (
           new Date(birthDate).getDate() === new Date().getDate() &&
           new Date(birthDate).getMonth() === new Date().getMonth()

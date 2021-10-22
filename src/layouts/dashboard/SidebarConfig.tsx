@@ -76,15 +76,6 @@ const sidebarConfig: sidebarConfigItem[] = [
     icon: getIcon(Project),
     isForVerified: false,
     forRoles: ["user"],
-
-    children: [
-      {
-        title: "My Projects",
-        path: "/project/my",
-        forRoles: ["user"],
-        isForVerified: false,
-      },
-    ],
   },
   {
     title: "Tools",
