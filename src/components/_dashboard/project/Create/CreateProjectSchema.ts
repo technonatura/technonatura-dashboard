@@ -29,6 +29,7 @@ const ProjectSchema = Yup.object().shape({
     .required("Category is required"),
 
   draft: Yup.boolean(),
+  branch: Yup.boolean(),
 });
 export interface ProjectSchemaI {
   title: string;
@@ -42,5 +43,6 @@ export interface ProjectSchemaI {
 
   draft: boolean;
   classroomId: string;
+  branch: string;
 }
 export default ProjectSchema;

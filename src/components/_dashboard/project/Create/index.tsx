@@ -18,6 +18,7 @@ import {
   Alert,
   AlertTitle,
   TextField,
+  Chip,
 } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -43,6 +44,8 @@ import { ClassroomInterface } from "types/models/classroom.model";
 export default function CreateProjectComponent() {
   const authState = useSelector((state: RootStore) => state.user);
   const [expanded, setExpanded] = React.useState<string>("");
+  const [TagInput, setTagInput] = React.useState<string>("");
+
   const [classrooms, setClassrooms] = React.useState<{
     loading: boolean;
     fetched: boolean;
@@ -65,7 +68,8 @@ export default function CreateProjectComponent() {
       content: "",
       category: "",
       classroomId: "",
-
+      // @ts-ignore
+      branch: authState.me?.roleInTechnoNatura.branch,
       draft: true,
     },
 
@@ -90,6 +94,25 @@ export default function CreateProjectComponent() {
       formik.setFieldValue("name", titleCopy);
     }
   }, [formik.values.title]);
+
+  const handleKeyDown = (event: any) => {
+    switch (event.key) {
+      case ",":
+      case " ": {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.target.value.length > 3) {
+          formik.setFieldValue("tags", [
+            ...formik.values.tags,
+            event.target.value.trim(),
+          ]);
+        }
+
+        break;
+      }
+      default:
+    }
+  };
 
   async function fetchClassrooms() {
     try {
@@ -260,7 +283,48 @@ export default function CreateProjectComponent() {
               More depth about your project
             </Typography>
           </AccordionSummary>
+          <Alert severity="info" sx={{ mb: 2 }}>
+            <AlertTitle>Tag Rules</AlertTitle>
+            Tag naming should follow this regex rule:{" "}
+            <strong>/^[a-zA-Z0-9._-]*$/</strong> . Seperate with{" "}
+            <Chip label="," /> to create new tag . Tag length should be above 3
+          </Alert>
           <AccordionDetails>
+            <Autocomplete
+              multiple
+              id="fixed-tags-demo"
+              value={formik.values.tags}
+              onChange={(event, newValue) => {
+                if (newValue) {
+                  formik.setFieldValue("tags", [...newValue]);
+                }
+              }}
+              options={["hey", "bruh"]}
+              getOptionLabel={(option) => option}
+              renderTags={(tagValue, getTagProps) =>
+                tagValue.map((option, index) => (
+                  <Chip
+                    key={index}
+                    label={option}
+                    sx={{ m: "0 2px" }}
+                    // {...getTagProps({ index })}
+                    // disabled={fixedOptions.indexOf(option) !== -1}
+                  />
+                ))
+              }
+              noOptionsText={<p>Create New</p>}
+              style={{ width: "100%" }}
+              renderInput={(params) => {
+                params.inputProps.onKeyDown = handleKeyDown;
+                return (
+                  <TextField
+                    {...params}
+                    label="Project Tags"
+                    placeholder="Your Project Tags"
+                  />
+                );
+              }}
+            />
             <Stack direction="row">
               <FormControl
                 fullWidth
