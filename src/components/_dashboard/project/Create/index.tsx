@@ -19,12 +19,21 @@ import {
   AlertTitle,
   TextField,
   Chip,
+  Card,
+  CardActionArea,
+  CardMedia,
+  CardContent,
+  Grid,
+  Button,
+  Link,
 } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import { theme } from "theme";
 
 import { useFormik } from "formik";
 import ProjectSchema, { ProjectSchemaI } from "./CreateProjectSchema";
@@ -40,11 +49,16 @@ import { ClassroomInterface } from "types/models/classroom.model";
 
 // import { Icon } from "@iconify/react";
 // import Cloud from "@iconify/icons-ant-design/cloud-server";
+import PickThumbnailDialog from "./Thumbnail";
 
 export default function CreateProjectComponent() {
+  const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
+
   const authState = useSelector((state: RootStore) => state.user);
   const [expanded, setExpanded] = React.useState<string>("");
   const [TagInput, setTagInput] = React.useState<string>("");
+
+  const descriptionElementRef = React.useRef(null);
 
   const [classrooms, setClassrooms] = React.useState<{
     loading: boolean;
@@ -68,6 +82,7 @@ export default function CreateProjectComponent() {
       content: "",
       category: "",
       classroomId: "",
+      thumbnail: "",
       // @ts-ignore
       branch: authState.me?.roleInTechnoNatura.branch,
       draft: true,
@@ -76,6 +91,23 @@ export default function CreateProjectComponent() {
     validationSchema: ProjectSchema,
     onSubmit: () => {},
   });
+
+  const handleClickOpenPickThumbnail = () => {
+    setOpenPickThumbnail(true);
+  };
+
+  const handleClosePickThumbnail = () => {
+    setOpenPickThumbnail(false);
+  };
+  React.useEffect(() => {
+    if (OpenPickThumbnail) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        // @ts-ignore
+        descriptionElement.focus();
+      }
+    }
+  }, [OpenPickThumbnail]);
 
   React.useEffect(() => {
     fetchClassrooms();
@@ -283,6 +315,149 @@ export default function CreateProjectComponent() {
               More depth about your project
             </Typography>
           </AccordionSummary>
+          <Grid container mt={2} spacing={2}>
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              // @ts-ignore
+              md={6}
+            >
+              <Card
+                sx={{ width: "100%", m: "0px 10px" }}
+                onClick={handleClickOpenPickThumbnail}
+              >
+                <CardActionArea sx={{ p: "10px 20px" }}>
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Project Thumbnail
+                    </Typography>
+                    {formik.values.thumbnail ? (
+                      <CardMedia
+                        sx={{ mt: 2, borderRadius: "20px" }}
+                        component="img"
+                        image={formik.values.thumbnail}
+                        alt="green iguana"
+                      />
+                    ) : (
+                      <Container sx={{ p: "40px 0" }}>
+                        <Box
+                          sx={{
+                            maxWidth: 480,
+                            margin: "auto",
+                            textAlign: "center",
+                          }}
+                        >
+                          <Typography sx={{ mt: 3, color: "text.secondary" }}>
+                            You haven&apos;t uploaded thumbnail yet.
+                          </Typography>
+                        </Box>
+                      </Container>
+                    )}
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              // @ts-ignore
+              md={6}
+            >
+              <Card sx={{ width: "100%", m: "0px 10px", p: "10px 20px" }}>
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Project Assets
+                  </Typography>
+                  <Container>
+                    <Box
+                      sx={{
+                        maxWidth: 480,
+                        margin: "auto",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Typography sx={{ mt: 3, color: "text.secondary" }}>
+                        You haven&apos;t uploaded any project assets yet.
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        startIcon={<AddPhotoAlternateIcon />}
+                        sx={{ marginTop: 2 }}
+                      >
+                        Add
+                      </Button>
+                    </Box>
+                  </Container>
+                  <Grid container mt={2} spacing={3}>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={5}
+                      // @ts-ignore
+                      md={4}
+                    >
+                      <Card>
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image="/static/images/cards/contemplative-reptile.jpg"
+                            alt="green iguana"
+                          />
+                          <CardContent
+                            sx={{ padding: "10px 15px", paddingTop: "20px" }}
+                          >
+                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                              fdsf
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={12}
+                      sm={5}
+                      // @ts-ignore
+                      md={4}
+                    >
+                      <Card>
+                        <CardActionArea
+                          sx={{ backgroundColor: theme.palette.primary.main }}
+                        >
+                          <CardContent
+                            sx={{
+                              padding: "10px 15px",
+                              paddingTop: "20px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Typography sx={{ mb: 1.5 }} color="white">
+                              Add More
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Stack mt={2} mb={5} p="5px 20px" direction="row"></Stack>
+          <PickThumbnailDialog
+            open={OpenPickThumbnail}
+            descriptionElementRef={descriptionElementRef}
+            handleClose={handleClosePickThumbnail}
+            setThumbnail={(value: string) => {
+              formik.setFieldValue("thumbnail", value);
+            }}
+          />
           <Alert severity="info" sx={{ mb: 2 }}>
             <AlertTitle>Tag Rules</AlertTitle>
             Tag naming should follow this regex rule:{" "}

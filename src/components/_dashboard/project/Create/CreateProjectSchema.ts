@@ -8,7 +8,13 @@ const ProjectSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(30, "Too Long!")
     .required("First name required"),
-  name: Yup.string().min(2, "Too Short!").required("First name required"),
+  name: Yup.string()
+    .matches(
+      /^[a-zA-Z0-9._-]*$/,
+      "Only letters, numbers, underscores, dashes, and periods are allowed."
+    )
+    .min(2, "Too Short!")
+    .required("First name required"),
   desc: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
@@ -19,7 +25,7 @@ const ProjectSchema = Yup.object().shape({
     .max(2000, "Too Long!")
     .required("Description is required"),
 
-  thumbnail: Yup.string().required("thumbnaik required"),
+  thumbnail: Yup.string().required("thumbnail required"),
   assets: Yup.array().of(Yup.string()).required("thumbnaik required"),
 
   tags: Yup.array().of(Yup.string()),
@@ -44,5 +50,6 @@ export interface ProjectSchemaI {
   draft: boolean;
   classroomId: string;
   branch: string;
+  thumbnail: string;
 }
 export default ProjectSchema;
