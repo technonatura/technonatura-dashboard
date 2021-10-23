@@ -50,9 +50,12 @@ import { ClassroomInterface } from "types/models/classroom.model";
 // import { Icon } from "@iconify/react";
 // import Cloud from "@iconify/icons-ant-design/cloud-server";
 import PickThumbnailDialog from "./Thumbnail";
+import PickAssetsDialog from "./asset";
+import ContentEditor from "./content/index";
 
 export default function CreateProjectComponent() {
   const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
+  const [OpenPickAssets, setOpenPickAssets] = React.useState(false);
 
   const authState = useSelector((state: RootStore) => state.user);
   const [expanded, setExpanded] = React.useState<string>("");
@@ -76,6 +79,8 @@ export default function CreateProjectComponent() {
   const formik = useFormik<ProjectSchemaI>({
     initialValues: {
       tags: [],
+      assets: [],
+
       title: "",
       desc: "",
       name: "",
@@ -273,6 +278,8 @@ export default function CreateProjectComponent() {
                 // @ts-ignore
 
                 errors["name"]
+                  ? errors["name"]
+                  : `https://tn-project/p/${formik.values.name}`
 
                 /* eslint-enable */
               }
@@ -371,80 +378,96 @@ export default function CreateProjectComponent() {
                   <Typography gutterBottom variant="h5" component="div">
                     Project Assets
                   </Typography>
-                  <Container>
-                    <Box
-                      sx={{
-                        maxWidth: 480,
-                        margin: "auto",
-                        textAlign: "center",
-                      }}
-                    >
-                      <Typography sx={{ mt: 3, color: "text.secondary" }}>
-                        You haven&apos;t uploaded any project assets yet.
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        startIcon={<AddPhotoAlternateIcon />}
-                        sx={{ marginTop: 2 }}
+                  {formik.values.assets.length == 0 && (
+                    <Container>
+                      <Box
+                        sx={{
+                          maxWidth: 480,
+                          margin: "auto",
+                          textAlign: "center",
+                        }}
                       >
-                        Add
-                      </Button>
-                    </Box>
-                  </Container>
-                  <Grid container mt={2} spacing={3}>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={5}
-                      // @ts-ignore
-                      md={4}
-                    >
-                      <Card>
-                        <CardActionArea>
-                          <CardMedia
-                            component="img"
-                            height="140"
-                            image="/static/images/cards/contemplative-reptile.jpg"
-                            alt="green iguana"
-                          />
-                          <CardContent
-                            sx={{ padding: "10px 15px", paddingTop: "20px" }}
-                          >
-                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                              fdsf
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={5}
-                      // @ts-ignore
-                      md={4}
-                    >
-                      <Card>
-                        <CardActionArea
-                          sx={{ backgroundColor: theme.palette.primary.main }}
+                        <Typography sx={{ mt: 3, color: "text.secondary" }}>
+                          You haven&apos;t uploaded any project assets yet.
+                        </Typography>
+                        <Button
+                          variant="contained"
+                          startIcon={<AddPhotoAlternateIcon />}
+                          sx={{ marginTop: 2 }}
+                          onClick={() => setOpenPickAssets(true)}
                         >
-                          <CardContent
-                            sx={{
-                              padding: "10px 15px",
-                              paddingTop: "20px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
+                          Add
+                        </Button>
+                      </Box>
+                    </Container>
+                  )}
+
+                  {formik.values.assets.length != 0 && (
+                    <Grid container mt={2} spacing={3}>
+                      {formik.values.assets.map((asset, idx) => (
+                        <Grid
+                          key={idx}
+                          item
+                          xs={12}
+                          sm={5}
+                          // @ts-ignore
+                          md={4}
+                        >
+                          <Card>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                image={asset.url}
+                                alt="green iguana"
+                              />
+                              <CardContent
+                                sx={{
+                                  padding: "10px 15px",
+                                  paddingTop: "20px",
+                                }}
+                              >
+                                <Typography
+                                  sx={{ mb: 1.5 }}
+                                  color="text.secondary"
+                                >
+                                  {asset.desc}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        </Grid>
+                      ))}
+
+                      <Grid
+                        item
+                        xs={12}
+                        sm={5}
+                        // @ts-ignore
+                        md={4}
+                      >
+                        <Card>
+                          <CardActionArea
+                            sx={{ backgroundColor: theme.palette.primary.main }}
                           >
-                            <Typography sx={{ mb: 1.5 }} color="white">
-                              Add More
-                            </Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
+                            <CardContent
+                              sx={{
+                                padding: "10px 15px",
+                                paddingTop: "20px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                              onClick={() => setOpenPickAssets(true)}
+                            >
+                              <Typography sx={{ mb: 1.5 }} color="white">
+                                Add More
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      </Grid>
                     </Grid>
-                  </Grid>
+                  )}
                 </CardContent>
               </Card>
             </Grid>
@@ -456,6 +479,14 @@ export default function CreateProjectComponent() {
             handleClose={handleClosePickThumbnail}
             setThumbnail={(value: string) => {
               formik.setFieldValue("thumbnail", value);
+            }}
+          />
+          <PickAssetsDialog
+            open={OpenPickAssets}
+            descriptionElementRef={descriptionElementRef}
+            handleClose={() => setOpenPickAssets(false)}
+            setThumbnail={(value: { url: string; desc: string }) => {
+              formik.setFieldValue("assets", [...formik.values.assets, value]);
             }}
           />
           <Alert severity="info" sx={{ mb: 2 }}>
@@ -561,10 +592,7 @@ export default function CreateProjectComponent() {
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography>
-              Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer
-              sit amet egestas eros, vitae egestas augue. Duis vel est augue.
-            </Typography>
+            <ContentEditor />
           </AccordionDetails>
         </Accordion>
       </div>

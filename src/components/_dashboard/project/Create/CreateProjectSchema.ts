@@ -26,7 +26,7 @@ const ProjectSchema = Yup.object().shape({
     .required("Description is required"),
 
   thumbnail: Yup.string().required("thumbnail required"),
-  assets: Yup.array().of(Yup.string()).required("thumbnaik required"),
+  assets: Yup.array().of(Yup.object()).required("assets required"),
 
   tags: Yup.array().of(Yup.string()),
   category: Yup.string()
@@ -51,5 +51,7 @@ export interface ProjectSchemaI {
   classroomId: string;
   branch: string;
   thumbnail: string;
+
+  assets: Array<{ url: string; desc: string }>;
 }
 export default ProjectSchema;

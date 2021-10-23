@@ -88,7 +88,7 @@ export default function PickThumbnail({
   open: boolean;
   handleClose: () => void;
   descriptionElementRef: any;
-  setThumbnail: (value: string) => void;
+  setThumbnail: (value: { url: string; desc: string }) => void;
 }) {
   const [tab, setTab] = React.useState(0);
   const [alert, setAlert] = React.useState(false);
@@ -100,18 +100,18 @@ export default function PickThumbnail({
   const [files, setFiles] = React.useState([]);
 
   // eslint-disable-next-line no-unused-vars
-  const formik = useFormik<{ url: string }>({
+  const formik = useFormik<{ url: string; desc: string }>({
     initialValues: {
       url: "",
+      desc: "",
     },
 
     validationSchema: Yup.object().shape({
       url: Yup.string().url().required(),
+      desc: Yup.string(),
     }),
     onSubmit: () => {},
   });
-
-  console.log(files);
 
   const {
     errors,
@@ -131,9 +131,7 @@ export default function PickThumbnail({
       aria-describedby="scroll-dialog-description"
       fullWidth
     >
-      <DialogTitle id="scroll-dialog-title">
-        Upload Project Thumbnail
-      </DialogTitle>
+      <DialogTitle id="scroll-dialog-title">Upload Project Assets</DialogTitle>
       <DialogContent dividers>
         <Fade in={true}>
           <Alert severity="warning" sx={{ mb: 2 }}>
@@ -159,7 +157,7 @@ export default function PickThumbnail({
             allowFileEncode={true}
             allowFileSizeValidation
             allowImageCrop
-            maxFileSize="3MB"
+            maxFileSize="1MB"
             //   @ts-ignore
             onupdatefiles={setFiles}
             labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
@@ -196,7 +194,27 @@ export default function PickThumbnail({
             disabled={isSubmitting}
           />
         </TabPanel>
+        <TextField
+          style={{ marginTop: 15 }}
+          fullWidth
+          label="Photo Description"
+          {...getFieldProps("desc")}
+          error={Boolean(
+            // @ts-ignore
+            touched["desc"] && errors["desc"]
+          )}
+          // @ts-ignore
+          helperText={
+            /* eslint-disable */
+
+            errors["desc"]
+
+            /* eslint-enable */
+          }
+          disabled={isSubmitting}
+        />
       </DialogContent>
+
       <DialogActions>
         <Button
           onClick={() => {
@@ -205,17 +223,34 @@ export default function PickThumbnail({
             // if url
             if (tab) {
               if (formik.touched.url && !formik.errors["url"]) {
-                setThumbnail(formik.values.url);
+                setThumbnail({
+                  url: formik.values.url,
+                  desc: formik.values.desc,
+                });
                 handleClose();
+                formik.setValues({
+                  url: "",
+                  desc: "",
+                });
+                setFiles([]);
               }
               setAlert(true);
             } else {
               if (files[0]) {
-                //   @ts-ignore
-                setThumbnail(files[0].getFileEncodeDataURL());
+                setThumbnail({
+                  // @ts-ignore
+                  url: files[0].getFileEncodeDataURL(),
+                  desc: formik.values.desc,
+                });
+
                 handleClose();
+                formik.setValues({
+                  url: "",
+                  desc: "",
+                });
               }
               setAlert(true);
+              setFiles([]);
             }
           }}
         >
