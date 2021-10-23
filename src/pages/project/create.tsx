@@ -19,7 +19,6 @@ import {
   Alert,
   AlertTitle,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
 
 // components
 import Page from "components/Page";
@@ -92,20 +91,8 @@ export default function RolesPage() {
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
-      <Container maxWidth="xl">
-        <Box sx={{ pb: 5, marginTop: 3 }}>
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h3">Create Project</Typography>
-            <LoadingButton variant="contained">Save</LoadingButton>
-          </Stack>
-          <Typography variant="h5" color="grayText">
-            Create project and post it to Internet!
-          </Typography>
-        </Box>
-        <Box sx={{ width: "100%", typography: "body1" }}>
-          <CreateStory />
-        </Box>
-      </Container>
+
+      <CreateStory />
     </>
   );
 }

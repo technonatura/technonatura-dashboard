@@ -9,6 +9,7 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { TextField, CardMedia, Alert, Fade } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -90,6 +91,8 @@ export default function PickThumbnail({
   descriptionElementRef: any;
   setThumbnail: (value: { url: string; desc: string }) => void;
 }) {
+  const [uploading, setuploading] = React.useState<boolean>();
+
   const [tab, setTab] = React.useState(0);
   const [alert, setAlert] = React.useState(false);
 
@@ -164,6 +167,10 @@ export default function PickThumbnail({
             allowFileTypeValidation
             acceptedFileTypes={["image/png", "image/jpeg"]}
             fileSizeBase={1000}
+            onaddfilestart={() => setuploading(true)}
+            onaddfile={(error, file) => {
+              setuploading(false);
+            }}
           />
         </TabPanel>
         <TabPanel value={tab} index={1}>
@@ -216,7 +223,7 @@ export default function PickThumbnail({
       </DialogContent>
 
       <DialogActions>
-        <Button
+        <LoadingButton
           onClick={() => {
             // setThumbnail()
 
@@ -253,9 +260,10 @@ export default function PickThumbnail({
               setFiles([]);
             }
           }}
+          loading={uploading}
         >
           Save
-        </Button>
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   );
