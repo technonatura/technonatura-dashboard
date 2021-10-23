@@ -1,5 +1,4 @@
 import React from "react";
-import dynamic from "next/dynamic";
 
 import {
   useEditor,
@@ -26,7 +25,6 @@ import LinkIcon from "@mui/icons-material/Link";
 import ImageIcon from "@mui/icons-material/Image";
 
 import CodeBlockComponent from "./CodeBlockComponent";
-import { lowlight } from "lowlight/index";
 
 import { styled } from "@mui/material/styles";
 import UndoIcon from "@mui/icons-material/Undo";
@@ -402,11 +400,7 @@ export default function EditorComponent() {
       Dropcursor,
       Code,
       Link,
-      CodeBlockLowlight.extend({
-        addNodeView() {
-          return ReactNodeViewRenderer(CodeBlockComponent);
-        },
-      }).configure({ lowlight: lowlight }),
+      CodeBlockLowlight,
       CharacterCount.configure({
         limit,
       }),
