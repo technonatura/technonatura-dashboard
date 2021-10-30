@@ -19,18 +19,24 @@ import ClearIcon from "@mui/icons-material/Clear";
 import LayersClearIcon from "@mui/icons-material/LayersClear";
 import FormatTextdirectionRToLIcon from "@mui/icons-material/FormatTextdirectionRToL";
 import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
-import ListIcon from "@mui/icons-material/List";
+import SubscriptIcon from "@mui/icons-material/Subscript";
+import SuperscriptIcon from "@mui/icons-material/Superscript";
 import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 
 import Paper from "@mui/material/Paper";
+
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { Typography, Divider } from "@mui/material";
+
+import PickImage from "../ImageRenderer";
+import PickVideo from "../VideoRenderer";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -49,6 +55,9 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
+  const [OpenPickImage, setOpenPickImage] = React.useState(false);
+  const [OpenPickVideo, setOpenPickVideo] = React.useState(false);
+
   if (!editor) {
     return null;
   }
@@ -130,6 +139,13 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             >
               <Typography fontWeight={500}>H6</Typography>
             </ToggleButton>
+          </StyledToggleButtonGroup>
+          <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
+          <StyledToggleButtonGroup
+            size="small"
+            exclusive
+            aria-label="text alignment"
+          >
             <ToggleButton
               onClick={() => editor.chain().focus().setTextAlign("left").run()}
               selected={editor.isActive({ textAlign: "left" })}
@@ -168,7 +184,24 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             </ToggleButton>
           </StyledToggleButtonGroup>
           <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
+
           <StyledToggleButtonGroup size="small" aria-label="text formatting">
+            <ToggleButton
+              onClick={() => editor.chain().focus().toggleSuperscript().run()}
+              selected={editor.isActive("superscript")}
+              value="superscript"
+              aria-label="superscript"
+            >
+              <SuperscriptIcon />
+            </ToggleButton>
+            <ToggleButton
+              onClick={() => editor.chain().focus().toggleSubscript().run()}
+              selected={editor.isActive("subscript")}
+              value="subscript"
+              aria-label="subscript"
+            >
+              <SubscriptIcon />
+            </ToggleButton>
             <ToggleButton
               onClick={() => editor.chain().focus().toggleBold().run()}
               selected={editor.isActive("bold")}
@@ -245,18 +278,49 @@ const ProjectCreateContentToolbar = ({ editor }: { editor: Editor }) => {
             </ToggleButton>
             <ToggleButton
               onClick={() => {
-                const url = window.prompt("URL");
-
-                if (url) {
-                  editor.chain().focus().setImage({ src: url }).run();
-                }
+                setOpenPickImage(true);
               }}
-              selected={editor.isActive("image")}
-              value="image"
-              aria-label="image"
+              selected={editor.isActive("image-renderer")}
+              value="image-renderer"
+              aria-label="image-renderer"
             >
               <ImageIcon />
             </ToggleButton>
+            <PickImage
+              open={OpenPickImage}
+              handleClose={() => setOpenPickImage(false)}
+              setThumbnail={(value: { src: string; alt?: string }) => {
+                editor
+                  .chain()
+                  .focus()
+                  // @ts-ignore
+                  .setImage({ src: value.src, alt: value.alt })
+                  .run();
+              }}
+            />
+            <ToggleButton
+              onClick={() => {
+                console.log(editor.state);
+                setOpenPickVideo(true);
+              }}
+              selected={editor.isActive("videoPlayer")}
+              value="videoPlayer"
+              aria-label="videoPlayer"
+            >
+              <VideoLibraryIcon />
+            </ToggleButton>
+            <PickVideo
+              open={OpenPickVideo}
+              handleClose={() => setOpenPickVideo(false)}
+              setThumbnail={(value: { src: string; alt?: string }) => {
+                editor
+                  .chain()
+                  .focus()
+                  // @ts-ignore
+                  .setVideo({ src: value.src, alt: value.alt })
+                  .run();
+              }}
+            />
             <ToggleButton
               onClick={() => {
                 const previousUrl = editor.getAttributes("link").href;

@@ -14,12 +14,21 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import Image from "@tiptap/extension-image";
 import Dropcursor from "@tiptap/extension-dropcursor";
 import CharacterCount from "@tiptap/extension-character-count";
 import Link from "@tiptap/extension-link";
 import Code from "@tiptap/extension-code";
 import TextAlign from "@tiptap/extension-text-align";
+import Focus from "@tiptap/extension-focus";
+import Superscript from "@tiptap/extension-superscript";
+import Subscript from "@tiptap/extension-subscript";
+import VideoPlayerExtension from "../../extension/VideoPlayer";
+import Image from "../../extension/Image";
+// import Image from "@tiptap/extension-image";
+// Image.
+// VideoPlayerExtension.
+import { ColorHighlighter } from "./ColourHighlighter";
+import { SmilieReplacer } from "./SmilieReplacer";
 
 import { styled } from "@mui/material/styles";
 
@@ -55,13 +64,15 @@ export default function EditorComponent({
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Subscript,
+      Superscript,
       Highlight,
       TypographyExtension,
       UnderlineExtension,
       Document,
       Paragraph,
       Text,
-      Image,
+
       Dropcursor,
       Code,
       Link,
@@ -72,35 +83,16 @@ export default function EditorComponent({
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+      Focus.configure({
+        className: "has-focus",
+        mode: "all",
+      }),
+      ColorHighlighter,
+      SmilieReplacer,
+      VideoPlayerExtension,
+      Image,
     ],
-    content: `
-      <h2>
-        Hi there,
-      </h2>
-      <p>
-        this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:
-      </p>
-      <ul>
-        <li>
-          That’s a bullet list with one …
-        </li>
-        <li>
-          … or two list items.
-        </li>
-      </ul>
-      <p>
-        Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:
-      </p>
-  
-      <p>
-        I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.
-      </p>
-      <blockquote>
-        Wow, that’s amazing. Good work, boy! 👏
-        <br />
-        — Mom
-      </blockquote>
-    `,
+    content: `#ss  <video-player data-type="draggable-item" data-subtitles='[{"src": "https://media.vimejs.com/subs/english.vtt", "srcLang": "en", "label": "English"}]' src="https://media.vimejs.com/720p.mp4"></video-player> <image-renderer src="http://localhost:3000/static/techno-logo.png"> </image-renderer>`,
   });
 
   React.useMemo(() => {

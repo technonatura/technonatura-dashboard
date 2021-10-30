@@ -1,3 +1,10 @@
+// Default theme. ~960B
+import "@vime/core/themes/default.css";
+
+// Optional light theme (extends default). ~400B
+import "@vime/core/themes/light.css";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 import * as React from "react";
 
 import { useSelector } from "react-redux";
@@ -7,6 +14,8 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 // import NextLink from "next/link";
 
+import { isMobile } from "react-device-detect";
+
 // material
 import { styled } from "@mui/material/styles";
 // material
@@ -14,15 +23,14 @@ import {
   Container,
   Box,
   Typography,
-  Stack,
-  Button,
+  Link,
   Alert,
   AlertTitle,
 } from "@mui/material";
 
 // components
 import Page from "components/Page";
-import CreateStory from "components/_dashboard/project/Create";
+import CreateProject from "components/_dashboard/project/Create";
 
 import checkRoles from "@utils/checkRoles";
 
@@ -83,16 +91,26 @@ export default function RolesPage() {
     );
   }
 
+  if (isMobile) {
+    return (
+      <Alert severity="info">
+        <AlertTitle>Only Supported on Desktop</AlertTitle>
+        We are sorry that this feature is only supported on Desktop. If this was
+        a mistake please contact{" "}
+        <Link href="https://t.me/aldhanekaa">Aldhaneka</Link>.
+      </Alert>
+    );
+  }
   // eslint-disable-next-line no-unused-vars
   return (
-    <>
+    <Container>
       <NextSeo
         title="TechnoNatura App - Project"
         description="The TechnoNatura Social Media and Dashboard"
         canonical="https://dashboard.technonatura.vercel.app"
       />
 
-      <CreateStory />
-    </>
+      <CreateProject />
+    </Container>
   );
 }

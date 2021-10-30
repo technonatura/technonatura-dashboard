@@ -8,7 +8,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { TextField, CardMedia, Alert, Fade } from "@mui/material";
+import { TextField, CardMedia, Alert, Fade, AlertTitle } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 import { useFormik } from "formik";
@@ -174,17 +174,22 @@ export default function PickThumbnail({
           />
         </TabPanel>
         <TabPanel value={tab} index={1}>
+          <Alert severity="info">
+            To insert video into your project asset, please use youtube or
+            internet video player (.mp4).
+          </Alert>
           <CardMedia
             component="img"
             height="140"
             sx={{ mt: 2, borderRadius: "10px" }}
             image={getFieldProps("url").value}
-            alt="green iguana"
+            alt="Preview"
           />
+
           <TextField
             style={{ marginTop: 15 }}
             fullWidth
-            label="Photo Url"
+            label="Project Asset URL"
             {...getFieldProps("url")}
             error={Boolean(
               // @ts-ignore

@@ -150,7 +150,8 @@ export default function DashboardLayout({ children }) {
     pathname === "/register" ||
     pathname === "/_error" ||
     pathname === "/404" ||
-    pathname === "/forgot-password"
+    pathname === "/forgot-password" ||
+    pathname === "/project/create"
   ) {
     return children;
   }

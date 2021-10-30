@@ -65,7 +65,6 @@ export default function CreateProjectComponent() {
 
   const authState = useSelector((state: RootStore) => state.user);
   const [expanded, setExpanded] = React.useState<string>("");
-  const [TagInput, setTagInput] = React.useState<string>("");
 
   const descriptionElementRef = React.useRef(null);
 
@@ -177,18 +176,21 @@ export default function CreateProjectComponent() {
     }
   }, [formik.values.title]);
 
+  const insertTagToForm = (value: string) => {
+    if (value.length > 3) {
+      formik.setFieldValue("tags", [...formik.values.tags, value.trim()]);
+    } else {
+      toast.error("Length of tag should be greater than 3");
+    }
+  };
+
   const handleKeyDown = (event: any) => {
     switch (event.key) {
       case ",":
       case " ": {
         event.preventDefault();
         event.stopPropagation();
-        if (event.target.value.length > 3) {
-          formik.setFieldValue("tags", [
-            ...formik.values.tags,
-            event.target.value.trim(),
-          ]);
-        }
+        insertTagToForm(event.target.value);
 
         break;
       }
@@ -547,7 +549,6 @@ export default function CreateProjectComponent() {
                 <Stack mt={2} mb={5} p="5px 20px" direction="row"></Stack>
                 <PickThumbnailDialog
                   open={OpenPickThumbnail}
-                  descriptionElementRef={descriptionElementRef}
                   handleClose={handleClosePickThumbnail}
                   setThumbnail={(value: string) => {
                     formik.setFieldValue("thumbnail", value);
@@ -585,16 +586,10 @@ export default function CreateProjectComponent() {
                     getOptionLabel={(option) => option}
                     renderTags={(tagValue, getTagProps) =>
                       tagValue.map((option, index) => (
-                        <Chip
-                          key={index}
-                          label={option}
-                          sx={{ m: "0 2px" }}
-                          // {...getTagProps({ index })}
-                          // disabled={fixedOptions.indexOf(option) !== -1}
-                        />
+                        <Chip key={index} label={option} sx={{ m: "0 2px" }} />
                       ))
                     }
-                    noOptionsText={<p>Create New</p>}
+                    noOptionsText={<p>No Option</p>}
                     style={{ width: "100%" }}
                     renderInput={(params) => {
                       params.inputProps.onKeyDown = handleKeyDown;

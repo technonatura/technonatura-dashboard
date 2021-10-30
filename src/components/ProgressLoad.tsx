@@ -11,7 +11,7 @@ let timer: NodeJS.Timeout;
 
 export default function ProgressLoad() {
   const [state] = useState({
-    color: "#29D",
+    color: "#00ab55",
     startPosition: 0.3,
     stopDelayMs: 200,
     height: 3,

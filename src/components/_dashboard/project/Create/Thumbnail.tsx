@@ -83,12 +83,10 @@ function a11yProps(index: number) {
 export default function PickThumbnail({
   open,
   handleClose,
-  descriptionElementRef,
   setThumbnail,
 }: {
   open: boolean;
   handleClose: () => void;
-  descriptionElementRef: any;
   setThumbnail: (value: string) => void;
 }) {
   const [uploading, setuploading] = React.useState<boolean>();
