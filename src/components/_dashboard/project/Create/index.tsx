@@ -59,7 +59,11 @@ import PickThumbnailDialog from "./Thumbnail";
 import PickAssetsDialog from "./asset";
 import ContentEditor from "./content/index";
 
-export default function CreateProjectComponent() {
+export default function CreateProjectComponent(props: {
+  values?: ProjectSchemaI;
+}) {
+  const [CreatedProject, setCreatedProject] = React.useState(false);
+
   const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
   const [OpenPickAssets, setOpenPickAssets] = React.useState(false);
 
@@ -82,21 +86,23 @@ export default function CreateProjectComponent() {
 
   // eslint-disable-next-line no-unused-vars
   const formik = useFormik<ProjectSchemaI>({
-    initialValues: {
-      tags: [],
-      assets: [],
+    initialValues: props.values
+      ? { ...props.values }
+      : {
+          tags: [],
+          assets: [],
 
-      title: "",
-      desc: "",
-      name: "",
-      content: "",
-      category: "",
-      classroomId: "",
-      thumbnail: "",
-      // @ts-ignore
-      branch: authState.me?.roleInTechnoNatura.branch,
-      draft: true,
-    },
+          title: "",
+          desc: "",
+          name: "",
+          content: "",
+          category: "",
+          classroomId: "",
+          thumbnail: "",
+          // @ts-ignore
+          branch: authState.me?.roleInTechnoNatura.branch,
+          draft: true,
+        },
 
     validationSchema: ProjectSchema,
     onSubmit(values, e) {
@@ -123,11 +129,16 @@ export default function CreateProjectComponent() {
         formik.values,
         authState.token
       );
-      console.log(uploadedProject);
-      if (uploadedProject.status == "success") {
+      if (uploadedProject.project && uploadedProject.status == "success") {
         toast.success(uploadedProject.message);
+        setCreatedProject(true);
+        setTimeout(() => {
+          // @ts-ignore
+          window.location.href = `https://tn-project.vercel.app/p/${uploadedProject.project.name}`;
+        }, 3000);
+      } else {
+        toast.error(uploadedProject.message);
       }
-      toast.error(uploadedProject.message);
 
       if (uploadedProject.status == "error" && uploadedProject.errors) {
         if (Object.keys(uploadedProject.errors).length >= 1) {
@@ -167,7 +178,7 @@ export default function CreateProjectComponent() {
       "category",
       classrooms.data.find((c) => c._id === formik.values.classroomId)?.category
     );
-  }, [formik.values.classroomId]);
+  }, [formik.values.classroomId, classrooms]);
   React.useEffect(() => {
     // const regex = /\s/i;
     if (!formik.touched.name) {
@@ -211,10 +222,18 @@ export default function CreateProjectComponent() {
           };
         }
       >(
-        // @ts-ignore
-        `${process.env.NEXT_PUBLIC_SERVER}/api/classrooms/?username=${authState.me.username}&grade=${authState.me?.roleInTechnoNatura.grade}&gradePeriod=${authState.me?.roleInTechnoNatura.startPeriod}`
+        `${process.env.NEXT_PUBLIC_SERVER}/api/classrooms/?username=${
+          // @ts-ignore
+          authState.me.username
+        }&grade=${
+          // @ts-ignore
+          authState.me?.roleInTechnoNatura.grade
+        }&gradePeriod=${
+          // @ts-ignore
+          authState.me?.roleInTechnoNatura.startPeriod
+        }${props.values ? "&allClassrooms=true" : ""}`
       );
-      console.log(classrooms.data);
+
       setClassrooms({
         loading: false,
         fetched: true,
@@ -275,6 +294,50 @@ export default function CreateProjectComponent() {
       </Container>
     );
   }
+
+  if (CreatedProject) {
+    return (
+      <Alert severity="success">
+        <AlertTitle>Successfully Created App</AlertTitle>
+        Please wait a second for us to direct you to your project page!
+      </Alert>
+    );
+  }
+
+  if (isSubmitting) {
+    return (
+      <Container maxWidth="xl">
+        <Box sx={{ pb: 5, marginTop: 3 }}>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="h3">Create Project</Typography>
+            <LoadingButton
+              loading={isSubmitting}
+              variant="contained"
+              type="submit"
+            >
+              {props.values ? "Save" : "Publish"}
+            </LoadingButton>
+          </Stack>
+          <Typography variant="h5" color="grayText">
+            Create project and post it to Internet!
+          </Typography>
+        </Box>
+        <Container sx={{ mt: 10 }}>
+          <Stack
+            sx={{ color: "grey.500" }}
+            spacing={2}
+            justifyContent="center"
+            direction="row"
+            alignItems="center"
+          >
+            <CircularProgress color="primary" />
+            <Typography>Posting Your Project, please wait.</Typography>
+          </Stack>
+        </Container>
+        ;
+      </Container>
+    );
+  }
   // eslint-disable-next-line no-unused-vars
   return (
     <FormikProvider value={formik}>
@@ -283,14 +346,19 @@ export default function CreateProjectComponent() {
           <Box sx={{ pb: 5, marginTop: 3 }}>
             <Stack direction="row" justifyContent="space-between">
               <Typography variant="h3">Create Project</Typography>
-              <LoadingButton variant="contained" type="submit">
-                Publish
+              <LoadingButton
+                loading={isSubmitting}
+                variant="contained"
+                type="submit"
+              >
+                {props.values ? "Save" : "Publish"}
               </LoadingButton>
             </Stack>
             <Typography variant="h5" color="grayText">
               Create project and post it to Internet!
             </Typography>
           </Box>
+
           <Box sx={{ width: "100%", typography: "body1" }}>
             <div>
               <Accordion
@@ -490,7 +558,7 @@ export default function CreateProjectComponent() {
                                     <CardMedia
                                       component="img"
                                       image={asset.url}
-                                      alt="green iguana"
+                                      alt="Photo Url"
                                     />
                                     <CardContent
                                       sx={{

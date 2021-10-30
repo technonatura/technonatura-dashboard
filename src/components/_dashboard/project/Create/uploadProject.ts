@@ -9,6 +9,7 @@ export default async function CreateIoTCloudApp(
   message: string;
   errors?: ProjectPostInterface;
   status: "error" | "warning" | "success";
+  project?: ProjectSchemaI;
 }> {
   try {
     const test = await axios.post<
@@ -18,6 +19,7 @@ export default async function CreateIoTCloudApp(
           message: string;
           errors?: ProjectPostInterface;
           status: "error" | "warning" | "success";
+          project?: ProjectSchemaI;
         };
       }
     >(`${process.env.NEXT_PUBLIC_SERVER}/project/add`, {

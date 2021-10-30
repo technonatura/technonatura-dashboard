@@ -151,7 +151,8 @@ export default function DashboardLayout({ children }) {
     pathname === "/_error" ||
     pathname === "/404" ||
     pathname === "/forgot-password" ||
-    pathname === "/project/create"
+    pathname === "/project/create" ||
+    pathname === "/project/view/[projectName]"
   ) {
     return children;
   }

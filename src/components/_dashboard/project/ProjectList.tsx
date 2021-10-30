@@ -13,7 +13,16 @@ import NextLink from "next/link";
 // material
 import Label from "components/Label";
 
-import { Box, Tab, Stack, Grid, Link } from "@mui/material";
+import {
+  Box,
+  Tab,
+  Stack,
+  Grid,
+  Link,
+  Typography,
+  Container,
+  CardMedia,
+} from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
@@ -22,9 +31,9 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
 
-import { StoryPostI } from "@/types/models/Story/Story.model";
+import { ProjectPostInterface } from "@/types/models/project";
 
 // components
 
@@ -47,42 +56,36 @@ const alumni: AlumniInTechnoNatura = [
 
 export default function RolesPage() {
   const authState = useSelector((state: RootStore) => state.user);
-  const [stories, setStories] = React.useState<{
+  const [projects, setProjects] = React.useState<{
     fetched: boolean;
     message: string;
     status: string;
-    stories?: StoryPostI;
+    projects?: Array<ProjectPostInterface>;
   }>({ fetched: false, message: "", status: "" });
 
-  const [tab, setTab] = React.useState("public");
-
-  const handleChange = (event: any, newValue: any) => {
-    setTab(newValue);
-  };
-
   React.useEffect(() => {
-    fetchStories();
+    fetchProjects();
   }, []);
 
-  async function fetchStories() {
+  async function fetchProjects() {
     try {
       // eslint-disable-next-line no-shadow
-      const storiesRes = await axios.post<{
+      const projectsRes = await axios.get<{
         message: string;
         status: string;
-        stories?: StoryPostI;
-      }>(`${process.env.NEXT_PUBLIC_SERVER}/story/getStories`, {
-        authToken: authState.token,
-      });
-      setStories({
+        projects?: Array<ProjectPostInterface>;
+      }>(
+        `${process.env.NEXT_PUBLIC_SERVER}/projects/${authState.me?.username}`
+      );
+      setProjects({
         fetched: true,
-        message: "Success Fethed Stories",
+        message: "Success Fethed Projects",
         status: "success",
-        stories: storiesRes.data.stories,
+        projects: projectsRes.data.projects,
       });
     } catch (err) {
       console.error(err);
-      setStories({
+      setProjects({
         fetched: true,
         message: "error on server",
         status: "error",
@@ -95,99 +98,94 @@ export default function RolesPage() {
   //     checkRoles(authState.me?.roles, ["admin"])
   //   );
 
-  console.log("stories", stories);
+  console.log("stories", projects);
 
   // eslint-disable-next-line no-unused-vars
   return (
     <>
-      <TabContext value={tab}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Posted" value="public" />
-            <Tab label="Drafts" value="private" />
-            <Tab label="Archives" value="archives" />
-          </TabList>
-        </Box>
-        <TabPanel value="public">
+      <Stack
+        sx={{ marginTop: 1 }}
+        direction="row"
+        justifyContent="space-between"
+      >
+        <Typography variant="h5" color="grayText">
+          Here are your projects.
+        </Typography>
+        <NextLink href="/project/create">
+          <Button variant="contained">Create Project</Button>
+        </NextLink>
+      </Stack>
+      {/* @ts-ignore */}
+      {!projects.fetched ? (
+        <Container sx={{ mt: 10 }}>
           <Stack
-            sx={{ marginTop: 1 }}
+            sx={{ color: "grey.500" }}
+            spacing={2}
+            justifyContent="center"
             direction="row"
-            justifyContent="space-between"
+            alignItems="center"
           >
-            <Typography variant="h5" color="grayText">
-              Here is your project(s)
-            </Typography>
-            <NextLink href="/project/create">
-              <Button variant="contained">Create Project</Button>
-            </NextLink>
+            <CircularProgress color="primary" />
+            <Typography>Fetching Your Projects</Typography>
           </Stack>
-          {/* @ts-ignore */}
-          halo this is posted
-        </TabPanel>
-        <TabPanel value="private">
-          <Stack
-            sx={{ marginTop: 1 }}
-            direction="row"
-            justifyContent="space-between"
-          >
-            <Typography variant="h5" color="grayText">
-              Here is your project(s)
-            </Typography>
-            <NextLink href="/project/create">
-              <Button variant="contained">Create Project</Button>
-            </NextLink>
-          </Stack>
-          {/* @ts-ignore */}
-          halo this is drafts
-        </TabPanel>
-        <TabPanel value="archives">
-          {/* @ts-ignore */}
-          TechnoNatura Depok
-          <Grid container spacing={3}>
-            {alumni.map((alumni) => {
-              return (
-                <Grid
-                  key={alumni.branch}
-                  item
-                  xs={12}
-                  sm={5}
-                  // @ts-ignore
-                  md={4}
-                >
-                  <Card>
-                    <CardContent
-                      sx={{ padding: "10px 15px", paddingTop: "20px" }}
-                    >
-                      <Typography variant="h5" component="div">
-                        {/* eslint-disable-next-line no-underscore-dangle */}
-                        <Link>
-                          {alumni.grade == "mi"
-                            ? "Madrasah Ibtidiyah"
-                            : alumni.grade == "ma"
-                            ? "Madrasah Aliyah"
-                            : "Madrasah Tsanawiyah"}
-                        </Link>
-                      </Typography>
-
-                      <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {alumni.grade == "mi"
-                          ? "Madrasah Ibtidiyah is an elementary school"
-                          : alumni.grade == "ma"
-                          ? "Madrasah Aliyah"
-                          : "Madrasah Tsanawiyah"}
-                      </Typography>
-
+        </Container>
+      ) : projects.projects && projects.projects.length > 0 ? (
+        <Grid container spacing={3} mt={3}>
+          {projects.projects.map((project) => {
+            return (
+              <Grid
+                key={project._id}
+                item
+                xs={12}
+                sm={5}
+                // @ts-ignore
+                md={4}
+              >
+                <Card>
+                  <CardMedia
+                    component="img"
+                    image={project.thumbnail}
+                    alt="green iguana"
+                  />
+                  <CardContent
+                    sx={{ padding: "10px 15px", paddingTop: "20px" }}
+                  >
+                    <Typography variant="h5" component="div">
+                      {/* eslint-disable-next-line no-underscore-dangle */}
+                      <NextLink href={`/project/view/${project.name}`}>
+                        {project.title}
+                      </NextLink>
                       <Label size="small" style={{ marginLeft: "5px" }}>
-                        12 Projects
+                        {project.name}
                       </Label>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid>
-        </TabPanel>
-      </TabContext>
+                    </Typography>
+
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                      {project.desc}
+                    </Typography>
+
+                    <Label size="small" style={{ marginLeft: "5px" }}>
+                      {String(new Date(project.created))}
+                    </Label>
+                  </CardContent>
+                </Card>
+              </Grid>
+            );
+          })}
+        </Grid>
+      ) : (
+        <Container sx={{ mt: 10 }}>
+          <Stack
+            sx={{ color: "grey.500" }}
+            spacing={2}
+            justifyContent="center"
+            direction="row"
+            alignItems="center"
+          >
+            <Typography>You don&apos;t have any projects yet.</Typography>
+          </Stack>
+        </Container>
+      )}
     </>
   );
 }

@@ -126,7 +126,7 @@ export const SmilieReplacer = Extension.create({
       textInputRule({ find: /%\) $/, replace: "😵 " }),
       textInputRule({ find: /X\) $/, replace: "😵 " }),
       textInputRule({ find: /:@ $/, replace: "😠 " }),
-      textInputRule({ find: /<3 $/, replace: "<h1>dff</h1> " }),
+      textInputRule({ find: /<3 $/, replace: "❤️ " }),
       textInputRule({ find: /\/shrug $/, replace: "¯\\_(ツ)_/¯" }),
     ];
   },

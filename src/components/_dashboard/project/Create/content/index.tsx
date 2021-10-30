@@ -92,7 +92,7 @@ export default function EditorComponent({
       VideoPlayerExtension,
       Image,
     ],
-    content: `#ss  <video-player data-type="draggable-item" data-subtitles='[{"src": "https://media.vimejs.com/subs/english.vtt", "srcLang": "en", "label": "English"}]' src="https://media.vimejs.com/720p.mp4"></video-player> <image-renderer src="http://localhost:3000/static/techno-logo.png"> </image-renderer>`,
+    content: `<image-renderer src="https://www.technonatura.sch.id/sites/default/files/logo-trans-techno-2.png"> </image-renderer> <p>Hello There!</p>`,
   });
 
   React.useMemo(() => {

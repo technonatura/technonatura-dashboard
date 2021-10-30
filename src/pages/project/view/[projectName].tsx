@@ -6,6 +6,7 @@ import "@vime/core/themes/light.css";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 import * as React from "react";
+import axios from "axios";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
@@ -26,6 +27,8 @@ import {
   Link,
   Alert,
   AlertTitle,
+  CircularProgress,
+  Stack,
 } from "@mui/material";
 
 // components
@@ -33,6 +36,8 @@ import Page from "components/Page";
 import CreateProject from "components/_dashboard/project/Create";
 
 import checkRoles from "@utils/checkRoles";
+
+import { ProjectPostInterface } from "@/types/models/project";
 
 const RootStyle = styled(Page)(({ theme }) => ({
   display: "flex",
@@ -45,7 +50,45 @@ const RootStyle = styled(Page)(({ theme }) => ({
 export default function RolesPage() {
   const router = useRouter();
   const authState = useSelector((state: RootStore) => state.user);
+  const [project, setProject] = React.useState<{
+    fetched: boolean;
+    message: string;
+    status: string;
+    project?: ProjectPostInterface;
+  }>({ fetched: false, message: "", status: "" });
 
+  React.useEffect(() => {
+    if (router.query.projectName && !project.fetched && !project.project) {
+      fetchProject();
+    }
+  }, [router.query.projectName]);
+
+  async function fetchProject() {
+    try {
+      // eslint-disable-next-line no-shadow
+      const projectsRes = await axios.get<{
+        message: string;
+        status: string;
+        project?: ProjectPostInterface;
+      }>(
+        `${process.env.NEXT_PUBLIC_SERVER}/project/${router.query.projectName}`
+      );
+      setProject({
+        fetched: true,
+        message: "Success Fethed Projects",
+        status: "success",
+        project: projectsRes.data.project,
+      });
+    } catch (err) {
+      console.error(err);
+      setProject({
+        fetched: true,
+        message: "error on server",
+        status: "error",
+      });
+    }
+  }
+  console.log(project, router.query.projectName);
   //   console.log(
   //     "    console.log(checkRoles(authState.me?.roles, permission));",
   //     checkRoles(authState.me?.roles, ["admin"])
@@ -110,7 +153,29 @@ export default function RolesPage() {
         canonical="https://dashboard.technonatura.vercel.app"
       />
 
-      <CreateProject />
+      {!project.fetched && (
+        <Container sx={{ mt: 10 }}>
+          <Stack
+            sx={{ color: "grey.500" }}
+            spacing={2}
+            justifyContent="center"
+            direction="row"
+            alignItems="center"
+          >
+            <CircularProgress color="primary" />
+            <Typography>Fetching Your Project</Typography>
+          </Stack>
+        </Container>
+      )}
+      {project.project ? (
+        <CreateProject values={project.project} />
+      ) : (
+        <Alert severity="info">
+          <AlertTitle>Nothing&apos;s here</AlertTitle>
+          We couldn&apos;t find the project you are looking for.{" "}
+          <Link href="/">Home</Link>.
+        </Alert>
+      )}
     </Container>
   );
 }

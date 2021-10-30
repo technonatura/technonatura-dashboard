@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 // import { GetServerSideProps } from "next";
 // import { applyServerSideCookie } from "next-universal-cookie";
-import Document, { DocumentContext, DocumentInitialProps } from "next/document";
+// eslint-disable-next-line @next/next/no-document-import-in-page
+import Document, { DocumentContext } from "next/document";
 import { ServerStyleSheets } from "@mui/styles";
 
 import React from "react";

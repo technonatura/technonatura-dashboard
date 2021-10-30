@@ -13,16 +13,14 @@ export default function VideoPlayer(props: NodeViewRendererProps) {
   const subtitles: Array<{ label: string; srcLang: string; src: string }> =
     props.node.attrs.subtitles;
   return (
-    <NodeViewWrapper
-      className="react-component-content draggable-item  "
-      data-type="draggable-item"
-      draggable="true"
-      data-drag-handle
-      contenteditable="false"
-    >
+    <NodeViewWrapper className="react-component-content draggable-item  ">
       {getId(props.node.attrs.src) ? (
         <Container
           maxWidth="sm"
+          data-type="draggable-item"
+          draggable="true"
+          data-drag-handle
+          contentEditable="false"
           sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
         >
           {" "}
@@ -37,17 +35,35 @@ export default function VideoPlayer(props: NodeViewRendererProps) {
           ></iframe>
         </Container>
       ) : (
-        <Player style={{ cursor: "grab" }}>
-          <Video crossOrigin="" poster={props.node.attrs.poster}>
-            <source data-src={props.node.attrs.src} type="video/mp4" />
-          </Video>
+        <Container
+          data-type="draggable-item"
+          draggable="true"
+          data-drag-handle
+          contentEditable="false"
+          sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
+        >
+          <Player style={{ cursor: "grab" }}>
+            <Video crossOrigin="" poster={props.node.attrs.poster}>
+              <source data-src={props.node.attrs.src} type="video/mp4" />
+              {subtitles.map((subtitle) => (
+                <track
+                  key={subtitle.srcLang}
+                  default
+                  kind="subtitles"
+                  src={subtitle.src}
+                  srcLang={subtitle.srcLang}
+                  label={subtitle.label}
+                />
+              ))}
+            </Video>
 
-          {/* We've replaced the `<Ui />` component. */}
-          {/* We can turn off any features we don't want via properties. */}
-          <DefaultUi>
-            {/* We can place our own UI components here to extend the default UI. */}
-          </DefaultUi>
-        </Player>
+            {/* We've replaced the `<Ui />` component. */}
+            {/* We can turn off any features we don't want via properties. */}
+            <DefaultUi>
+              {/* We can place our own UI components here to extend the default UI. */}
+            </DefaultUi>
+          </Player>
+        </Container>
       )}
     </NodeViewWrapper>
   );

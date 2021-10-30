@@ -1,4 +1,5 @@
 export interface ProjectPostInterface {
+  _id: string;
   owner: string;
 
   title: string;
@@ -21,5 +22,6 @@ export interface ProjectPostInterface {
   tags: string[];
   branch: string;
 
+  created: number;
   draft: boolean;
 }
