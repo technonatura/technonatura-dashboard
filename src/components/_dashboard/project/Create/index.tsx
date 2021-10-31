@@ -221,7 +221,7 @@ export default function CreateProjectComponent(props: {
 
   React.useEffect(() => {
     // const regex = /\s/i;
-    if (!formik.touched.name) {
+    if (!formik.touched.name && !props.values) {
       const titleCopy = formik.values.title.replaceAll(" ", "-");
       formik.setFieldValue("name", titleCopy);
     }
