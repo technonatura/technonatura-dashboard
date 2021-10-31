@@ -85,11 +85,21 @@ export default function PickThumbnail({
   handleClose,
   descriptionElementRef,
   setThumbnail,
+  selectedAsset,
+  setSelectedAsset,
+  setDelete,
 }: {
   open: boolean;
   handleClose: () => void;
   descriptionElementRef: any;
   setThumbnail: (value: { url: string; desc: string }) => void;
+  selectedAsset: {
+    url: string;
+    desc: string;
+    index: number;
+  };
+  setSelectedAsset(input: { url: string; desc: string; index: number }): void;
+  setDelete(): void;
 }) {
   const [uploading, setuploading] = React.useState<boolean>();
 
@@ -100,7 +110,9 @@ export default function PickThumbnail({
     setTab(newTab);
   };
 
-  const [files, setFiles] = React.useState([]);
+  const [files, setFiles] = React.useState(
+    selectedAsset?.url ? [selectedAsset?.url] : []
+  );
 
   // eslint-disable-next-line no-unused-vars
   const formik = useFormik<{ url: string; desc: string }>({
@@ -116,6 +128,10 @@ export default function PickThumbnail({
     onSubmit: () => {},
   });
 
+  React.useEffect(() => {
+    formik.setValues(selectedAsset);
+  }, [selectedAsset]);
+
   const {
     errors,
     touched,
@@ -125,10 +141,27 @@ export default function PickThumbnail({
     values,
     setFieldValue,
   } = formik;
+
+  console.log(files);
+
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
+      onClose={() => {
+        handleClose();
+
+        formik.setValues({
+          url: "",
+          desc: "",
+        });
+
+        setSelectedAsset({
+          url: "",
+          desc: "",
+          index: -1,
+        });
+        setFiles([]);
+      }}
       scroll="body"
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
@@ -170,6 +203,11 @@ export default function PickThumbnail({
             onaddfilestart={() => setuploading(true)}
             onaddfile={(error, file) => {
               setuploading(false);
+              formik.setValues({
+                // @ts-ignore
+                url: file.getFileEncodeDataURL(),
+                desc: formik.values.desc,
+              });
             }}
           />
         </TabPanel>
@@ -228,44 +266,61 @@ export default function PickThumbnail({
       </DialogContent>
 
       <DialogActions>
+        {selectedAsset.url && (
+          <LoadingButton
+            onClick={() => {
+              // setThumbnail()
+              setDelete();
+
+              handleClose();
+
+              setFiles([]);
+
+              setAlert(true);
+
+              formik.setValues({
+                url: "",
+                desc: "",
+              });
+
+              setSelectedAsset({
+                url: "",
+                desc: "",
+                index: -1,
+              });
+            }}
+            loading={uploading}
+          >
+            Delete
+          </LoadingButton>
+        )}
         <LoadingButton
           onClick={() => {
             // setThumbnail()
 
-            // if url
-            if (tab) {
-              if (formik.touched.url && !formik.errors["url"]) {
-                setThumbnail({
-                  url: formik.values.url,
-                  desc: formik.values.desc,
-                });
-                handleClose();
-                formik.setValues({
-                  url: "",
-                  desc: "",
-                });
-                setFiles([]);
-              }
-              setAlert(true);
-            } else {
-              if (files[0]) {
-                setThumbnail({
-                  // @ts-ignore
-                  url: files[0].getFileEncodeDataURL(),
-                  desc: formik.values.desc,
-                });
+            setThumbnail({
+              url: formik.values.url,
+              desc: formik.values.desc,
+            });
+            handleClose();
 
-                handleClose();
-                formik.setValues({
-                  url: "",
-                  desc: "",
-                });
-              }
-              setAlert(true);
-              setFiles([]);
-            }
+            setFiles([]);
+
+            setAlert(true);
+
+            formik.setValues({
+              url: "",
+              desc: "",
+            });
+
+            setSelectedAsset({
+              url: "",
+              desc: "",
+              index: -1,
+            });
           }}
           loading={uploading}
+          variant="contained"
         >
           Save
         </LoadingButton>

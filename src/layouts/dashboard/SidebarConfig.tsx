@@ -171,21 +171,6 @@ const sidebarConfig: sidebarConfigItem[] = [
     icon: getIcon(settingsFill),
     isForVerified: false,
     forRoles: [],
-
-    children: [
-      {
-        title: "User Data",
-        path: "/settings/user",
-        forRoles: ["user"],
-        isForVerified: false,
-      },
-      {
-        title: "Privacy Data",
-        path: "/settings/privacy",
-        forRoles: ["user"],
-        isForVerified: false,
-      },
-    ],
   },
 ];
 

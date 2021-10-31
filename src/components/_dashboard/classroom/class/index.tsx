@@ -24,6 +24,8 @@ import {
   FormControl,
   IconButton,
   Tooltip,
+  CircularProgress,
+  CardMedia,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
@@ -34,10 +36,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import AddIcon from "@mui/icons-material/Add";
 import CreateBranchDialog from "./create";
 import checkRoles from "@utils/checkRoles";
-// import
-const Input = styled("input")({
-  display: "none",
-});
+import { ClassroomInterface } from "types/models/classroom.model";
 
 const grade = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -51,6 +50,17 @@ export default function ClassroomPage({
     branches: Array<{ title: string; name: string; active: boolean }>;
   };
 }) {
+  const [classrooms, setClassrooms] = React.useState<{
+    loading: boolean;
+    fetched: boolean;
+    error: boolean;
+    data: ClassroomInterface[];
+  }>({
+    loading: true,
+    fetched: false,
+    error: false,
+    data: [],
+  });
   const gradeOptions = grade.map((option) => {
     return {
       firstLetter:
@@ -85,7 +95,54 @@ export default function ClassroomPage({
     console.log(openCreateClassroom);
   };
 
-  //   const authState = useSelector((state: RootStore) => state.user);
+  React.useEffect(() => {
+    fetchClassrooms();
+  }, []);
+
+  async function fetchClassrooms() {
+    try {
+      // @ts-ignore
+      const classrooms = await axios.get<
+        {},
+        {
+          data: {
+            message: string;
+            status: "success" | "error" | "warning";
+            classrooms: ClassroomInterface[];
+          };
+        }
+      >(`${process.env.NEXT_PUBLIC_SERVER}/api/classrooms/`);
+
+      setClassrooms({
+        loading: false,
+        fetched: true,
+        error: false,
+        // @ts-ignore
+        data: classrooms.data.classrooms,
+      });
+    } catch (err) {
+      console.log("ERROR OCCURED WHEN FETCHING CLASSROOMS!", err);
+      setClassrooms({
+        loading: false,
+        fetched: true,
+        error: true,
+        data: [],
+      });
+    }
+  }
+
+  if (classrooms.loading) {
+    return (
+      <Container>
+        <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
+          <CircularProgress />
+          <Typography sx={{ mt: 3, color: "text.secondary" }}>
+            Fetching some datas..
+          </Typography>
+        </Box>
+      </Container>
+    );
+  }
 
   // eslint-disable-next-line no-unused-vars
   return (
@@ -189,13 +246,13 @@ export default function ClassroomPage({
 
       {
         // @ts-ignore
-        Branches.branches?.length > 0 ? (
+        classrooms.data.length > 0 ? (
           <Container maxWidth="xl" sx={{ mt: 3 }}>
             <Grid container spacing={3}>
               {/* @ts-ignore */}
-              {Branches.branches.map((branch) => (
+              {classrooms.data.map((classroom) => (
                 <Grid
-                  key={branch.name}
+                  key={classroom.name}
                   item
                   xs={12}
                   sm={5}
@@ -203,25 +260,25 @@ export default function ClassroomPage({
                   md={4}
                 >
                   <Card>
+                    <CardMedia
+                      component="img"
+                      src={classroom.thumbnail}
+                    ></CardMedia>
                     <CardContent
                       sx={{ padding: "10px 15px", paddingTop: "20px" }}
                     >
                       <Typography variant="h5" component="div">
-                        {branch.title}{" "}
+                        {classroom.title}{" "}
                         <Label size="small">
-                          {branch.active ? "Active" : "Not active"}
+                          {classroom.grade} | {classroom.gradePeriod} –{" "}
+                          {classroom.gradePeriod + 1}
                         </Label>
                       </Typography>
 
                       <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {branch.name}
+                        {classroom.desc}
                       </Typography>
                     </CardContent>
-                    <CardActions>
-                      {!branch.active && (
-                        <Button variant="contained">Activate</Button>
-                      )}
-                    </CardActions>
                   </Card>
                 </Grid>
               ))}

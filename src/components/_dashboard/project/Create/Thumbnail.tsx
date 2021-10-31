@@ -15,6 +15,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { FilePond, registerPlugin } from "react-filepond";
+import * as blobUtil from "blob-util";
 
 // Import FilePond styles
 import "filepond/dist/filepond.min.css";
@@ -168,6 +169,13 @@ export default function PickThumbnail({
             onaddfilestart={() => setuploading(true)}
             onaddfile={(error, file) => {
               setuploading(false);
+
+              // if (files[0]) {
+              //   console.log(
+              //     // @ts-ignore
+              //     blobUtil.base64StringToBlob(files[0].getFileEncodeDataURL())
+              //   );
+              // }
             }}
           />
         </TabPanel>
@@ -202,7 +210,7 @@ export default function PickThumbnail({
       </DialogContent>
       <DialogActions>
         <LoadingButton
-          onClick={() => {
+          onClick={async () => {
             // setThumbnail()
 
             // if url

@@ -10,6 +10,8 @@ import { useRef, useState } from "react";
 import homeFill from "@iconify/icons-eva/home-fill";
 import personFill from "@iconify/icons-eva/person-fill";
 import settings2Fill from "@iconify/icons-eva/settings-2-fill";
+import { DarkMode } from "@mui/icons-material";
+
 // material
 import { alpha } from "@mui/material/styles";
 import {
@@ -40,11 +42,6 @@ const MENU_OPTIONS = [
     label: "Profile",
     icon: personFill,
     linkTo: "#",
-  },
-  {
-    label: "Settings",
-    icon: settings2Fill,
-    linkTo: "/settings",
   },
 ];
 
@@ -107,9 +104,7 @@ export default function AccountPopover() {
             @{authState.me?.username}
           </Typography>
         </Box>
-
         <Divider sx={{ my: 1 }} />
-
         {MENU_OPTIONS.map((option) => (
           // eslint-disable-next-line react/jsx-key
           <NextLink href={option.linkTo}>
@@ -132,7 +127,36 @@ export default function AccountPopover() {
             </MenuItem>
           </NextLink>
         ))}
-
+        <MenuItem
+          onClick={handleClose}
+          sx={{ typography: "body2", py: 1, px: 2.5 }}
+        >
+          <DarkMode
+            sx={{
+              mr: 2,
+              width: 24,
+              height: 24,
+            }}
+          />
+          Dark Mode
+        </MenuItem>
+        <NextLink href="/settings">
+          <MenuItem
+            onClick={handleClose}
+            sx={{ typography: "body2", py: 1, px: 2.5 }}
+          >
+            <Box
+              component={Icon}
+              icon={settings2Fill}
+              sx={{
+                mr: 2,
+                width: 24,
+                height: 24,
+              }}
+            />
+            Settings
+          </MenuItem>
+        </NextLink>
         <Box sx={{ p: 2, pt: 1.5 }}>
           <Button
             onClick={() => {

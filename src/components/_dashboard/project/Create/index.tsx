@@ -26,9 +26,10 @@ import {
   Grid,
   Button,
   Link,
+  IconButton,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -62,6 +63,15 @@ import ContentEditor from "./content/index";
 export default function CreateProjectComponent(props: {
   values?: ProjectSchemaI;
 }) {
+  const [selectedAsset, setSelectedAsset] = React.useState<{
+    url: string;
+    desc: string;
+    index: number;
+  }>({
+    url: "",
+    desc: "",
+    index: -1,
+  });
   const [CreatedProject, setCreatedProject] = React.useState(false);
 
   const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
@@ -552,6 +562,14 @@ export default function CreateProjectComponent(props: {
                                 sm={5}
                                 // @ts-ignore
                                 md={4}
+                                onClick={async () => {
+                                  await setSelectedAsset({
+                                    url: asset.url,
+                                    desc: asset.desc,
+                                    index: idx,
+                                  });
+                                  setOpenPickAssets(true);
+                                }}
                               >
                                 <Card>
                                   <CardActionArea>
@@ -632,6 +650,15 @@ export default function CreateProjectComponent(props: {
                       value,
                     ]);
                   }}
+                  setDelete={() => {
+                    formik.setFieldValue("assets", [
+                      ...formik.values.assets.filter(
+                        (_, idx) => idx !== selectedAsset.index
+                      ),
+                    ]);
+                  }}
+                  selectedAsset={selectedAsset}
+                  setSelectedAsset={setSelectedAsset}
                 />
                 <Alert severity="info" sx={{ mb: 2 }}>
                   <AlertTitle>Tag Rules</AlertTitle>
@@ -730,7 +757,7 @@ export default function CreateProjectComponent(props: {
                     Project Content
                   </Typography>
                   <Typography sx={{ color: "text.secondary" }}>
-                    Filtering has been entirely disabled for whole web server
+                    Your Project Content.
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

@@ -253,7 +253,7 @@ export default function NotificationsPopover() {
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="subtitle1">Notifications</Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              You Don't have Notification Yet!
+              You Dont have Notification Yet!
             </Typography>
           </Box>
 
@@ -266,7 +266,9 @@ export default function NotificationsPopover() {
           )} */}
         </Box>
         <Divider />
-        <Box sx={{ height: { xs: 100, sm: "auto" } }}>
+        <Box
+        // sx={{ height: { xs: 100, sm: "auto" } }}
+        >
           {/* <List subheader={<ListSubheader disableSticky>New</ListSubheader>}>
             {notifications.slice(0, 2).map((notification) => (
               <NotificationItem
