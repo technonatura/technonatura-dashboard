@@ -13,14 +13,16 @@ export default function VideoPlayer(props: NodeViewRendererProps) {
   const subtitles: Array<{ label: string; srcLang: string; src: string }> =
     props.node.attrs.subtitles;
   return (
-    <NodeViewWrapper className="react-component-content draggable-item  ">
+    <NodeViewWrapper
+      className="react-component-content draggable-item  "
+      data-type="draggable-item"
+      draggable="true"
+      data-drag-handle
+      contentEditable="false"
+    >
       {getId(props.node.attrs.src) ? (
         <Container
           maxWidth="sm"
-          data-type="draggable-item"
-          draggable="true"
-          data-drag-handle
-          contentEditable="false"
           sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
         >
           {" "}
@@ -35,13 +37,7 @@ export default function VideoPlayer(props: NodeViewRendererProps) {
           ></iframe>
         </Container>
       ) : (
-        <Container
-          data-type="draggable-item"
-          draggable="true"
-          data-drag-handle
-          contentEditable="false"
-          sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}
-        >
+        <Container sx={{ textAlign: "center", marginTop: 3, marginBottom: 3 }}>
           <Player style={{ cursor: "grab" }}>
             <Video crossOrigin="" poster={props.node.attrs.poster}>
               <source data-src={props.node.attrs.src} type="video/mp4" />
