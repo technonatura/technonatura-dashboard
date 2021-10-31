@@ -161,6 +161,8 @@ export default function CreateProjectComponent(props: {
         }
       } catch (err) {}
     } else {
+      console.log(formik.values);
+
       try {
         const editedProject = await EditProject(
           formik.values,
@@ -168,6 +170,7 @@ export default function CreateProjectComponent(props: {
           // @ts-ignore
           router.query.projectName
         );
+        console.log(formik.values);
         if (editedProject.project && editedProject.status == "success") {
           toast.success(editedProject.message);
           setSaved(true);
@@ -431,37 +434,36 @@ export default function CreateProjectComponent(props: {
                   <IconButton
                     sx={{ ml: 2, width: 50, height: 50 }}
                     color="error"
+                    onClick={async () => {
+                      try {
+                        setDeleting(true);
+
+                        const editedProject = await DeleteProject(
+                          // @ts-ignore
+                          router.query.projectName,
+                          authState.token
+                        );
+                        if (editedProject.status == "success") {
+                          toast.success(editedProject.message);
+                          setDeleting(false);
+
+                          setDeleted(true);
+
+                          router.push("/project");
+                        } else {
+                          setDeleting(false);
+                          toast.error(editedProject.message);
+                        }
+
+                        if (editedProject.status == "error") {
+                          setDeleting(false);
+
+                          toast.error(editedProject.message);
+                        }
+                      } catch (err) {}
+                    }}
                   >
-                    <DeleteIcon
-                      onClick={async () => {
-                        try {
-                          setDeleting(true);
-
-                          const editedProject = await DeleteProject(
-                            // @ts-ignore
-                            router.query.projectName,
-                            authState.token
-                          );
-                          if (editedProject.status == "success") {
-                            toast.success(editedProject.message);
-                            setDeleting(false);
-
-                            setDeleted(true);
-
-                            router.push("/project");
-                          } else {
-                            setDeleting(false);
-                            toast.error(editedProject.message);
-                          }
-
-                          if (editedProject.status == "error") {
-                            setDeleting(false);
-
-                            toast.error(editedProject.message);
-                          }
-                        } catch (err) {}
-                      }}
-                    />
+                    <DeleteIcon />
                   </IconButton>
                 </Stack>
               ) : (
