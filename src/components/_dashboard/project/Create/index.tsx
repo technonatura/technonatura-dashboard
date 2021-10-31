@@ -48,17 +48,8 @@ import ProjectSchema, { ProjectSchemaI } from "./CreateProjectSchema";
 import { ClassroomInterface } from "types/models/classroom.model";
 import UploadProject from "./uploadProject";
 import EditProject from "./editProject";
+import DeleteProject from "./deleteProject";
 
-// import { NextSeo } from "next-seo";
-// import NextLink from "next/link";
-
-// material
-// import { styled } from "@mui/material/styles";
-// // material
-// import { Container, Box, Typography } from "@mui/material";
-
-// import { Icon } from "@iconify/react";
-// import Cloud from "@iconify/icons-ant-design/cloud-server";
 import PickThumbnailDialog from "./Thumbnail";
 import PickAssetsDialog from "./asset";
 import ContentEditor from "./content/index";
@@ -79,6 +70,8 @@ export default function CreateProjectComponent(props: {
   });
   const [CreatedProject, setCreatedProject] = React.useState(false);
   const [saved, setSaved] = React.useState(true);
+  const [Deleted, setDeleted] = React.useState(false);
+  const [Deleting, setDeleting] = React.useState(false);
 
   const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
   const [OpenPickAssets, setOpenPickAssets] = React.useState(false);
@@ -150,8 +143,10 @@ export default function CreateProjectComponent(props: {
           toast.success(uploadedProject.message);
           setCreatedProject(true);
           setTimeout(() => {
-            // @ts-ignore
-            window.location.href = `https://tn-project.vercel.app/p/${uploadedProject.project.name}`;
+            router.push(
+              // @ts-ignore
+              `https://tn-project.vercel.app/p/${uploadedProject.project.name}`
+            );
           }, 3000);
         } else {
           toast.error(uploadedProject.message);
@@ -343,6 +338,14 @@ export default function CreateProjectComponent(props: {
     );
   }
 
+  if (Deleted) {
+    return (
+      <Alert severity="success">
+        <AlertTitle>Successfully Deleted App!</AlertTitle>
+      </Alert>
+    );
+  }
+
   if (CreatedProject) {
     return (
       <Alert severity="success">
@@ -352,7 +355,7 @@ export default function CreateProjectComponent(props: {
     );
   }
 
-  if (isSubmitting) {
+  if (isSubmitting || Deleting) {
     return (
       <Container maxWidth="xl">
         <Box sx={{ pb: 5, marginTop: 3 }}>
@@ -393,7 +396,11 @@ export default function CreateProjectComponent(props: {
             alignItems="center"
           >
             <CircularProgress color="primary" />
-            <Typography>Posting Your Project, please wait.</Typography>
+            <Typography>
+              {`${
+                Deleting ? "Deleting" : "Posting"
+              } Your Project, please wait..`}
+            </Typography>
           </Stack>
         </Container>
         ;
@@ -425,7 +432,35 @@ export default function CreateProjectComponent(props: {
                     sx={{ ml: 2, width: 50, height: 50 }}
                     color="error"
                   >
-                    <DeleteIcon />
+                    <DeleteIcon
+                      onClick={async () => {
+                        try {
+                          const editedProject = await DeleteProject(
+                            // @ts-ignore
+                            router.query.projectName,
+                            authState.token
+                          );
+                          setDeleting(true);
+                          if (editedProject.status == "success") {
+                            toast.success(editedProject.message);
+                            setDeleting(false);
+
+                            setDeleted(true);
+
+                            router.push("/project");
+                          } else {
+                            setDeleting(false);
+                            toast.error(editedProject.message);
+                          }
+
+                          if (editedProject.status == "error") {
+                            setDeleting(false);
+
+                            toast.error(editedProject.message);
+                          }
+                        } catch (err) {}
+                      }}
+                    />
                   </IconButton>
                 </Stack>
               ) : (
