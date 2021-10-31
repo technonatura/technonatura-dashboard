@@ -435,12 +435,13 @@ export default function CreateProjectComponent(props: {
                     <DeleteIcon
                       onClick={async () => {
                         try {
+                          setDeleting(true);
+
                           const editedProject = await DeleteProject(
                             // @ts-ignore
                             router.query.projectName,
                             authState.token
                           );
-                          setDeleting(true);
                           if (editedProject.status == "success") {
                             toast.success(editedProject.message);
                             setDeleting(false);
