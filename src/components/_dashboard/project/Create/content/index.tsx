@@ -57,8 +57,10 @@ import EditorStyled from "./style";
 
 export default function EditorComponent({
   setContent,
+  content,
 }: {
   setContent: (value: string) => void;
+  content: string;
 }) {
   const limit = 5000;
   const editor = useEditor({
@@ -92,7 +94,7 @@ export default function EditorComponent({
       VideoPlayerExtension,
       Image,
     ],
-    content: `<image-renderer src="https://www.technonatura.sch.id/sites/default/files/logo-trans-techno-2.png"> </image-renderer> <p>Hello There!</p>`,
+    content: content,
   });
 
   React.useMemo(() => {

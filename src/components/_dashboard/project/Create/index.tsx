@@ -883,6 +883,7 @@ export default function CreateProjectComponent(props: {
                     setContent={(value: string) =>
                       formik.setFieldValue("content", value)
                     }
+                    content={values.content}
                   />
                 </AccordionDetails>
               </Accordion>
