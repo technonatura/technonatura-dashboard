@@ -273,6 +273,7 @@ export default function ClassroomPage({
                           {classroom.grade} | {classroom.gradePeriod} –{" "}
                           {classroom.gradePeriod + 1}
                         </Label>
+                        <Label size="small">{classroom.category}</Label>
                       </Typography>
 
                       <Typography sx={{ mb: 1.5 }} color="text.secondary">

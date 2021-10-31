@@ -4,7 +4,8 @@ import { ProjectSchemaI } from "components/_dashboard/project/Create/CreateProje
 
 export default async function PostProject(
   form: ProjectSchemaI & {},
-  authToken: string
+  authToken: string,
+  projectName: string
 ): Promise<{
   message: string;
   errors?: ProjectPostInterface;
@@ -20,11 +21,13 @@ export default async function PostProject(
           errors?: ProjectPostInterface;
           status: "error" | "warning" | "success";
           project?: ProjectSchemaI;
+          projectName: string;
         };
       }
-    >(`${process.env.NEXT_PUBLIC_SERVER}/project/add`, {
+    >(`${process.env.NEXT_PUBLIC_SERVER}/project/edit`, {
       ...form,
       authToken,
+      projectName,
     });
 
     return test.data;

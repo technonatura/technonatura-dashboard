@@ -144,16 +144,10 @@ export default function RolesPage() {
       </Alert>
     );
   }
-  // eslint-disable-next-line no-unused-vars
-  return (
-    <Container sx={{ padding: "100px 0px" }}>
-      <NextSeo
-        title="TechnoNatura App - Project"
-        description="The TechnoNatura Social Media and Dashboard"
-        canonical="https://dashboard.technonatura.vercel.app"
-      />
 
-      {!project.fetched && (
+  if (!project.fetched) {
+    return (
+      <Container sx={{ padding: "100px 0px" }}>
         <Container sx={{ mt: 10 }}>
           <Stack
             sx={{ color: "grey.500" }}
@@ -166,7 +160,18 @@ export default function RolesPage() {
             <Typography>Fetching Your Project</Typography>
           </Stack>
         </Container>
-      )}
+      </Container>
+    );
+  }
+  // eslint-disable-next-line no-unused-vars
+  return (
+    <Container sx={{ padding: "100px 0px" }}>
+      <NextSeo
+        title="TechnoNatura App - Project"
+        description="The TechnoNatura Social Media and Dashboard"
+        canonical="https://dashboard.technonatura.vercel.app"
+      />
+
       {project.project ? (
         <CreateProject values={project.project} />
       ) : (

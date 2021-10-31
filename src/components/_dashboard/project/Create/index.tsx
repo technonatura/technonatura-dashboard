@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { useSelector } from "react-redux";
 import { RootStore } from "@/global/index";
+import { useRouter } from "next/router";
 
 import {
   FormControl,
@@ -27,6 +28,7 @@ import {
   Button,
   Link,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -45,6 +47,7 @@ import toast from "react-hot-toast";
 import ProjectSchema, { ProjectSchemaI } from "./CreateProjectSchema";
 import { ClassroomInterface } from "types/models/classroom.model";
 import UploadProject from "./uploadProject";
+import EditProject from "./editProject";
 
 // import { NextSeo } from "next-seo";
 // import NextLink from "next/link";
@@ -63,6 +66,8 @@ import ContentEditor from "./content/index";
 export default function CreateProjectComponent(props: {
   values?: ProjectSchemaI;
 }) {
+  const router = useRouter();
+
   const [selectedAsset, setSelectedAsset] = React.useState<{
     url: string;
     desc: string;
@@ -73,6 +78,7 @@ export default function CreateProjectComponent(props: {
     index: -1,
   });
   const [CreatedProject, setCreatedProject] = React.useState(false);
+  const [saved, setSaved] = React.useState(true);
 
   const [OpenPickThumbnail, setOpenPickThumbnail] = React.useState(false);
   const [OpenPickAssets, setOpenPickAssets] = React.useState(false);
@@ -134,31 +140,56 @@ export default function CreateProjectComponent(props: {
   async function onSubmit() {
     const error = await formik.validateForm();
 
-    try {
-      const uploadedProject = await UploadProject(
-        formik.values,
-        authState.token
-      );
-      if (uploadedProject.project && uploadedProject.status == "success") {
-        toast.success(uploadedProject.message);
-        setCreatedProject(true);
-        setTimeout(() => {
-          // @ts-ignore
-          window.location.href = `https://tn-project.vercel.app/p/${uploadedProject.project.name}`;
-        }, 3000);
-      } else {
-        toast.error(uploadedProject.message);
-      }
-
-      if (uploadedProject.status == "error" && uploadedProject.errors) {
-        if (Object.keys(uploadedProject.errors).length >= 1) {
-          // @ts-ignore
-          formik.setErrors(uploadedProject.errors);
+    if (!props.values) {
+      try {
+        const uploadedProject = await UploadProject(
+          formik.values,
+          authState.token
+        );
+        if (uploadedProject.project && uploadedProject.status == "success") {
+          toast.success(uploadedProject.message);
+          setCreatedProject(true);
+          setTimeout(() => {
+            // @ts-ignore
+            window.location.href = `https://tn-project.vercel.app/p/${uploadedProject.project.name}`;
+          }, 3000);
+        } else {
+          toast.error(uploadedProject.message);
         }
-        toast.error(uploadedProject.message);
-      }
-    } catch (err) {}
-    console.log(error);
+
+        if (uploadedProject.status == "error" && uploadedProject.errors) {
+          if (Object.keys(uploadedProject.errors).length >= 1) {
+            // @ts-ignore
+            formik.setErrors(uploadedProject.errors);
+          }
+          toast.error(uploadedProject.message);
+        }
+      } catch (err) {}
+    } else {
+      try {
+        const editedProject = await EditProject(
+          formik.values,
+          authState.token,
+          // @ts-ignore
+          router.query.projectName
+        );
+        if (editedProject.project && editedProject.status == "success") {
+          toast.success(editedProject.message);
+          setSaved(true);
+        } else {
+          toast.error(editedProject.message);
+        }
+
+        if (editedProject.status == "error" && editedProject.errors) {
+          if (Object.keys(editedProject.errors).length >= 1) {
+            // @ts-ignore
+            formik.setErrors(editedProject.errors);
+          }
+          toast.error(editedProject.message);
+        }
+      } catch (err) {}
+    }
+
     formik.setSubmitting(false);
   }
 
@@ -189,6 +220,7 @@ export default function CreateProjectComponent(props: {
       classrooms.data.find((c) => c._id === formik.values.classroomId)?.category
     );
   }, [formik.values.classroomId, classrooms]);
+
   React.useEffect(() => {
     // const regex = /\s/i;
     if (!formik.touched.name) {
@@ -196,6 +228,12 @@ export default function CreateProjectComponent(props: {
       formik.setFieldValue("name", titleCopy);
     }
   }, [formik.values.title]);
+
+  React.useEffect(() => {
+    if (saved) {
+      setSaved(false);
+    }
+  }, [formik.values]);
 
   const insertTagToForm = (value: string) => {
     if (value.length > 3) {
@@ -319,14 +357,28 @@ export default function CreateProjectComponent(props: {
       <Container maxWidth="xl">
         <Box sx={{ pb: 5, marginTop: 3 }}>
           <Stack direction="row" justifyContent="space-between">
-            <Typography variant="h3">Create Project</Typography>
-            <LoadingButton
-              loading={isSubmitting}
-              variant="contained"
-              type="submit"
-            >
-              {props.values ? "Save" : "Publish"}
-            </LoadingButton>
+            <Typography variant="h3">
+              {props.values ? "Edit Project" : "Create Project"}{" "}
+            </Typography>
+            <Stack direction="row" justifyContent="space-between">
+              <LoadingButton
+                loading={isSubmitting}
+                variant="contained"
+                type="submit"
+              >
+                {props.values ? "Save" : "Publish"}
+              </LoadingButton>
+              {props.values && (
+                <Tooltip title="Delete">
+                  <IconButton
+                    color="error"
+                    sx={{ width: 50, height: 50, ml: 2 }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
           </Stack>
           <Typography variant="h5" color="grayText">
             Create project and post it to Internet!
@@ -355,19 +407,50 @@ export default function CreateProjectComponent(props: {
         <Container maxWidth="xl">
           <Box sx={{ pb: 5, marginTop: 3 }}>
             <Stack direction="row" justifyContent="space-between">
-              <Typography variant="h3">Create Project</Typography>
-              <LoadingButton
-                loading={isSubmitting}
-                variant="contained"
-                type="submit"
-              >
-                {props.values ? "Save" : "Publish"}
-              </LoadingButton>
+              <Typography variant="h3">
+                {props.values ? "Edit Project" : "Create Project"}
+              </Typography>
+              {props.values ? (
+                <Stack direction="row" justifyContent="space-between">
+                  <LoadingButton
+                    loading={isSubmitting}
+                    variant="contained"
+                    color={saved ? "secondary" : "primary"}
+                    type="submit"
+                    disabled={saved}
+                  >
+                    {saved ? "Saved in DB" : "Save"}
+                  </LoadingButton>
+                  <IconButton
+                    sx={{ ml: 2, width: 50, height: 50 }}
+                    color="error"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Stack>
+              ) : (
+                <LoadingButton
+                  loading={isSubmitting}
+                  variant="contained"
+                  type="submit"
+                >
+                  Publish
+                </LoadingButton>
+              )}
             </Stack>
             <Typography variant="h5" color="grayText">
               Create project and post it to Internet!
             </Typography>
           </Box>
+          {props.values && (
+            <Alert severity="info">
+              <AlertTitle>View your Project</AlertTitle>
+              You can view your project on{" "}
+              <Link href={`https://tn-project.vercel.app/p/${values.name}`}>
+                https://tn-project.vercel.app/p/{values.name}
+              </Link>
+            </Alert>
+          )}
 
           <Box sx={{ width: "100%", typography: "body1" }}>
             <div>
