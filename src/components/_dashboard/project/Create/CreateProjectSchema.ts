@@ -22,7 +22,6 @@ const ProjectSchema = Yup.object().shape({
 
   content: Yup.string()
     .min(2, "Too Short!")
-    .max(2000, "Too Long!")
     .required("Description is required"),
 
   thumbnail: Yup.string().required("thumbnail required"),

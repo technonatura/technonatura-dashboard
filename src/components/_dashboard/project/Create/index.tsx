@@ -175,6 +175,7 @@ export default function CreateProjectComponent(props: {
           toast.success(editedProject.message);
           setSaved(true);
         } else {
+          console.log(editedProject);
           toast.error(editedProject.message);
         }
 

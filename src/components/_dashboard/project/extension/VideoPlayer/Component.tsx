@@ -11,7 +11,7 @@ function getId(url: string) {
 }
 export default function VideoPlayer(props: NodeViewRendererProps) {
   const subtitles: Array<{ label: string; srcLang: string; src: string }> =
-    props.node.attrs.subtitles;
+    JSON.parse(props.node.attrs.subtitles);
   return (
     <NodeViewWrapper
       className="react-component-content draggable-item  "

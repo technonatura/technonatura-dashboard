@@ -39,8 +39,7 @@ const VideoPlayerNode = Node.create<VideoPlayerCommands<any>>({
       },
       subtitles: {
         default: null,
-        parseHTML: (element) =>
-          JSON.parse(String(element.getAttribute("data-subtitles"))),
+        parseHTML: (element) => String(element.getAttribute("data-subtitles")),
       },
       poster: {
         default: null,
