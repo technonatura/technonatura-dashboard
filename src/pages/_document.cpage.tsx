@@ -133,7 +133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <Main />
           <NextScript />
 
-          <script
+          {/* <script
             dangerouslySetInnerHTML={{
               __html: `
                     // before React is loaded
@@ -146,7 +146,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             }
                   `,
             }}
-          />
+          /> */}
         </body>
       </Html>
     );
